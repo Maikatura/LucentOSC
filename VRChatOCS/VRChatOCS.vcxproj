@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{00db0ae0-cad2-4ed4-9cff-b53ebdcefcb0}</ProjectGuid>
+    <RootNamespace>VRChatOCS</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin</OutDir>
+    <IntDir>$(SolutionDir)temp</IntDir>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)src\SFML\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(SolutionDir)temp</IntDir>
+    <OutDir>$(SolutionDir)bin</OutDir>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)src\SFML\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4100;4127;4201;4206;4210;4232;4456;4457;4459;4706;4996</DisableSpecificWarnings>
+      <UseFullPaths>false</UseFullPaths>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4100;4127;4201;4206;4210;4232;4456;4457;4459;4706;4996</DisableSpecificWarnings>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <UseFullPaths>false</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bot\Application.cpp" />
+    <ClCompile Include="src\bot\Bot.cpp" />
+    <ClCompile Include="src\bot\Bot\Chattu.cpp" />
+    <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat.cpp" />
+    <ClCompile Include="src\bot\Client.cpp" />
+    <ClCompile Include="src\bot\Utility.cpp" />
+    <ClCompile Include="src\misc\print.cpp" />
+    <ClCompile Include="src\misc\TimerClock.cpp" />
+    <ClCompile Include="src\misc\TimerManager.cpp" />
+    <ClCompile Include="src\osclib\osc.cpp" />
+    <ClCompile Include="src\osclib\OSCData.cpp" />
+    <ClCompile Include="src\osclib\OscOutboundPacketStream.cpp" />
+    <ClCompile Include="src\osclib\OscPrintReceivedElements.cpp" />
+    <ClCompile Include="src\osclib\OscReceivedElements.cpp" />
+    <ClCompile Include="src\osclib\OscTypes.cpp" />
+    <ClCompile Include="src\osclib\sock.cpp" />
+    <ClCompile Include="src\twitch\src\ClientConnection.cpp" />
+    <ClCompile Include="src\twitch\src\ConnectionBase.cpp" />
+    <ClCompile Include="src\twitch\src\ConnectionExports.cpp" />
+    <ClCompile Include="src\twitch\src\ConnectionFactory.cpp" />
+    <ClCompile Include="src\twitch\src\ConnectionFactoryTCP.cpp" />
+    <ClCompile Include="src\twitch\src\OperationQueue.cpp" />
+    <ClCompile Include="src\twitch\src\Pipe-ClientTransport.cpp" />
+    <ClCompile Include="src\twitch\src\Pipe-ServerTransport.cpp" />
+    <ClCompile Include="src\twitch\src\platform\win\dllmain.cpp" />
+    <ClCompile Include="src\twitch\src\ServerConnection.cpp" />
+    <ClCompile Include="src\twitch\src\ServerConnectionSingle.cpp" />
+    <ClCompile Include="src\twitch\src\TCP-ClientTransport.cpp" />
+    <ClCompile Include="src\twitch\src\TCP-ServerTransport.cpp" />
+    <ClCompile Include="src\twitch\src\UVClientTransport.cpp" />
+    <ClCompile Include="src\twitch\src\UVServerTransport.cpp" />
+    <ClCompile Include="src\twitch\src\UVTransportBase.cpp" />
+    <ClCompile Include="src\uv\src\fs-poll.c" />
+    <ClCompile Include="src\uv\src\idna.c" />
+    <ClCompile Include="src\uv\src\inet.c" />
+    <ClCompile Include="src\uv\src\random.c" />
+    <ClCompile Include="src\uv\src\strscpy.c" />
+    <ClCompile Include="src\uv\src\strtok.c" />
+    <ClCompile Include="src\uv\src\threadpool.c" />
+    <ClCompile Include="src\uv\src\timer.c" />
+    <ClCompile Include="src\uv\src\uv-common.c" />
+    <ClCompile Include="src\uv\src\uv-data-getter-setters.c" />
+    <ClCompile Include="src\uv\src\version.c" />
+    <ClCompile Include="src\uv\src\win\async.c" />
+    <ClCompile Include="src\uv\src\win\core.c" />
+    <ClCompile Include="src\uv\src\win\detect-wakeup.c" />
+    <ClCompile Include="src\uv\src\win\dl.c" />
+    <ClCompile Include="src\uv\src\win\error.c" />
+    <ClCompile Include="src\uv\src\win\fs-event.c" />
+    <ClCompile Include="src\uv\src\win\fs.c" />
+    <ClCompile Include="src\uv\src\win\getaddrinfo.c" />
+    <ClCompile Include="src\uv\src\win\getnameinfo.c" />
+    <ClCompile Include="src\uv\src\win\handle.c" />
+    <ClCompile Include="src\uv\src\win\loop-watcher.c" />
+    <ClCompile Include="src\uv\src\win\pipe.c" />
+    <ClCompile Include="src\uv\src\win\poll.c" />
+    <ClCompile Include="src\uv\src\win\process-stdio.c" />
+    <ClCompile Include="src\uv\src\win\process.c" />
+    <ClCompile Include="src\uv\src\win\signal.c" />
+    <ClCompile Include="src\uv\src\win\snprintf.c" />
+    <ClCompile Include="src\uv\src\win\stream.c" />
+    <ClCompile Include="src\uv\src\win\tcp.c" />
+    <ClCompile Include="src\uv\src\win\thread.c" />
+    <ClCompile Include="src\uv\src\win\tty.c" />
+    <ClCompile Include="src\uv\src\win\udp.c" />
+    <ClCompile Include="src\uv\src\win\util.c" />
+    <ClCompile Include="src\uv\src\win\winapi.c" />
+    <ClCompile Include="src\uv\src\win\winsock.c" />
+    <ClCompile Include="src\VRCBotTV.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bot\Application.hpp" />
+    <ClInclude Include="src\bot\Bot.hpp" />
+    <ClInclude Include="src\bot\Bot\Chattu.h" />
+    <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
+    <ClInclude Include="src\bot\Client.hpp" />
+    <ClInclude Include="src\bot\Utility.hpp" />
+    <ClInclude Include="src\json\json.hpp" />
+    <ClInclude Include="src\misc\print.h" />
+    <ClInclude Include="src\misc\TimerClock.h" />
+    <ClInclude Include="src\misc\TimerHandle.h" />
+    <ClInclude Include="src\misc\TimerManager.h" />
+    <ClInclude Include="src\osclib\osc.h" />
+    <ClInclude Include="src\osclib\OSCData.h" />
+    <ClInclude Include="src\osclib\OscException.h" />
+    <ClInclude Include="src\osclib\OscHostEndianness.h" />
+    <ClInclude Include="src\osclib\OscOutboundPacketStream.h" />
+    <ClInclude Include="src\osclib\OscPacketListener.h" />
+    <ClInclude Include="src\osclib\OscPrintReceivedElements.h" />
+    <ClInclude Include="src\osclib\OscReceivedElements.h" />
+    <ClInclude Include="src\osclib\OscTypes.h" />
+    <ClInclude Include="src\osclib\sock.h" />
+    <ClInclude Include="src\twitch\include\nativeipc\ConnectionExports.h" />
+    <ClInclude Include="src\twitch\include\nativeipc\ConnectionFactory.h" />
+    <ClInclude Include="src\twitch\include\nativeipc\IConnection.h" />
+    <ClInclude Include="src\twitch\include\nativeipc\IServerConnection.h" />
+    <ClInclude Include="src\twitch\src\ClientConnection.h" />
+    <ClInclude Include="src\twitch\src\ConnectionBase.h" />
+    <ClInclude Include="src\twitch\src\ConnectionFactoryPrivate.h" />
+    <ClInclude Include="src\twitch\src\DeleteConstructors.h" />
+    <ClInclude Include="src\twitch\src\IClientTransport.h" />
+    <ClInclude Include="src\twitch\src\IServerTransport.h" />
+    <ClInclude Include="src\twitch\src\ITransportBase.h" />
+    <ClInclude Include="src\twitch\src\LogMacrosNoHandle.h" />
+    <ClInclude Include="src\twitch\src\LogMacrosWithHandle.h" />
+    <ClInclude Include="src\twitch\src\Message.h" />
+    <ClInclude Include="src\twitch\src\OperationQueue.h" />
+    <ClInclude Include="src\twitch\src\Pipe-ClientTransport.h" />
+    <ClInclude Include="src\twitch\src\Pipe-ServerTransport.h" />
+    <ClInclude Include="src\twitch\src\ServerConnection.h" />
+    <ClInclude Include="src\twitch\src\ServerConnectionSingle.h" />
+    <ClInclude Include="src\twitch\src\TCP-ClientTransport.h" />
+    <ClInclude Include="src\twitch\src\TCP-ServerTransport.h" />
+    <ClInclude Include="src\twitch\src\Transport.h" />
+    <ClInclude Include="src\twitch\src\UVClientTransport.h" />
+    <ClInclude Include="src\twitch\src\UVServerTransport.h" />
+    <ClInclude Include="src\twitch\src\UVTransportBase.h" />
+    <ClInclude Include="src\uv\include\uv.h" />
+    <ClInclude Include="src\uv\include\uv\aix.h" />
+    <ClInclude Include="src\uv\include\uv\bsd.h" />
+    <ClInclude Include="src\uv\include\uv\darwin.h" />
+    <ClInclude Include="src\uv\include\uv\errno.h" />
+    <ClInclude Include="src\uv\include\uv\linux.h" />
+    <ClInclude Include="src\uv\include\uv\os390.h" />
+    <ClInclude Include="src\uv\include\uv\posix.h" />
+    <ClInclude Include="src\uv\include\uv\stdint-msvc2008.h" />
+    <ClInclude Include="src\uv\include\uv\sunos.h" />
+    <ClInclude Include="src\uv\include\uv\threadpool.h" />
+    <ClInclude Include="src\uv\include\uv\tree.h" />
+    <ClInclude Include="src\uv\include\uv\unix.h" />
+    <ClInclude Include="src\uv\include\uv\version.h" />
+    <ClInclude Include="src\uv\include\uv\win.h" />
+    <ClInclude Include="src\uv\src\heap-inl.h" />
+    <ClInclude Include="src\uv\src\idna.h" />
+    <ClInclude Include="src\uv\src\queue.h" />
+    <ClInclude Include="src\uv\src\strscpy.h" />
+    <ClInclude Include="src\uv\src\strtok.h" />
+    <ClInclude Include="src\uv\src\uv-common.h" />
+    <ClInclude Include="src\uv\src\win\atomicops-inl.h" />
+    <ClInclude Include="src\uv\src\win\fs-fd-hash-inl.h" />
+    <ClInclude Include="src\uv\src\win\handle-inl.h" />
+    <ClInclude Include="src\uv\src\win\internal.h" />
+    <ClInclude Include="src\uv\src\win\req-inl.h" />
+    <ClInclude Include="src\uv\src\win\stream-inl.h" />
+    <ClInclude Include="src\uv\src\win\winapi.h" />
+    <ClInclude Include="src\uv\src\win\winsock.h" />
+    <ClInclude Include="src\bot\Bot\VRChat.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

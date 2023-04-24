@@ -2,7 +2,14 @@
 
 A Twitch bot that can interact with VRChat (Need to be run locally)
 
-## [Base of Phantom Bot](https://github.com/Phantom139/PhantomBot)
+
+## Setup
+### 1. Create OAuth Password
+http://twitchapps.com/tmi/
+
+### 2. Unknown
+
+## [Base of MaruBot](https://github.com/marukrap/MaruBot)
 I will remake it later or just change many part of it later.
 
 - Support for toggle parameters

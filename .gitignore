@@ -31,9 +31,9 @@
 *.out
 *.app
 
-bin/data/Login.txt
-bin/data/Channels.txt
-bin/data/admins.txt
+bin/data/user/Login.txt
+bin/data/user/Channels.txt
+bin/data/user/admins.txt
 **/.vs
 *.pdb
 **/temp

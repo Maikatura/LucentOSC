@@ -33,14 +33,14 @@ int main()
 	std::vector<std::string> myJoinChannel;
 	std::vector<std::string> admins;
 
-	std::ifstream ifsAdmins("data/admins.txt");
+	std::ifstream ifsAdmins("data/user/admins.txt");
 	std::string strAdmins;
 	while(std::getline(ifsAdmins, strAdmins))
 	{
 		admins.push_back(strAdmins);
 	}
 
-	std::ifstream ifs("data/channels.txt");
+	std::ifstream ifs("data/user/channels.txt");
 	std::string str;
 	while(std::getline(ifs, str))
 	{
@@ -49,23 +49,23 @@ int main()
 
 	std::string oauth;
 	std::string username;
-	if(std::ifstream ifs("data/login.txt"); !ifs || !std::getline(ifs, oauth) || !std::getline(ifs, username))
+	if(std::ifstream ifs("data/user/login.txt"); !ifs || !std::getline(ifs, oauth) || !std::getline(ifs, username))
 	{
 		std::cout << "[Client] Failed to load config file!\n";
 		return false;
 	}
 
 	Client client;
-	if(client.Connect(oauth, username, myJoinChannel, admins))
-	{
+	//if(client.Connect(oauth, username, myJoinChannel, admins))
+	//{
 		Application app(client);
 		app.run();
-	}
-	else
+	//}
+	/*else
 	{
 		std::cout << "Press Enter to exit... ";
 		std::cin.get();
-	}
+	}*/
 
-	client.disconnect();
+	//client.disconnect();
 }

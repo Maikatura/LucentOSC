@@ -29,7 +29,7 @@ Application::Application(Client& client)
 	sf::VideoMode mode = sf::VideoMode::getDesktopMode();
 	sf::Vector2i windowPos;
 
-	if (HWND taskbar = FindWindow(L"Shell_TrayWnd", nullptr))
+	if(HWND taskbar = FindWindow(L"Shell_TrayWnd", nullptr))
 	{
 		RECT rect;
 		GetWindowRect(taskbar, &rect);
@@ -37,11 +37,11 @@ Application::Application(Client& client)
 		const int width = rect.right - rect.left;
 		const int height = rect.bottom - rect.top;
 
-		if (width > height)
+		if(width > height)
 		{
 			mode.height -= height;
 
-			if (rect.top == 0)
+			if(rect.top == 0)
 				windowPos.y = rect.bottom;
 		}
 
@@ -49,30 +49,30 @@ Application::Application(Client& client)
 		{
 			mode.width -= width;
 
-			if (rect.left == 0)
+			if(rect.left == 0)
 				windowPos.x = rect.right;
 		}
 	}
 
-	/*m_window.create(mode, "MaruBot", sf::Style::None);
-	m_window.setPosition(windowPos);
-	m_window.setFramerateLimit(60);*/
+	myWindow.create(mode, "MaruBot", sf::Style::None);
+	myWindow.setPosition(windowPos);
+	myWindow.setFramerateLimit(60);
 
-	//HWND hWnd = m_window.getSystemHandle();
+	HWND hWnd = myWindow.getSystemHandle();
 
-	//// always on top
-	//// https://en.sfml-dev.org/forums/index.php?topic=2271.0
-	//SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	// always on top
+	// https://en.sfml-dev.org/forums/index.php?topic=2271.0
+	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
-	//// transparent
-	//// https://gist.github.com/Alia5/5d8c48941d1f73c1ef14967a5ffe33d5
-	//MARGINS margins = { -1 };
-	//DwmExtendFrameIntoClientArea(hWnd, &margins);
-	//SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+	// transparent
+	// https://gist.github.com/Alia5/5d8c48941d1f73c1ef14967a5ffe33d5
+	MARGINS margins = { -1 };
+	DwmExtendFrameIntoClientArea(hWnd, &margins);
+	SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
 
-	//// click-through
-	//// https://stackoverflow.com/questions/31313624/click-through-transparent-window-no-dragging-allowed-c
-	//SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TRANSPARENT);
+	// click-through
+	// https://stackoverflow.com/questions/31313624/click-through-transparent-window-no-dragging-allowed-c
+	SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TRANSPARENT);
 
 	m_bots.emplace_back(std::make_unique<VRChat>(m_client));
 	m_bots.emplace_back(std::make_unique<Chattu>(m_client));

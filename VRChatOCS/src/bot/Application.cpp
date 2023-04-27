@@ -7,10 +7,14 @@
 #include <Windows.h>
 #include <dwmapi.h>
 
+#include "imgui-SFML.h"
 #include "Bot/VRChat.h"
 #include "Bot/Chattu.h"
 
 #include "misc/TimerManager.h"
+
+#include "imgui.h"
+#include "imgui-SFML.h" 
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -54,25 +58,36 @@ Application::Application(Client& client)
 		}
 	}
 
-	myWindow.create(mode, "MaruBot", sf::Style::None);
-	myWindow.setPosition(windowPos);
+
+	
+	mode.width = 1280;
+	mode.height = 720;
+
+
+	myWindow.create(mode, "VRCBotTV", sf::Style::Default);
+	//myWindow.setPosition(windowPos);
 	myWindow.setFramerateLimit(60);
+	ImGui::SFML::Init(myWindow);
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	HWND hWnd = myWindow.getSystemHandle();
 
-	// always on top
-	// https://en.sfml-dev.org/forums/index.php?topic=2271.0
-	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	//// always on top
+	//// https://en.sfml-dev.org/forums/index.php?topic=2271.0
+	//SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
-	// transparent
-	// https://gist.github.com/Alia5/5d8c48941d1f73c1ef14967a5ffe33d5
-	MARGINS margins = { -1 };
-	DwmExtendFrameIntoClientArea(hWnd, &margins);
-	SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+	//// transparent
+	//// https://gist.github.com/Alia5/5d8c48941d1f73c1ef14967a5ffe33d5
+	//MARGINS margins = { -1 };
+	//DwmExtendFrameIntoClientArea(hWnd, &margins);
+	//SetWindowLong(hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
 
-	// click-through
-	// https://stackoverflow.com/questions/31313624/click-through-transparent-window-no-dragging-allowed-c
-	SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TRANSPARENT);
+	//// click-through
+	//// https://stackoverflow.com/questions/31313624/click-through-transparent-window-no-dragging-allowed-c
+	//SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TRANSPARENT);
 
 	m_bots.emplace_back(std::make_unique<VRChat>(m_client));
 	m_bots.emplace_back(std::make_unique<Chattu>(m_client));
@@ -91,8 +106,24 @@ bool Application::run()
 
 	while (myIsRunning)
 	{
+		sf::Event event;
+		while(myWindow.pollEvent(event))
+		{
+			ImGui::SFML::ProcessEvent(myWindow, event);
+			if(event.type == sf::Event::Closed)
+			{
+				
+				myWindow.close();
+				ImGui::SFML::Shutdown(); // will shutdown all windows
+				return 0; // return here so that we don't call Update/Render
+			}
+		}
+
+
 		const sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
+
+		ImGui::SFML::Update(myWindow, dt);
 
 		if (timeSinceLastUpdate >= timePerFrame)
 		{
@@ -103,7 +134,7 @@ bool Application::run()
 			TimerManager::Update();
 		}
 
-		//render();
+		render();
 	}
 
 	return false;
@@ -121,23 +152,38 @@ void Application::Stop()
 
 void Application::processInput()
 {
-	while (!m_client.isMessageQueueEmpty())
+	sf::Event event;
+
+	while(myWindow.pollEvent(event))
+	{
+		if(event.type == sf::Event::Closed)
+			myWindow.close();
+
+		else if(event.type == sf::Event::KeyPressed)
+		{
+			if(event.key.code == sf::Keyboard::Escape)
+				myWindow.close();
+		}
+
+		for(auto& bot : m_bots)
+			bot->handleEvent(event);
+	}
+
+	while(!m_client.isMessageQueueEmpty())
 	{
 		PRIVMSG priv = m_client.popMessage();
 
 		// HACK: auto join/part
-		if (priv.message == "JOIN")
+		if(priv.message == "JOIN")
 			priv.message = "!join";
-		else if (priv.message == "PART")
+		else if(priv.message == "PART")
 			priv.message = "!part";
 
-
-
-		if (!priv.message.empty() && priv.message[0] == '!')
+		if(!priv.message.empty() && priv.message[0] == '!')
 		{
 			handlePRIVMSG(priv);
 
-			for (auto& bot : m_bots)
+			for(auto& bot : m_bots)
 				bot->handlePRIVMSG(priv);
 		}
 	}
@@ -151,7 +197,22 @@ void Application::update(sf::Time dt)
 
 void Application::render()
 {
-	
+	myWindow.clear(sf::Color::Transparent);
+
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
+
+	for(const auto& bot : m_bots)
+		bot->draw(myWindow);
+
+
+	ImGui::SFML::SetCurrentWindow(myWindow);
+	ImGui::Begin("Test");
+	ImGui::Button("Example button");
+	ImGui::End();
+
+
+	ImGui::SFML::Render(myWindow);
+	myWindow.display();
 }
 
 void Application::handlePRIVMSG(const PRIVMSG& priv)

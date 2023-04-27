@@ -73,13 +73,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin</OutDir>
     <IntDir>$(SolutionDir)temp</IntDir>
-    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)src\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)temp</IntDir>
     <OutDir>$(SolutionDir)bin</OutDir>
-    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)src\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,7 +117,7 @@
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4100;4127;4201;4206;4210;4232;4456;4457;4459;4706;4996</DisableSpecificWarnings>
-      <UseFullPaths>false</UseFullPaths>
+      <UseFullPaths>true</UseFullPaths>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
@@ -138,7 +138,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4100;4127;4201;4206;4210;4232;4456;4457;4459;4706;4996</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <UseFullPaths>false</UseFullPaths>
+      <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +156,13 @@
     <ClCompile Include="src\bot\Bot\VRChat.cpp" />
     <ClCompile Include="src\bot\Client.cpp" />
     <ClCompile Include="src\bot\Utility.cpp" />
+    <ClCompile Include="src\imgui\imgui-SFML.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_stdlib.cpp" />
+    <ClCompile Include="src\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\misc\print.cpp" />
     <ClCompile Include="src\misc\TimerClock.cpp" />
     <ClCompile Include="src\misc\TimerManager.cpp" />
@@ -227,6 +234,16 @@
     <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
     <ClInclude Include="src\bot\Client.hpp" />
     <ClInclude Include="src\bot\Utility.hpp" />
+    <ClInclude Include="src\imgui\imconfig-SFML.h" />
+    <ClInclude Include="src\imgui\imconfig.h" />
+    <ClInclude Include="src\imgui\imgui-SFML.h" />
+    <ClInclude Include="src\imgui\imgui-SFML_export.h" />
+    <ClInclude Include="src\imgui\imgui.h" />
+    <ClInclude Include="src\imgui\imgui_internal.h" />
+    <ClInclude Include="src\imgui\imgui_stdlib.h" />
+    <ClInclude Include="src\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\json\json.hpp" />
     <ClInclude Include="src\misc\print.h" />
     <ClInclude Include="src\misc\TimerClock.h" />

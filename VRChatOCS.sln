@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VRChatOCS", "VRChatOCS\VRChatOCS.vcxproj", "{00DB0AE0-CAD2-4ED4-9CFF-B53EBDCEFCB0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "Launcher\Launcher.vcxproj", "{05EC5711-78A5-485B-9A39-EFE1F9832D87}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,14 +21,6 @@ Global
 		{00DB0AE0-CAD2-4ED4-9CFF-B53EBDCEFCB0}.Release|x64.Build.0 = Release|x64
 		{00DB0AE0-CAD2-4ED4-9CFF-B53EBDCEFCB0}.Release|x86.ActiveCfg = Release|Win32
 		{00DB0AE0-CAD2-4ED4-9CFF-B53EBDCEFCB0}.Release|x86.Build.0 = Release|Win32
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Debug|x64.ActiveCfg = Debug|x64
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Debug|x64.Build.0 = Debug|x64
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Debug|x86.ActiveCfg = Debug|Win32
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Debug|x86.Build.0 = Debug|Win32
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Release|x64.ActiveCfg = Release|x64
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Release|x64.Build.0 = Release|x64
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Release|x86.ActiveCfg = Release|Win32
-		{05EC5711-78A5-485B-9A39-EFE1F9832D87}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

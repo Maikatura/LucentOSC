@@ -41,6 +41,7 @@ Discord::Discord(Client& client) : Bot(client)
 
 Discord::~Discord()
 {
+	myCluster->shutdown();
 	delete myCluster;
 }
 

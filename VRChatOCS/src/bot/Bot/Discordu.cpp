@@ -2,6 +2,8 @@
 
 #include <fstream>
 
+#include "imgui.h"
+
 
 Discord::Discord(Client& client) : Bot(client)
 {
@@ -52,6 +54,11 @@ void Discord::update(sf::Time dt)
 
 void Discord::draw(sf::RenderTarget& target)
 {
+	ImGui::Begin("Discord");
+
+	ImGui::Text("This is the discord window");
+
+	ImGui::End();
 }
 
 void Discord::handlePRIVMSG(const PRIVMSG& priv)

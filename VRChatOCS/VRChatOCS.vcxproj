@@ -71,16 +71,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)bin</OutDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)temp</IntDir>
-    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)src\SFML\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(ProjectDir)src\dpp\include\dpp-10.0\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)src\SFML\lib;$(ProjectDir)src\dpp\$(Configuration)\lib\dpp-10.0;$(LibraryPath)</LibraryPath>
+    <TargetName>program</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)temp</IntDir>
-    <OutDir>$(SolutionDir)bin</OutDir>
-    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)src\SFML\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(ProjectDir)src\dpp\include\dpp-10.0\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)src\SFML\lib;$(ProjectDir)src\dpp\$(Configuration)\lib\dpp-10.0;$(LibraryPath)</LibraryPath>
+    <TargetName>program</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -126,8 +128,15 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;dpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>copy /y "$(ProjectDir)src\dpp\$(Configuration)\bin\*.dll" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -145,13 +154,21 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;dpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>copy /y "$(ProjectDir)src\dpp\$(Configuration)\bin\*.dll" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bot\Application.cpp" />
     <ClCompile Include="src\bot\Bot.cpp" />
     <ClCompile Include="src\bot\Bot\Chattu.cpp" />
+    <ClCompile Include="src\bot\Bot\Discordu.cpp" />
     <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat.cpp" />
     <ClCompile Include="src\bot\Client.cpp" />
@@ -231,9 +248,76 @@
     <ClInclude Include="src\bot\Application.hpp" />
     <ClInclude Include="src\bot\Bot.hpp" />
     <ClInclude Include="src\bot\Bot\Chattu.h" />
+    <ClInclude Include="src\bot\Bot\Discordu.h" />
     <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
     <ClInclude Include="src\bot\Client.hpp" />
     <ClInclude Include="src\bot\Utility.hpp" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\appcommand.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\application.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\auditlog.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\automod.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\ban.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\cache.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\channel.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\cluster.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\cluster_coro_calls.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\cluster_sync_calls.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\collector.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\colors.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\commandhandler.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\coro.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\discordclient.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\discordevents.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\discordvoiceclient.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\dispatcher.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\dns.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\dpp.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\dtemplate.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\emoji.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\etf.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\event.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\event_router.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\exception.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\export.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\guild.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\httpsclient.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\integration.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\intents.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\invite.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\json.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\json_fwd.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\json_interface.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\managed.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\message.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\misc-enum.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\nlohmann\json.hpp" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\once.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\permissions.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\presence.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\prune.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\queues.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\restrequest.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\restresults.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\role.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\scheduled_event.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\snowflake.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\socket.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\sslclient.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\stage_instance.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\stringops.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\sync.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\sysdep.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\timed_listener.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\timer.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\user.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\utility.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\version.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\voiceregion.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\voicestate.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\webhook.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\win32_safe_warnings.h" />
+    <ClInclude Include="src\dpp\include\dpp-10.0\dpp\wsclient.h" />
     <ClInclude Include="src\imgui\imconfig-SFML.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui-SFML.h" />

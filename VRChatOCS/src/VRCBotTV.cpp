@@ -12,6 +12,7 @@
 #include "bot/Client.hpp"
 #include "bot/Application.hpp"
 #include "misc/TimerManager.h"
+#include <dpp/dpp.h>
 
 
 std::string endpoint = "maikatura";
@@ -30,6 +31,7 @@ void msleep(int n)
 
 int main()
 {
+
 	std::vector<std::string> myJoinChannel;
 	std::vector<std::string> admins;
 
@@ -39,6 +41,7 @@ int main()
 	{
 		admins.push_back(strAdmins);
 	}
+	ifsAdmins.close();
 
 	std::ifstream ifs("data/user/channels.txt");
 	std::string str;
@@ -46,6 +49,7 @@ int main()
 	{
 		myJoinChannel.push_back(str);
 	}
+	ifs.close();
 
 	std::string oauth;
 	std::string username;
@@ -54,6 +58,7 @@ int main()
 		std::cout << "[Client] Failed to load config file!\n";
 		return false;
 	}
+	ifs.close();
 
 	Client client;
 	//if(client.Connect(oauth, username, myJoinChannel, admins))

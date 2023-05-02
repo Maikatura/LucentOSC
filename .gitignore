@@ -32,6 +32,7 @@
 bin/data/user/Login.txt
 bin/data/user/Channels.txt
 bin/data/user/admins.txt
+bin/data/user/discord.txt
 **/.vs
 *.pdb
 **/temp

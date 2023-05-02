@@ -15,6 +15,7 @@
 
 #include "imgui.h"
 #include "imgui-SFML.h" 
+#include "Bot/Discordu.h"
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -91,6 +92,7 @@ Application::Application(Client& client)
 
 	m_bots.emplace_back(std::make_unique<VRChat>(m_client));
 	m_bots.emplace_back(std::make_unique<Chattu>(m_client));
+	m_bots.emplace_back(std::make_unique<Discord>(m_client));
 }
 
 Application::Application(const Application& aApplication) : Application(aApplication.m_client)

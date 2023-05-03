@@ -22,21 +22,21 @@ Jukebox::~Jukebox()
 	m_running = false;
 }
 
-void Jukebox::handleEvent(const sf::Event& event)
+void Jukebox::HandleEvent(const sf::Event& event)
 {
 }
 
-void Jukebox::update(sf::Time dt)
+void Jukebox::Update(sf::Time dt)
 {
 }
 
-void Jukebox::draw(sf::RenderTarget& target)
+void Jukebox::Draw(sf::RenderTarget& target)
 {
 }
 
-void Jukebox::handlePRIVMSG(const PRIVMSG& priv)
+void Jukebox::HandlePRIVMSG(const PRIVMSG& priv)
 {
-	const auto [first, second] = splitCommand(priv.message);
+	const auto [first, second] = SplitCommand(priv.message);
 
 
 	if (first == "!songrequest" || first == "!sr")
@@ -53,7 +53,7 @@ void Jukebox::handlePRIVMSG(const PRIVMSG& priv)
 		}
 
 		else
-			sendPRIVMSG(priv.Channel, '@' + priv.username + " Usage: !sr [a link or song title] (Supported sites: https://rg3.github.io/youtube-dl/supportedsites.html)");
+			SendPRIVMSG(priv.Channel, '@' + priv.username + " Usage: !sr [a link or song title] (Supported sites: https://rg3.github.io/youtube-dl/supportedsites.html)");
 	}
 
 	else if (first == "!skip")
@@ -62,11 +62,11 @@ void Jukebox::handlePRIVMSG(const PRIVMSG& priv)
 
 		if (m_state == State::PlayingDefaultSong)
 		{
-			sendPRIVMSG(priv.Channel, '@' + priv.username + " Skipped the current song.");
+			SendPRIVMSG(priv.Channel, '@' + priv.username + " Skipped the current song.");
 		}
 
 		else
-			sendPRIVMSG(priv.Channel, '@' + priv.username + " Requested songs can't be skipped.");
+			SendPRIVMSG(priv.Channel, '@' + priv.username + " Requested songs can't be skipped.");
 	}
 
 }

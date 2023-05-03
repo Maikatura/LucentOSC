@@ -8,7 +8,7 @@
 #include <dwmapi.h>
 
 #include "imgui-SFML.h"
-#include "Bot/VRChat.h"
+#include "Bot/VRChat/VRChat.h"
 #include "Bot/Chattu.h"
 
 #include "misc/TimerManager.h"
@@ -47,23 +47,25 @@ Application::Application(Client& client)
 			mode.height -= height;
 
 			if(rect.top == 0)
+			{
 				windowPos.y = rect.bottom;
+			}
 		}
-
 		else
 		{
 			mode.width -= width;
 
 			if(rect.left == 0)
+			{
 				windowPos.x = rect.right;
+			}
 		}
 	}
 
 
-	
+	// Should Remove this
 	mode.width = 1280;
 	mode.height = 720;
-
 
 	myWindow.create(mode, "VRCBotTV", sf::Style::Default);
 	//myWindow.setPosition(windowPos);
@@ -99,7 +101,7 @@ Application::Application(const Application& aApplication) : Application(aApplica
 {
 }
 
-bool Application::run()
+bool Application::Run()
 {
 	const sf::Time timePerFrame = sf::seconds(1.f / 60);
 
@@ -131,12 +133,12 @@ bool Application::run()
 		{
 			timeSinceLastUpdate -= timePerFrame;
 
-			processInput();
-			update(timePerFrame);
+			ProcessInput();
+			Update(timePerFrame);
 			TimerManager::Update();
 		}
 
-		render();
+		Render();
 	}
 
 	return false;
@@ -152,7 +154,7 @@ void Application::Stop()
 	myIsRunning = false;
 }
 
-void Application::processInput()
+void Application::ProcessInput()
 {
 	sf::Event event;
 
@@ -168,7 +170,7 @@ void Application::processInput()
 		}
 
 		for(auto& bot : m_bots)
-			bot->handleEvent(event);
+			bot->HandleEvent(event);
 	}
 
 	while(!m_client.isMessageQueueEmpty())
@@ -183,28 +185,28 @@ void Application::processInput()
 
 		if(!priv.message.empty() && priv.message[0] == '!')
 		{
-			handlePRIVMSG(priv);
+			HandlePRIVMSG(priv);
 
 			for(auto& bot : m_bots)
-				bot->handlePRIVMSG(priv);
+				bot->HandlePRIVMSG(priv);
 		}
 	}
 }
 
-void Application::update(sf::Time dt)
+void Application::Update(sf::Time dt)
 {
 	for (auto& bot : m_bots)
-		bot->update(dt);
+		bot->Update(dt);
 }
 
-void Application::render()
+void Application::Render()
 {
 	myWindow.clear(sf::Color::Transparent);
 
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
 
 	for(const auto& bot : m_bots)
-		bot->draw(myWindow);
+		bot->Draw(myWindow);
 
 
 	ImGui::SFML::SetCurrentWindow(myWindow);
@@ -217,12 +219,12 @@ void Application::render()
 	myWindow.display();
 }
 
-void Application::handlePRIVMSG(const PRIVMSG& priv)
+void Application::HandlePRIVMSG(const PRIVMSG& priv)
 {
 	if (!m_client.isAdmin(priv.username))
 		return;
 
-	auto [first, second] = splitCommand(priv.message);
+	auto [first, second] = SplitCommand(priv.message);
 	toLower(second);
 
 

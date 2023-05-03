@@ -9,29 +9,29 @@ Chattu::~Chattu()
 {
 }
 
-void Chattu::handleEvent(const sf::Event& event)
+void Chattu::HandleEvent(const sf::Event& event)
 {
 }
 
-void Chattu::update(sf::Time dt)
+void Chattu::Update(sf::Time dt)
 {
 }
 
-void Chattu::draw(sf::RenderTarget& target)
+void Chattu::Draw(sf::RenderTarget& target)
 {
 }
 
-void Chattu::handlePRIVMSG(const PRIVMSG& priv)
+void Chattu::HandlePRIVMSG(const PRIVMSG& priv)
 {
-	const auto [first, second] = splitCommand(priv.message);
+	const auto [first, second] = SplitCommand(priv.message);
 
 	if(first == "!chattu")
 	{
-		sendPRIVMSG(priv.Channel, "Hi, I am Chattu the bot inside this account!");
+		SendPRIVMSG(priv.Channel, "Hi, I am Chattu the bot inside this account!");
 	}
 
 	if(first == "!help")
 	{
-		sendPRIVMSG(priv.Channel, "Find me at https://github.com/maikatura/VRCBotTV");
+		SendPRIVMSG(priv.Channel, "Find me at https://github.com/maikatura/VRCBotTV");
 	}
 }

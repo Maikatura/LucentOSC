@@ -39,14 +39,16 @@ bool endsWith(const std::string& str, const std::string& suffix)
 	return str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
-void toLower(std::string& str)
+std::string toLower(std::string& str)
 {
 	std::transform(str.begin(), str.end(), str.begin(), [] (unsigned char ch) { return std::tolower(ch); });
+	return str;
 }
 
-void toUpper(std::string& str)
+std::string toUpper(std::string& str)
 {
 	std::transform(str.begin(), str.end(), str.begin(), [] (unsigned char ch) { return std::toupper(ch); });
+	return str;
 }
 
 std::string trim(const std::string& str)

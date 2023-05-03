@@ -3,21 +3,21 @@
 #include "Utility.hpp"
 
 Bot::Bot(Client& client)
-	: m_client(client)
+	: myClient(client)
 {
 }
 
-bool Bot::isAdmin(const std::string& username) const
+bool Bot::IsAdmin(const std::string& username) const
 {
-	return m_client.isAdmin(username);
+	return myClient.isAdmin(username);
 }
 
-void Bot::sendPRIVMSG(const std::string& aChannel, const std::string& msg)
+void Bot::SendPRIVMSG(const std::string& aChannel, const std::string& msg)
 {
-	m_client.sendPRIVMSG(msg, aChannel);
+	myClient.sendPRIVMSG(msg, aChannel);
 }
 
-std::pair<std::string, std::string> splitCommand(const std::string& command)
+std::pair<std::string, std::string> SplitCommand(const std::string& command)
 {
 	std::string first, second;
 

@@ -11,19 +11,17 @@ public:
 	Application(Client& client);
 	Application(const Application& aApplication);
 
-	bool run();
+	bool Run();
 	bool IsRunning();
 	void Stop();
 
 
-
-
 private:
-	void processInput();
-	void update(sf::Time dt);
-	void render();
+	void ProcessInput();
+	void Update(sf::Time dt);
+	void Render();
 
-	void handlePRIVMSG(const PRIVMSG& priv);
+	void HandlePRIVMSG(const PRIVMSG& priv);
 
 private:
 	Client& m_client;

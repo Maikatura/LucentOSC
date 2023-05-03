@@ -22,11 +22,11 @@ public:
 	explicit Chattu(Client& client);
 	~Chattu();
 
-	void handleEvent(const sf::Event& event) override;
-	void update(sf::Time dt) override;
-	void draw(sf::RenderTarget& target) override;
+	void HandleEvent(const sf::Event& event) override;
+	void Update(sf::Time dt) override;
+	void Draw(sf::RenderTarget& target) override;
 
-	void handlePRIVMSG(const PRIVMSG& priv) override;
+	void HandlePRIVMSG(const PRIVMSG& priv) override;
 
 
 private:

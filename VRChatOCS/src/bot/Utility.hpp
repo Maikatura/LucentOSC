@@ -10,8 +10,8 @@ int randomInt(int min, int inclusiveMax); // [min, max]
 bool startsWith(const std::string& str, const std::string& prefix);
 bool endsWith(const std::string& str, const std::string& suffix);
 
-void toLower(std::string& str);
-void toUpper(std::string& str);
+std::string toLower(std::string& str);
+std::string toUpper(std::string& str);
 
 std::string trim(const std::string& str);
 std::string getSubstring(const std::string& str, const std::string& tokenLeft, const std::string& tokenRight = "");

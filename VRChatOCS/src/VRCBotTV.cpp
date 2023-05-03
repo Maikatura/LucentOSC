@@ -31,46 +31,38 @@ void msleep(int n)
 
 int main()
 {
-
 	std::vector<std::string> myJoinChannel;
 	std::vector<std::string> admins;
 
-	std::ifstream ifsAdmins("data/user/admins.txt");
-	std::string strAdmins;
-	while(std::getline(ifsAdmins, strAdmins))
-	{
-		admins.push_back(strAdmins);
-	}
-	ifsAdmins.close();
+	std::ifstream ifsTwitch("data/user/twitch.json");
+	json twitch = json::parse(ifsTwitch);
 
-	std::ifstream ifs("data/user/channels.txt");
-	std::string str;
-	while(std::getline(ifs, str))
-	{
-		myJoinChannel.push_back(str);
-	}
-	ifs.close();
 
-	std::string oauth;
-	std::string username;
-	if(std::ifstream ifs("data/user/login.txt"); !ifs || !std::getline(ifs, oauth) || !std::getline(ifs, username))
+	for(auto& admin : twitch["admins"])
 	{
-		std::cout << "[Client] Failed to load config file!\n";
-		return false;
+		admins.push_back(admin.get<std::string>());
 	}
-	ifs.close();
+
+	for(auto& channel : twitch["channels"])
+	{
+		myJoinChannel.push_back(channel.get<std::string>());
+	}
+
+	std::string oauth = twitch["oauth"].get<std::string>();
+	std::string username = twitch["username"].get<std::string>();
+	
 
 	Client client;
-	//if(client.Connect(oauth, username, myJoinChannel, admins))
-	//{
+	if(client.Connect(oauth, username, myJoinChannel, admins))
+	{
 		Application app(client);
-		app.run();
-	//}
-	/*else
+		app.Run();
+	}
+	else
 	{
 		std::cout << "Press Enter to exit... ";
 		std::cin.get();
-	}*/
+	}
 
-	//client.disconnect();
+	client.disconnect();
 }

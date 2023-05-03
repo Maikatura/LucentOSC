@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include "Command.h"
+
 class Client;
 struct PRIVMSG;
 
@@ -20,18 +22,20 @@ public:
 	Bot(const Bot&) = delete;
 	Bot& operator=(const Bot&) = delete;
 
-	virtual void handleEvent(const sf::Event& event) = 0;
-	virtual void update(sf::Time dt) = 0;
-	virtual void draw(sf::RenderTarget& target) = 0;
+	virtual void HandleEvent(const sf::Event& event) = 0;
+	virtual void Update(sf::Time dt) = 0;
+	virtual void Draw(sf::RenderTarget& target) = 0;
 
-	virtual void handlePRIVMSG(const PRIVMSG& priv) = 0;
+	virtual void HandlePRIVMSG(const PRIVMSG& priv) = 0;
 
 protected:
-	bool isAdmin(const std::string& username) const;
-	void sendPRIVMSG(const std::string& aChannel, const std::string& msg);
+	bool IsAdmin(const std::string& username) const;
+	void SendPRIVMSG(const std::string& aChannel, const std::string& msg);
 
+	std::vector<std::shared_ptr<Command>> myCommands;
+
+	Client& myClient;
 private:
-	Client& m_client;
 };
 
-std::pair<std::string, std::string> splitCommand(const std::string& command);
+std::pair<std::string, std::string> SplitCommand(const std::string& command);

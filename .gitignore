@@ -29,10 +29,8 @@
 *.out
 *.app
 
-bin/data/user/Login.txt
-bin/data/user/Channels.txt
-bin/data/user/admins.txt
-bin/data/user/discord.txt
+bin/data/user/discord.json
+bin/data/user/twitch.json
 **/.vs
 *.pdb
 **/temp

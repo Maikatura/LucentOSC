@@ -1,0 +1,12 @@
+{
+	"oauth":"TWITCH OAUTH HERE (GET IT HERE https://twitchapps.com/tmi/ )",
+	"username": "YOUR TWITCH USERNAME",
+	"admins": [
+		"ADMINS YOU WANT",
+		"HERE IS ANOTHER ADMIN"
+	],
+	"channels": [
+		"CHANNEL TO JOIN",
+		"ANOTHER CHANNEL TO JOIN",
+	]
+}

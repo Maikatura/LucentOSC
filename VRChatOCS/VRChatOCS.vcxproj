@@ -170,8 +170,10 @@
     <ClCompile Include="src\bot\Bot\Chattu.cpp" />
     <ClCompile Include="src\bot\Bot\Discordu.cpp" />
     <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRoot.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
     <ClCompile Include="src\bot\Client.cpp" />
+    <ClCompile Include="src\bot\Command.cpp" />
     <ClCompile Include="src\bot\Utility.cpp" />
     <ClCompile Include="src\imgui\imgui-SFML.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
@@ -250,7 +252,9 @@
     <ClInclude Include="src\bot\Bot\Chattu.h" />
     <ClInclude Include="src\bot\Bot\Discordu.h" />
     <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRoot.h" />
     <ClInclude Include="src\bot\Client.hpp" />
+    <ClInclude Include="src\bot\Command.h" />
     <ClInclude Include="src\bot\Utility.hpp" />
     <ClInclude Include="src\dpp\include\dpp-10.0\dpp\appcommand.h" />
     <ClInclude Include="src\dpp\include\dpp-10.0\dpp\application.h" />
@@ -397,7 +401,7 @@
     <ClInclude Include="src\uv\src\win\stream-inl.h" />
     <ClInclude Include="src\uv\src\win\winapi.h" />
     <ClInclude Include="src\uv\src\win\winsock.h" />
-    <ClInclude Include="src\bot\Bot\VRChat.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\VRChat.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

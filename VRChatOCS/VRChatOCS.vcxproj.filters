@@ -198,7 +198,7 @@
     <ClCompile Include="src\bot\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bot\Bot\VRChat.cpp">
+    <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\osclib\OSCData.cpp">
@@ -247,6 +247,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Bot\Discordu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -437,7 +443,7 @@
     <ClInclude Include="src\bot\Utility.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bot\Bot\VRChat.h">
+    <ClInclude Include="src\bot\Bot\VRChat\VRChat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\osclib\OSCData.h">
@@ -708,6 +714,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dpp\include\dpp-10.0\dpp\wsclient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRoot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

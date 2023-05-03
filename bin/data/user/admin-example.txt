@@ -1,2 +1,0 @@
-Make a file called "admin.txt" and add all your admins there.
-If you wanna add a admin later you can do that by commands

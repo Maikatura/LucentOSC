@@ -90,7 +90,9 @@ void VRChat::Update(sf::Time dt)
 
 void VRChat::Draw(sf::RenderTarget& target)
 {
-	ImGui::Begin("Twitch");
+	ImGui::Begin("VRChat");
+
+	ImGui::TextWrapped("I will add stuff here later :)");
 
 	ImGui::End();
 }
@@ -418,7 +420,7 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 	}
 }
 
-char asciitolower(char in) {
+inline char asciitolower(char in) {
 	if(in <= 'Z' && in >= 'A')
 		return in - ('Z' - 'z');
 	return in;

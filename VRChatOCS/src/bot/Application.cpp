@@ -8,14 +8,17 @@
 #include <dwmapi.h>
 
 #include "imgui-SFML.h"
-#include "Bot/VRChat/VRChat.h"
-#include "Bot/Chattu.h"
+
 
 #include "misc/TimerManager.h"
 
 #include "imgui.h"
-#include "imgui-SFML.h" 
-#include "Bot/Discordu.h"
+#include "imgui-SFML.h"
+
+#include "Bot/Kick/Kick.h"
+#include "Bot/VRChat/VRChat.h"
+#include "Bot/Twitch/Chattu.h"
+#include "Bot/Discord/Discord.h"
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -95,6 +98,7 @@ Application::Application(Client& client)
 	m_bots.emplace_back(std::make_unique<VRChat>(m_client));
 	m_bots.emplace_back(std::make_unique<Chattu>(m_client));
 	m_bots.emplace_back(std::make_unique<Discord>(m_client));
+	m_bots.emplace_back(std::make_unique<Kick>(m_client));
 }
 
 Application::Application(const Application& aApplication) : Application(aApplication.m_client)

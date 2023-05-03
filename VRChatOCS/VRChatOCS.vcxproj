@@ -73,15 +73,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)temp</IntDir>
-    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(ProjectDir)src\dpp\include\dpp-10.0\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)src\SFML\lib;$(ProjectDir)src\dpp\$(Configuration)\lib\dpp-10.0;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(ProjectDir)src\dpp\include\dpp-10.0\;$(ProjectDir)src\myhtml\include;$(ProjectDir)src\libcurl\src\include;$(SolutionDir)cpr\include;$(SolutionDir)cpr\build\cpr_generated_includes;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)src\SFML\lib;$(ProjectDir)src\dpp\$(Configuration)\lib\dpp-10.0;$(ProjectDir)src\cpr\include;$(LibraryPath)</LibraryPath>
     <TargetName>program</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)temp</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
-    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(ProjectDir)src\dpp\include\dpp-10.0\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)src\SFML\lib;$(ProjectDir)src\dpp\$(Configuration)\lib\dpp-10.0;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir)src\uv\src;$(ProjectDir)src\uv\include;$(ProjectDir)src\twitch\include;$(ProjectDir)src\twitch\include\nativeipc;$(ProjectDir)src\SFML\include;$(ProjectDir)src\nanogui\include;$(ProjectDir)src\imgui;$(ProjectDir)src\dpp\include\dpp-10.0\;$(ProjectDir)src\myhtml\include;$(ProjectDir)src\libcurl\src\include;$(SolutionDir)cpr\include;$(SolutionDir)cpr\build\cpr_generated_includes;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)src\SFML\lib;$(ProjectDir)src\dpp\$(Configuration)\lib\dpp-10.0;$(ProjectDir)src\cpr\include;$(LibraryPath)</LibraryPath>
     <TargetName>program</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -114,8 +114,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266</PreprocessorDefinitions>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266;BUILDING_LIBCURL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;;CURL_STATICLIB;MyCORE_BUILD_WITHOUT_THREADS</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4100;4127;4201;4206;4210;4232;4456;4457;4459;4706;4996</DisableSpecificWarnings>
@@ -142,7 +142,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266;BUILDING_LIBCURL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;USE_OPENSSL;CURL_STATICLIB;CURL_STATICLIB;MyCORE_BUILD_WITHOUT_THREADS</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4100;4127;4201;4206;4210;4232;4456;4457;4459;4706;4996</DisableSpecificWarnings>
@@ -167,9 +167,11 @@
   <ItemGroup>
     <ClCompile Include="src\bot\Application.cpp" />
     <ClCompile Include="src\bot\Bot.cpp" />
-    <ClCompile Include="src\bot\Bot\Chattu.cpp" />
-    <ClCompile Include="src\bot\Bot\Discordu.cpp" />
+    <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Discord.cpp" />
     <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
+    <ClCompile Include="src\bot\Bot\Kick\Downloader.cpp" />
+    <ClCompile Include="src\bot\Bot\Kick\Kick.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
@@ -250,9 +252,11 @@
   <ItemGroup>
     <ClInclude Include="src\bot\Application.hpp" />
     <ClInclude Include="src\bot\Bot.hpp" />
-    <ClInclude Include="src\bot\Bot\Chattu.h" />
-    <ClInclude Include="src\bot\Bot\Discordu.h" />
+    <ClInclude Include="src\bot\Bot\Twitch\Chattu.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Discord.h" />
     <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
+    <ClInclude Include="src\bot\Bot\Kick\Downloader.h" />
+    <ClInclude Include="src\bot\Bot\Kick\Kick.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h" />
     <ClInclude Include="src\bot\Client.hpp" />
@@ -335,6 +339,17 @@
     <ClInclude Include="src\imgui\imstb_textedit.h" />
     <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\json\json.hpp" />
+    <ClInclude Include="src\libcurl\src\include\curl\curlver.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\easy.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\header.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\mprintf.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\multi.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\options.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\stdcheaders.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\system.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\typecheck-gcc.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\urlapi.h" />
+    <ClInclude Include="src\libcurl\src\include\curl\websockets.h" />
     <ClInclude Include="src\misc\print.h" />
     <ClInclude Include="src\misc\TimerClock.h" />
     <ClInclude Include="src\misc\TimerHandle.h" />
@@ -404,6 +419,9 @@
     <ClInclude Include="src\uv\src\win\winapi.h" />
     <ClInclude Include="src\uv\src\win\winsock.h" />
     <ClInclude Include="src\bot\Bot\VRChat\VRChat.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\curl\src\Makefile.inc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

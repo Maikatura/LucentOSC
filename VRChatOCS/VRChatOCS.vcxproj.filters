@@ -222,7 +222,7 @@
     <ClCompile Include="src\misc\TimerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bot\Bot\Chattu.cpp">
+    <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\imgui\imgui.cpp">
@@ -246,7 +246,7 @@
     <ClCompile Include="src\imgui\imgui-SFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bot\Bot\Discordu.cpp">
+    <ClCompile Include="src\bot\Bot\Discord\Discord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Command.cpp">
@@ -256,6 +256,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Kick\Downloader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Kick\Kick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -485,7 +491,7 @@
     <ClInclude Include="src\misc\TimerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bot\Bot\Chattu.h">
+    <ClInclude Include="src\bot\Bot\Twitch\Chattu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\imgui\imconfig.h">
@@ -518,7 +524,7 @@
     <ClInclude Include="src\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bot\Bot\Discordu.h">
+    <ClInclude Include="src\bot\Bot\Discord\Discord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dpp\include\dpp-10.0\dpp\nlohmann\json.hpp">
@@ -728,5 +734,49 @@
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\curlver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\easy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\mprintf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\multi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\stdcheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\typecheck-gcc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\urlapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libcurl\src\include\curl\websockets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Kick\Downloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Kick\Kick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\curl\src\Makefile.inc">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

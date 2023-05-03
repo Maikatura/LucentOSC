@@ -25,6 +25,7 @@ private:
 
 private:
 	Client& m_client;
+	bool myIsHeadless = false;
 	bool myIsRunning = true;
 	sf::RenderWindow myWindow;
 	std::vector<Bot::Ptr> m_bots;

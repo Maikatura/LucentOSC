@@ -4,9 +4,9 @@
 #include "VRChatBoolCmd.h"
 
 
-VRChatRootCmd::VRChatRootCmd(Bot* aBot, const std::string& aCommandName) : Command(aBot, aCommandName)
+VRChatRootCmd::VRChatRootCmd(Bot* aBot) : Command(aBot, "vrchat")
 {
-	mySubCommands.push_back(std::make_shared<VRChatBoolCmd>(aBot, "bool"));
+	mySubCommands.push_back(std::make_shared<VRChatBoolCmd>(aBot));
 }
 
 bool VRChatRootCmd::HandleCommandLogic(Client& aClient, const PRIVMSG& priv, const std::string& aMessage)

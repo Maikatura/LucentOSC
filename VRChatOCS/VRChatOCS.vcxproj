@@ -172,6 +172,7 @@
     <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
     <ClCompile Include="src\bot\Bot\Kick\Downloader.cpp" />
     <ClCompile Include="src\bot\Bot\Kick\Kick.cpp" />
+    <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
     <ClInclude Include="src\bot\Bot\Kick\Downloader.h" />
     <ClInclude Include="src\bot\Bot\Kick\Kick.h" />
+    <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h" />
     <ClInclude Include="src\bot\Client.hpp" />

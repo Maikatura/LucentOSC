@@ -264,6 +264,9 @@
     <ClCompile Include="src\bot\Bot\Kick\Kick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\osclib\osc.h">
@@ -771,6 +774,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\bot\Bot\Kick\Kick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

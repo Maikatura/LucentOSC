@@ -4,6 +4,6 @@
 class VRChatRootCmd : public Command
 {
 public:
-	VRChatRootCmd(Bot* aBot, const std::string& aCommandName);
+	VRChatRootCmd(Bot* aBot);
 	bool HandleCommandLogic(Client& aClient,const PRIVMSG& priv, const std::string& aMessage) override;
 };

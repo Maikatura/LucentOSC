@@ -1,8 +1,10 @@
 #include "Chattu.h"
 #include "bot/Client.hpp"
+#include "Commands/CumCmd.h"
 
 Chattu::Chattu(Client& client) : Bot(client)
 {
+	myCommands.push_back(std::make_shared<CumCmd>(this));
 }
 
 Chattu::~Chattu()
@@ -23,11 +25,18 @@ void Chattu::Draw(sf::RenderTarget& target)
 
 void Chattu::HandlePRIVMSG(const PRIVMSG& priv)
 {
-	const auto [first, second] = SplitCommand(priv.message);
+	auto [first, second] = SplitCommand(priv.message);
+	first.erase(0, 1);
 
-	if(first == "!chattu")
+	for(int i = 0; i < myCommands.size(); i++)
 	{
-		SendPRIVMSG(priv.Channel, "Hi, I am Chattu the bot inside this account!");
+		if(myCommands[i]->IsCommand(first))
+		{
+			if(myCommands[i]->HandleCommand(myClient, priv, second))
+			{
+				return;
+			}
+		}
 	}
 
 	if(first == "!help")

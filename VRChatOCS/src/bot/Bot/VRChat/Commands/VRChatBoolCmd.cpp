@@ -3,7 +3,7 @@
 #include "osclib/OSCData.h"
 #include "bot/Bot/VRChat/VRChat.h"
 
-VRChatBoolCmd::VRChatBoolCmd(Bot* aBot, const std::string& aCommandName) : Command(aBot, aCommandName)
+VRChatBoolCmd::VRChatBoolCmd(Bot* aBot) : Command(aBot, "bool")
 { }
 
 bool VRChatBoolCmd::HandleCommandLogic(Client& aClient, const PRIVMSG& priv, const std::string& aMessage)

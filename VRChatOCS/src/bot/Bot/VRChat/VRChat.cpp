@@ -65,7 +65,7 @@ VRChat::VRChat(Client& client) : ::Bot(client)
 		print_osc_value(addr, value);
 	};
 
-	auto commandRoot = std::make_shared<VRChatRootCmd>(this, "vrchat");
+	auto commandRoot = std::make_shared<VRChatRootCmd>(this);
 	myCommands.push_back(commandRoot);
 
 	myOSCRx.SetListener(&myOSCListener);

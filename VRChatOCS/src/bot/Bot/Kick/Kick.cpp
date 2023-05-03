@@ -17,7 +17,7 @@ void Kick::HandleEvent(const sf::Event& event)
 
 void Kick::Update(sf::Time dt)
 {
-	if (myDownloadCurrentTime <= 0.0f)
+	/*if (myDownloadCurrentTime <= 0.0f)
 	{
 		myDownloadCurrentTime = myDownloadTimer;
 		HandleKickParsing();
@@ -25,7 +25,7 @@ void Kick::Update(sf::Time dt)
 	else
 	{
 		myDownloadCurrentTime -= dt.asSeconds();
-	}
+	}*/
 }
 
 void Kick::Draw(sf::RenderTarget& target)

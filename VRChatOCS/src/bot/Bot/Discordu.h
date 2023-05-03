@@ -8,7 +8,6 @@ class Discord : public Bot
 
 	enum class ConnectionStatus
 	{
-		Unknown,
 		Connected,
 		Disconnected,
 		Count

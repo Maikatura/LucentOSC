@@ -34,10 +34,13 @@ public:
 	bool IsAppRunning(const PRIVMSG& priv);
 
 	bool FindFile(std::filesystem::path path, std::filesystem::path& foundLocation, const std::string& aFilename, std::vector<std::filesystem::path>& filenames = std::vector<std::filesystem::path>());
+	std::string GetFullParameterName(const std::string& aChannel, const std::string& aToggleName, OSCType aType);
+
+	osc::Transmitter& GetTransmitter();
+	osc::Receiver& GetReceiver();
 
 private:
 
-	std::string GetFullParameterName(const std::string& aChannel, const std::string& aToggleName, OSCType aType);
 
 	bool m_running = true;
 	State m_state = State::DoingNothing;

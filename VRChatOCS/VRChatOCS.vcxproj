@@ -170,7 +170,8 @@
     <ClCompile Include="src\bot\Bot\Chattu.cpp" />
     <ClCompile Include="src\bot\Bot\Discordu.cpp" />
     <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRoot.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
     <ClCompile Include="src\bot\Client.cpp" />
     <ClCompile Include="src\bot\Command.cpp" />
@@ -252,7 +253,8 @@
     <ClInclude Include="src\bot\Bot\Chattu.h" />
     <ClInclude Include="src\bot\Bot\Discordu.h" />
     <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRoot.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h" />
     <ClInclude Include="src\bot\Client.hpp" />
     <ClInclude Include="src\bot\Command.h" />
     <ClInclude Include="src\bot\Utility.hpp" />

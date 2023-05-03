@@ -1,8 +1,9 @@
 #include "VRChat.h"
 #include <iostream>
 
+#include "imgui.h"
 #include "bot/Client.hpp"
-#include "Commands/VRChatRoot.h"
+#include "Commands/VRChatRootCmd.h"
 #include "misc/print.h"
 #include "misc/TimerManager.h"
 #include "osclib/sock.h"
@@ -64,8 +65,7 @@ VRChat::VRChat(Client& client) : ::Bot(client)
 		print_osc_value(addr, value);
 	};
 
-	auto commandRoot = std::make_shared<VRChatRoot>("vrchat");
-
+	auto commandRoot = std::make_shared<VRChatRootCmd>(this, "vrchat");
 	myCommands.push_back(commandRoot);
 
 	myOSCRx.SetListener(&myOSCListener);
@@ -90,6 +90,9 @@ void VRChat::Update(sf::Time dt)
 
 void VRChat::Draw(sf::RenderTarget& target)
 {
+	ImGui::Begin("Twitch");
+
+	ImGui::End();
 }
 
 void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
@@ -101,7 +104,7 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 	{
 		if (myCommands[i]->IsCommand(first))
 		{
-			if (myCommands[i]->HandleCommand(myClient, priv))
+			if (myCommands[i]->HandleCommand(myClient, priv, second))
 			{
 				return;
 			}
@@ -113,38 +116,8 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 	{
 		const auto [commandType, commandData] = SplitCommand(second);
 
-		if (commandType == "bool")
-		{
-			if(!IsAppRunning(priv)) return;
-
-			const auto [toggleName, toggleValue] = SplitCommand(commandData);
-
-			std::string parameterString = GetFullParameterName(priv.Channel, toggleName, OSCType::Bool);
-
-			if(parameterString == "INVALID")
-			{
-				SendPRIVMSG(priv.Channel, "That Parameter is not a bool");
-			}
-			else if (!parameterString.empty())
-			{
-				if(toggleValue == "0" || toggleValue == "1" || toggleValue == "true" || toggleValue == "false")
-				{
-					if(toggleValue == "0" || toggleValue == "false")
-					{
-						myOSCTransmitter.SendBool(parameterString, false);
-					}
-					else
-					{
-						myOSCTransmitter.SendBool(parameterString, true);
-					}
-				}
-				else
-				{
-					SendPRIVMSG(priv.Channel, "Something is wrong, The valid values is: 0, false, 1 and true");
-				}
-			}
-		}
-		else if(commandType == "float")
+		
+		if(commandType == "float")
 		{
 			if(!IsAppRunning(priv)) return;
 
@@ -474,6 +447,16 @@ std::string VRChat::GetFullParameterName(const std::string& aChannel, const std:
 		}
 	}
 	return "INVALID";
+}
+
+osc::Transmitter& VRChat::GetTransmitter()
+{
+	return myOSCTransmitter;
+}
+
+osc::Receiver& VRChat::GetReceiver()
+{
+	return myOSCRx;
 }
 
 bool VRChat::IsAppRunning(const PRIVMSG& priv)

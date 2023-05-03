@@ -252,7 +252,10 @@
     <ClCompile Include="src\bot\Command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRoot.cpp">
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -719,7 +722,10 @@
     <ClInclude Include="src\bot\Command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRoot.h">
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

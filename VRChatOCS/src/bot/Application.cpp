@@ -204,15 +204,10 @@ void Application::Render()
 	myWindow.clear(sf::Color::Transparent);
 
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
+	ImGui::SFML::SetCurrentWindow(myWindow);
 
 	for(const auto& bot : m_bots)
 		bot->Draw(myWindow);
-
-
-	ImGui::SFML::SetCurrentWindow(myWindow);
-	ImGui::Begin("Test");
-	ImGui::Button("Example button");
-	ImGui::End();
 
 
 	ImGui::SFML::Render(myWindow);

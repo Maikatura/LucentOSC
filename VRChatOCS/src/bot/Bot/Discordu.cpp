@@ -11,8 +11,8 @@
 
 Discord::Discord(Client& client) : Bot(client)
 {
-	myConnection = ConnectionStatus::Unknown;
-	Start();
+	myConnection = ConnectionStatus::Disconnected;
+	//Start();
 }
 
 Discord::~Discord()
@@ -55,15 +55,9 @@ void Discord::Draw(sf::RenderTarget& target)
 			ImGui::Text("Disconnected");
 			break;
 		case ConnectionStatus::Count:
-
 			ImGui::Text("?????");
 			break;
-		default: ;
 	}
-
-	ImGui::Text("This is the discord window");
-
-	ImGui::Text("LOL");
 
 	ImGui::End();
 }

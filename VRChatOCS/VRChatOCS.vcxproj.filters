@@ -779,6 +779,12 @@
     <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\bot\Settings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\FileChecker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\curl\src\Makefile.inc">

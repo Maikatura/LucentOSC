@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <dwmapi.h>
 
+#include "FileChecker.hpp"
 #include "imgui-SFML.h"
 
 
@@ -24,6 +25,12 @@
 
 Client nullClient;
 
+inline bool ExistsTest(const std::string& name)
+{
+	std::ifstream f(name.c_str());
+	return f.good();
+}
+
 Application::Application() : m_client(nullClient)
 {
 
@@ -32,15 +39,12 @@ Application::Application() : m_client(nullClient)
 Application::Application(Client& client)
 	: m_client(client)
 {
-	std::ifstream ifsSettings("data/user/settings.json");
-	json settings = json::parse(ifsSettings);
 
-	if (settings.contains("Headless"))
-	{
-		myIsHeadless = settings["Headless"].get<bool>();
-	}
+	std::string settingsPath = "data/user/settings.json";
 
-	if (!myIsHeadless)
+	mySettings = FileChecker::LoadFile<Settings>(settingsPath);
+
+	if (!mySettings.Headless)
 	{
 		sf::VideoMode mode = sf::VideoMode::getDesktopMode();
 		sf::Vector2i windowPos;
@@ -208,7 +212,7 @@ bool Application::Run()
 
 	while (myIsRunning)
 	{
-		if (!myIsHeadless)
+		if (!mySettings.Headless)
 		{
 			sf::Event event;
 			while(myWindow.pollEvent(event))
@@ -226,7 +230,7 @@ bool Application::Run()
 		const sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
 
-		if(!myIsHeadless)
+		if(!mySettings.Headless)
 		{
 			ImGui::SFML::Update(myWindow, dt);
 		}
@@ -316,7 +320,7 @@ void Application::Update(sf::Time dt)
 
 void Application::Render()
 {
-	if (myIsHeadless)
+	if (mySettings.Headless)
 	{
 		return;
 	}

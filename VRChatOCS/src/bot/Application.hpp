@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "Settings.hpp"
+
 class Application
 {
 public:
@@ -24,8 +26,8 @@ private:
 	void HandlePRIVMSG(const PRIVMSG& priv);
 
 private:
+	Settings mySettings;
 	Client& m_client;
-	bool myIsHeadless = false;
 	bool myIsRunning = true;
 	sf::RenderWindow myWindow;
 	std::vector<Bot::Ptr> m_bots;

@@ -251,6 +251,8 @@
     <ClCompile Include="src\VRCBotTV.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\bot\FileChecker.hpp" />
+    <ClInclude Include="src\bot\Settings.hpp" />
     <ClInclude Include="src\bot\Application.hpp" />
     <ClInclude Include="src\bot\Bot.hpp" />
     <ClInclude Include="src\bot\Bot\Twitch\Chattu.h" />

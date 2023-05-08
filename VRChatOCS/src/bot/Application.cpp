@@ -42,7 +42,7 @@ Application::Application(Client& client)
 
 	std::string settingsPath = "data/user/settings.json";
 
-	mySettings = FileChecker::LoadFile<Settings>(settingsPath);
+	FileChecker::LoadFile<Settings>(settingsPath, mySettings);
 
 	if (!mySettings.Headless)
 	{

@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "Command.h"
+#include "Bot/Discord/Base/CommandBase.h"
 
 class Client;
 struct PRIVMSG;
@@ -33,6 +34,7 @@ protected:
 	void SendPRIVMSG(const std::string& aChannel, const std::string& msg);
 
 	std::vector<std::shared_ptr<Command>> myCommands;
+	std::vector<std::shared_ptr<CommandBase>> myDiscordCommands;
 
 	Client& myClient;
 private:

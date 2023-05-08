@@ -167,6 +167,11 @@
   <ItemGroup>
     <ClCompile Include="src\bot\Application.cpp" />
     <ClCompile Include="src\bot\Bot.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Fun\Pet.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Music\Join.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Utility\Ping.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\VRChat\VRChatCmd.cpp" />
     <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp" />
     <ClCompile Include="src\bot\Bot\Discord\Discord.cpp" />
     <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
@@ -251,6 +256,13 @@
     <ClCompile Include="src\VRCBotTV.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h" />
+    <ClInclude Include="src\bot\Bot\Discord\CommandHeader.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Fun\Pet.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Music\Join.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Utility\Ping.h" />
+    <ClInclude Include="src\bot\Bot\Discord\VRChat\VRChatCmd.h" />
+    <ClInclude Include="src\bot\DiscordSettings.h" />
     <ClInclude Include="src\bot\FileChecker.hpp" />
     <ClInclude Include="src\bot\Settings.hpp" />
     <ClInclude Include="src\bot\Application.hpp" />

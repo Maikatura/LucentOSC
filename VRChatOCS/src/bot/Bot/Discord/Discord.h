@@ -2,6 +2,8 @@
 #include "bot/Bot.hpp"
 #include <dpp/dpp.h>
 
+#include "bot/DiscordSettings.h"
+
 
 class Discord : public Bot
 {
@@ -29,7 +31,9 @@ private:
 	void Stop();
 	bool IsAppRunning(const std::wstring& aApplication);
 
-	std::string myBotToken;
 	dpp::cluster* myCluster;
+	dpp::commandhandler* myCommandHandler;
+
+	DiscordSettings mySettings;
 	ConnectionStatus myConnection;
 };

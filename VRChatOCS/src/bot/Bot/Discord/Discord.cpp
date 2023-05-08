@@ -6,7 +6,13 @@
 #include <json/json.hpp>
 
 #include "bot/Client.hpp"
+#include "bot/FileChecker.hpp"
+#include "Fun/Pet.h"
 #include "misc/print.h"
+#include "Music/Join.h"
+#include "Utility/Ping.h"
+#include "VRChat/VRChatCmd.h"
+#include <iomanip>
 
 
 Discord::Discord(Client& client) : Bot(client)
@@ -73,19 +79,62 @@ void Discord::Start()
 		return;
 	}
 
-	std::ifstream ifsToken("data/user/discord.json");
-	json parsedData = json::parse(ifsToken);
 
-	if(!parsedData.contains("token"))
+	FileChecker::LoadFile<DiscordSettings>("data/user/discord.json", mySettings);
+
+	if(mySettings.Token.empty())
 	{
 		return;
 	}
 
-	myBotToken = parsedData["token"].get<std::string>();
-	myCluster = new dpp::cluster(myBotToken, dpp::i_default_intents | dpp::i_message_content);
 
-
+	myCluster = new dpp::cluster(mySettings.Token, dpp::i_default_intents | dpp::i_message_content);
 	myCluster->on_log(dpp::utility::cout_logger());
+
+	myCommandHandler = new dpp::commandhandler(myCluster);
+	myCommandHandler->add_prefix(mySettings.Prefix).add_prefix("/");
+
+
+	myCluster->on_ready([&](const dpp::ready_t& event)
+	{
+		myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
+		myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
+		myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
+		myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));
+
+		/* NOTE: We must call this to ensure slash commands are registered.
+		 * This does a bulk register, which will replace other commands
+		 * that are registered already!
+		 */
+		myCommandHandler->register_commands();
+
+	});
+
+
+
+
+	/* Use the on_message_create event to look for commands */
+	myCluster->on_message_create([&](const dpp::message_create_t& event)
+	{
+		std::stringstream ss(event.msg.content);
+		std::string command;
+		ss >> command;
+
+		for (int i = 0; i < myDiscordCommands.size(); i++)
+		{
+			if (myDiscordCommands[i]->GetName() == command)
+			{
+			}
+		}
+		if(command == ".join")
+		{
+			dpp::guild* g = dpp::find_guild(event.msg.guild_id);
+			if(!g->connect_member_voice(event.msg.author.id))
+			{
+				myCluster->message_create(dpp::message(event.msg.channel_id, "You don't seem to be on a voice channel! :("));
+			}
+		}
+	});
 
 	myCluster->on_slashcommand([&](const dpp::slashcommand_t& event)
 	{
@@ -109,17 +158,6 @@ void Discord::Start()
 
 	myCluster->on_ready([&](const dpp::ready_t& event)
 	{
-		if(dpp::run_once<struct register_bot_commands>())
-		{
-			myCluster->global_command_create(
-				dpp::slashcommand("ping", "Ping pong!", myCluster->me.id)
-			);
-
-			myCluster->global_command_create(
-				dpp::slashcommand("vrchat", "Check if vrchat is running on host", myCluster->me.id)
-			);
-		}
-
 		myConnection = ConnectionStatus::Connected;
 	});
 

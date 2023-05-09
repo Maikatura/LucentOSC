@@ -13,6 +13,9 @@ public:
 		return myName;
 	}
 
+	virtual void Run(const dpp::slashcommand_t& aEvent)
+	{ };
+
 protected:
 	dpp::cluster* myCluster;
 	std::string myName;

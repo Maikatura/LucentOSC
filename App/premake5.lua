@@ -1,6 +1,6 @@
 project "App"
 location "."
-kind "WindowedApp"
+kind "ConsoleApp"
 language "C++"
 cppdialect "C++17"
 staticruntime "Off"

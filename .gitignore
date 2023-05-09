@@ -35,3 +35,10 @@ bin/data/user/twitch.json
 *.pdb
 **/temp
 !Premake/premake5.exe
+
+bin/dpp.dll
+bin/libcrypto-1_1-x64.dll
+bin/libsodium.dll
+bin/libssl-1_1-x64.dll
+bin/opus.dll
+bin/zlib1.dll

@@ -97,26 +97,46 @@ void Discord::Start()
 
 	myCluster->on_ready([&](const dpp::ready_t& event)
 	{
-		myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
+	/*	myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
 		myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
 		myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
-		myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));
+		myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));*/
 
-		/* NOTE: We must call this to ensure slash commands are registered.
-		 * This does a bulk register, which will replace other commands
-		 * that are registered already!
-		 */
-		myCommandHandler->register_commands();
+		///* NOTE: We must call this to ensure slash commands are registered.
+		// * This does a bulk register, which will replace other commands
+		// * that are registered already!
+		// */
+		//myCommandHandler->register_commands();
 
+
+		if(dpp::run_once<struct register_bot_commands>())
+		{
+			myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
+			myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
+			myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
+			myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));
+		}
 	});
 
+	
+	myCluster->on_slashcommand([&](const dpp::slashcommand_t& event)
+	{
 
+		for (int i = 0; i < myDiscordCommands.size(); i++)
+		{
+			if (event.command.get_command_name() == myDiscordCommands[i]->GetName())
+			{
+				myDiscordCommands[i]->Run(event);
+				return;
+			}
+		}
+	});
 
 
 	/* Use the on_message_create event to look for commands */
 	myCluster->on_message_create([&](const dpp::message_create_t& event)
 	{
-		std::stringstream ss(event.msg.content);
+		/*std::stringstream ss(event.msg.content);
 		std::string command;
 		ss >> command;
 
@@ -125,35 +145,7 @@ void Discord::Start()
 			if (myDiscordCommands[i]->GetName() == command)
 			{
 			}
-		}
-		if(command == ".join")
-		{
-			dpp::guild* g = dpp::find_guild(event.msg.guild_id);
-			if(!g->connect_member_voice(event.msg.author.id))
-			{
-				myCluster->message_create(dpp::message(event.msg.channel_id, "You don't seem to be on a voice channel! :("));
-			}
-		}
-	});
-
-	myCluster->on_slashcommand([&](const dpp::slashcommand_t& event)
-	{
-		if(event.command.get_command_name() == "ping")
-		{
-			event.reply("Pong!");
-		}
-
-		if(event.command.get_command_name() == "vrchat")
-		{
-			if(IsAppRunning(L"VRChat"))
-			{
-				event.reply("VRChat is running!");
-			}
-			else
-			{
-				event.reply("VRChat is not running!");
-			}
-		}
+		}*/
 	});
 
 	myCluster->on_ready([&](const dpp::ready_t& event)

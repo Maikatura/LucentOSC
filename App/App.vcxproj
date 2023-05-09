@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{46D6870B-B2DF-877C-3B5B-9E7CA763937C}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>App</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\Bin\</OutDir>
+    <IntDir>..\Temp\Intermediate\App\Debug\</IntDir>
+    <TargetName>App_Debug</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\Bin\</OutDir>
+    <IntDir>..\Temp\Intermediate\App\Release\</IntDir>
+    <TargetName>App_Release</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>26812;26451;2220;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WINSOCKAPI_;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266;BUILDING_LIBCURL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;..\External\ImGui\src;..\External\SFML\include;..\External\dpp\include\dpp-10.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib;..\External\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>-ignore:4006 -ignore:4099 -ignore:4324 -ignore:4251 -ignore:4275 -ignore:4355 -ignore:4505 -ignore:4244 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>26812;26451;2220;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WINSOCKAPI_;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266;BUILDING_LIBCURL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;..\External\ImGui\src;..\External\SFML\include;..\External\dpp\include\dpp-10.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib;..\External\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>-ignore:4006 -ignore:4099 -ignore:4324 -ignore:4251 -ignore:4275 -ignore:4355 -ignore:4505 -ignore:4244 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bot\Application.hpp" />
+    <ClInclude Include="src\bot\Bot.hpp" />
+    <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h" />
+    <ClInclude Include="src\bot\Bot\Discord\CommandHeader.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Discord.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Fun\Pet.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Music\Join.h" />
+    <ClInclude Include="src\bot\Bot\Discord\Utility\Ping.h" />
+    <ClInclude Include="src\bot\Bot\Discord\VRChat\VRChatCmd.h" />
+    <ClInclude Include="src\bot\Bot\Jukebox.hpp" />
+    <ClInclude Include="src\bot\Bot\Kick\Downloader.h" />
+    <ClInclude Include="src\bot\Bot\Kick\Kick.h" />
+    <ClInclude Include="src\bot\Bot\Twitch\Chattu.h" />
+    <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\VRChat.h" />
+    <ClInclude Include="src\bot\Client.hpp" />
+    <ClInclude Include="src\bot\Command.h" />
+    <ClInclude Include="src\bot\DiscordSettings.h" />
+    <ClInclude Include="src\bot\FileChecker.hpp" />
+    <ClInclude Include="src\bot\Settings.hpp" />
+    <ClInclude Include="src\bot\Utility.hpp" />
+    <ClInclude Include="src\json\json.hpp" />
+    <ClInclude Include="src\misc\TimerClock.h" />
+    <ClInclude Include="src\misc\TimerHandle.h" />
+    <ClInclude Include="src\misc\TimerManager.h" />
+    <ClInclude Include="src\misc\print.h" />
+    <ClInclude Include="src\osclib\MessageMappingOscPacketListener.h" />
+    <ClInclude Include="src\osclib\OSCData.h" />
+    <ClInclude Include="src\osclib\OscException.h" />
+    <ClInclude Include="src\osclib\OscHostEndianness.h" />
+    <ClInclude Include="src\osclib\OscOutboundPacketStream.h" />
+    <ClInclude Include="src\osclib\OscPacketListener.h" />
+    <ClInclude Include="src\osclib\OscPrintReceivedElements.h" />
+    <ClInclude Include="src\osclib\OscReceivedElements.h" />
+    <ClInclude Include="src\osclib\OscTypes.h" />
+    <ClInclude Include="src\osclib\osc.h" />
+    <ClInclude Include="src\osclib\sock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\LucentOSC.cpp" />
+    <ClCompile Include="src\bot\Application.cpp" />
+    <ClCompile Include="src\bot\Bot.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Discord.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Fun\Pet.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Music\Join.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\Utility\Ping.cpp" />
+    <ClCompile Include="src\bot\Bot\Discord\VRChat\VRChatCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\Jukebox.cpp" />
+    <ClCompile Include="src\bot\Bot\Kick\Downloader.cpp" />
+    <ClCompile Include="src\bot\Bot\Kick\Kick.cpp" />
+    <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp" />
+    <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
+    <ClCompile Include="src\bot\Client.cpp" />
+    <ClCompile Include="src\bot\Command.cpp" />
+    <ClCompile Include="src\bot\Utility.cpp" />
+    <ClCompile Include="src\misc\TimerClock.cpp" />
+    <ClCompile Include="src\misc\TimerManager.cpp" />
+    <ClCompile Include="src\misc\print.cpp" />
+    <ClCompile Include="src\osclib\OSCData.cpp" />
+    <ClCompile Include="src\osclib\OscOutboundPacketStream.cpp" />
+    <ClCompile Include="src\osclib\OscPrintReceivedElements.cpp" />
+    <ClCompile Include="src\osclib\OscReceivedElements.cpp" />
+    <ClCompile Include="src\osclib\OscTypes.cpp" />
+    <ClCompile Include="src\osclib\osc.cpp" />
+    <ClCompile Include="src\osclib\sock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\dpp\DPP.vcxproj">
+      <Project>{C9DE870B-35E8-877C-BE63-9E7C2A6C937C}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="nlohmann">
+      <UniqueIdentifier>{E0661284-CC33-6D8F-F54C-5B37E178A21D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\dpp-10.0\dpp\appcommand.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\application.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\auditlog.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\automod.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\ban.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\cache.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\channel.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\cluster.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\cluster_coro_calls.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\cluster_sync_calls.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\collector.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\colors.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\commandhandler.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\coro.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\discordclient.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\discordevents.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\discordvoiceclient.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\dispatcher.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\dns.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\dpp.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\dtemplate.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\emoji.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\etf.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\event.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\event_router.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\exception.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\export.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\guild.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\httpsclient.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\integration.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\intents.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\invite.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\json.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\json_fwd.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\json_interface.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\managed.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\message.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\misc-enum.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\nlohmann\json.hpp">
+      <Filter>nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dpp-10.0\dpp\nlohmann\json_fwd.hpp">
+      <Filter>nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dpp-10.0\dpp\once.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\permissions.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\presence.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\prune.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\queues.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\restrequest.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\restresults.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\role.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\scheduled_event.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\snowflake.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\socket.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\sslclient.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\stage_instance.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\stringops.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\sync.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\sysdep.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\timed_listener.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\timer.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\user.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\utility.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\version.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\voiceregion.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\voicestate.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\webhook.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\win32_safe_warnings.h" />
+    <ClInclude Include="include\dpp-10.0\dpp\wsclient.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\dpp-10.0\dpp\main.cpp" />
+  </ItemGroup>
+</Project>

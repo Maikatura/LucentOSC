@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="bot">
+      <UniqueIdentifier>{8A62880B-F66B-887C-7FE7-9E7CEBEF937C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot">
+      <UniqueIdentifier>{DE84C586-4A64-4422-537C-CFF8BFDAAA83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Discord">
+      <UniqueIdentifier>{3598C879-A123-363E-AA34-B932163F923E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Discord\Base">
+      <UniqueIdentifier>{DF5D01E6-CBEC-8AAF-740B-9FAA60799B55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Discord\Fun">
+      <UniqueIdentifier>{CDA92EE0-390B-0CEE-C278-52A02ED942AD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Discord\Music">
+      <UniqueIdentifier>{C51FFFA6-318C-BAA1-FA7F-52FF66ABDC09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Discord\Utility">
+      <UniqueIdentifier>{78BB0FC8-E4F2-575F-EDFC-BB8259B37E58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Discord\VRChat">
+      <UniqueIdentifier>{2CD64D99-18D0-76EB-013D-0DFCEDD5DC57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Kick">
+      <UniqueIdentifier>{8FAB2E7C-7B0E-BE20-2494-F6D610D689A3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Twitch">
+      <UniqueIdentifier>{C00D8758-ACDB-7A5E-956F-EB8481DC56C3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\Twitch\Commands">
+      <UniqueIdentifier>{01217410-6D58-BCA7-7662-20CBE218E3A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\VRChat">
+      <UniqueIdentifier>{B5CA7E5A-A198-7260-8A2C-E38676994EC5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\VRChat\Commands">
+      <UniqueIdentifier>{9641FCD8-0279-4470-0B83-A89377396B69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json">
+      <UniqueIdentifier>{9F27997C-8B5E-9A0D-344B-80102061160F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{B1A29A7C-9DD9-9B0D-46C6-811032DC170F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="osclib">
+      <UniqueIdentifier>{61C72413-4D69-4FE9-3624-633D2265D639}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bot\Application.hpp">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot.hpp">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h">
+      <Filter>bot\Bot\Discord\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\CommandHeader.h">
+      <Filter>bot\Bot\Discord</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\Discord.h">
+      <Filter>bot\Bot\Discord</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\Fun\Pet.h">
+      <Filter>bot\Bot\Discord\Fun</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\Music\Join.h">
+      <Filter>bot\Bot\Discord\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\Utility\Ping.h">
+      <Filter>bot\Bot\Discord\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Discord\VRChat\VRChatCmd.h">
+      <Filter>bot\Bot\Discord\VRChat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Jukebox.hpp">
+      <Filter>bot\Bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Kick\Downloader.h">
+      <Filter>bot\Bot\Kick</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Kick\Kick.h">
+      <Filter>bot\Bot\Kick</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Twitch\Chattu.h">
+      <Filter>bot\Bot\Twitch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h">
+      <Filter>bot\Bot\Twitch\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h">
+      <Filter>bot\Bot\VRChat\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h">
+      <Filter>bot\Bot\VRChat\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\VRChat.h">
+      <Filter>bot\Bot\VRChat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Client.hpp">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Command.h">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\DiscordSettings.h">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\FileChecker.hpp">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Settings.hpp">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Utility.hpp">
+      <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json\json.hpp">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc\TimerClock.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc\TimerHandle.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc\TimerManager.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc\print.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\MessageMappingOscPacketListener.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OSCData.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscException.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscHostEndianness.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscOutboundPacketStream.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscPacketListener.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscPrintReceivedElements.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscReceivedElements.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\OscTypes.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\osc.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\osclib\sock.h">
+      <Filter>osclib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\LucentOSC.cpp" />
+    <ClCompile Include="src\bot\Application.cpp">
+      <Filter>bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot.cpp">
+      <Filter>bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp">
+      <Filter>bot\Bot\Discord\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Discord\Discord.cpp">
+      <Filter>bot\Bot\Discord</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Discord\Fun\Pet.cpp">
+      <Filter>bot\Bot\Discord\Fun</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Discord\Music\Join.cpp">
+      <Filter>bot\Bot\Discord\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Discord\Utility\Ping.cpp">
+      <Filter>bot\Bot\Discord\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Discord\VRChat\VRChatCmd.cpp">
+      <Filter>bot\Bot\Discord\VRChat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Jukebox.cpp">
+      <Filter>bot\Bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Kick\Downloader.cpp">
+      <Filter>bot\Bot\Kick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Kick\Kick.cpp">
+      <Filter>bot\Bot\Kick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp">
+      <Filter>bot\Bot\Twitch</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp">
+      <Filter>bot\Bot\Twitch\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp">
+      <Filter>bot\Bot\VRChat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Client.cpp">
+      <Filter>bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Command.cpp">
+      <Filter>bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Utility.cpp">
+      <Filter>bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\TimerClock.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\TimerManager.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\print.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\OSCData.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\OscOutboundPacketStream.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\OscPrintReceivedElements.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\OscReceivedElements.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\OscTypes.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\osc.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osclib\sock.cpp">
+      <Filter>osclib</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -34,3 +34,4 @@ bin/data/user/twitch.json
 **/.vs
 *.pdb
 **/temp
+!Premake/premake5.exe

@@ -15,3 +15,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Application"
 include "App"
+
+group "External"
+include "External/dpp"
+include "External/imgui"

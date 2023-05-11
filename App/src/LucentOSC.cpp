@@ -12,11 +12,13 @@
 #include "bot/Application.hpp"
 #include "misc/TimerManager.h"
 #include <dpp/dpp.h>
+#include <tchar.h>
 
 
 std::string endpoint = "maikatura";
 
 bool interrupted = false;
+
 
 void onSIGINT(int)
 {
@@ -65,3 +67,4 @@ int main()
 
 	client.disconnect();
 }
+

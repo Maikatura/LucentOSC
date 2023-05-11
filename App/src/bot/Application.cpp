@@ -8,18 +8,23 @@
 #include <dwmapi.h>
 
 #include "FileChecker.hpp"
-#include "imgui-SFML.h"
+
 
 
 #include "misc/TimerManager.h"
 
 #include "imgui.h"
-#include "imgui-SFML.h"
-
 #include "Bot/Kick/Kick.h"
 #include "Bot/VRChat/VRChat.h"
 #include "Bot/Twitch/Chattu.h"
 #include "Bot/Discord/Discord.h"
+
+#include <shellapi.h>
+
+#include "Framework/DX11.h"
+
+#include <backends/imgui_impl_dx11.h>
+#include <backends/imgui_impl_win32.h>
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -30,6 +35,10 @@ inline bool ExistsTest(const std::string& name)
 	std::ifstream f(name.c_str());
 	return f.good();
 }
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+
 
 Application::Application() : m_client(nullClient)
 {
@@ -44,154 +53,56 @@ Application::Application(Client& client)
 
 	FileChecker::LoadFile<Settings>(settingsPath, mySettings);
 
-	if (!mySettings.Headless)
+
+
+	// Initialize our window:
+	WNDCLASS windowClass = {};
+	windowClass.style = CS_VREDRAW | CS_HREDRAW | CS_OWNDC;
+	windowClass.lpfnWndProc = Application::WinProc;
+	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	windowClass.lpszClassName = L"OSC";
+	RegisterClass(&windowClass);
+
+	myWindowHandle = CreateWindow(
+		L"OSC",
+		L"LucentOSC",
+		WS_OVERLAPPEDWINDOW | WS_POPUP | WS_VISIBLE,
+		0,
+		0,
+		1280,
+		720,
+		nullptr, nullptr, nullptr,
+		this
+	);
+
+	if (!DX11::Init(myWindowHandle, false))
 	{
-		sf::VideoMode mode = sf::VideoMode::getDesktopMode();
-		sf::Vector2i windowPos;
-
-		if(HWND taskbar = FindWindow(L"Shell_TrayWnd", nullptr))
-		{
-			RECT rect;
-			GetWindowRect(taskbar, &rect);
-
-			const int width = rect.right - rect.left;
-			const int height = rect.bottom - rect.top;
-
-			if(width > height)
-			{
-				mode.height -= height;
-
-				if(rect.top == 0)
-				{
-					windowPos.y = rect.bottom;
-				}
-			}
-			else
-			{
-				mode.width -= width;
-
-				if(rect.left == 0)
-				{
-					windowPos.x = rect.right;
-				}
-			}
-		}
-
-
-		// Should Remove this
-		mode.width = 1280;
-		mode.height = 720;
-
-		myWindow.create(mode, "VRCBotTV", sf::Style::Default);
-		//myWindow.setPosition(windowPos);
-		myWindow.setFramerateLimit(60);
-		ImGui::SFML::Init(myWindow);
-
-
-		ImGuiIO& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
-		/*io.Fonts->Clear();
-		io.Fonts->AddFontFromFileTTF("data/fonts/OpenSans-Light.ttf", 16);
-		io.Fonts->AddFontFromFileTTF("data/fonts/OpenSans-Regular.ttf", 16);
-		io.Fonts->AddFontFromFileTTF("data/fonts/OpenSans-Light.ttf", 32);
-		io.Fonts->AddFontFromFileTTF("data/fonts/OpenSans-Regular.ttf", 11);
-		io.Fonts->AddFontFromFileTTF("data/fonts/OpenSans-Bold.ttf", 11);
-		io.Fonts->Build();*/
-
-		ImGui::SFML::UpdateFontTexture();
-
-		// Rounded Visual Studio style by RedNicStone from ImThemes
-		ImGuiStyle& style = ImGui::GetStyle();
-
-		style.Alpha = 1.0f;
-		style.DisabledAlpha = 0.6000000238418579f;
-		style.WindowPadding = ImVec2(8.0f, 8.0f);
-		style.WindowRounding = 4.0f;
-		style.WindowBorderSize = 0.0f;
-		style.WindowMinSize = ImVec2(32.0f, 32.0f);
-		style.WindowTitleAlign = ImVec2(0.0f, 0.5f);
-		style.WindowMenuButtonPosition = ImGuiDir_Left;
-		style.ChildRounding = 0.0f;
-		style.ChildBorderSize = 1.0f;
-		style.PopupRounding = 4.0f;
-		style.PopupBorderSize = 1.0f;
-		style.FramePadding = ImVec2(4.0f, 3.0f);
-		style.FrameRounding = 2.5f;
-		style.FrameBorderSize = 0.0f;
-		style.ItemSpacing = ImVec2(8.0f, 4.0f);
-		style.ItemInnerSpacing = ImVec2(4.0f, 4.0f);
-		style.CellPadding = ImVec2(4.0f, 2.0f);
-		style.IndentSpacing = 21.0f;
-		style.ColumnsMinSpacing = 6.0f;
-		style.ScrollbarSize = 11.0f;
-		style.ScrollbarRounding = 2.5f;
-		style.GrabMinSize = 10.0f;
-		style.GrabRounding = 2.0f;
-		style.TabRounding = 3.5f;
-		style.TabBorderSize = 0.0f;
-		style.TabMinWidthForCloseButton = 0.0f;
-		style.ColorButtonPosition = ImGuiDir_Right;
-		style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
-		style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
-
-		style.Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-		style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5921568870544434f, 0.5921568870544434f, 0.5921568870544434f, 1.0f);
-		style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_ChildBg] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_PopupBg] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_Border] = ImVec4(0.3058823645114899f, 0.3058823645114899f, 0.3058823645114899f, 1.0f);
-		style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.3058823645114899f, 0.3058823645114899f, 0.3058823645114899f, 1.0f);
-		style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2000000029802322f, 0.2000000029802322f, 0.2156862765550613f, 1.0f);
-		style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_TitleBg] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.2000000029802322f, 0.2000000029802322f, 0.2156862765550613f, 1.0f);
-		style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.2000000029802322f, 0.2000000029802322f, 0.2156862765550613f, 1.0f);
-		style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.321568638086319f, 0.321568638086319f, 0.3333333432674408f, 1.0f);
-		style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.3529411852359772f, 0.3529411852359772f, 0.3725490272045135f, 1.0f);
-		style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.3529411852359772f, 0.3529411852359772f, 0.3725490272045135f, 1.0f);
-		style.Colors[ImGuiCol_CheckMark] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_Button] = ImVec4(0.2000000029802322f, 0.2000000029802322f, 0.2156862765550613f, 1.0f);
-		style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_Header] = ImVec4(0.2000000029802322f, 0.2000000029802322f, 0.2156862765550613f, 1.0f);
-		style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_Separator] = ImVec4(0.3058823645114899f, 0.3058823645114899f, 0.3058823645114899f, 1.0f);
-		style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.3058823645114899f, 0.3058823645114899f, 0.3058823645114899f, 1.0f);
-		style.Colors[ImGuiCol_SeparatorActive] = ImVec4(0.3058823645114899f, 0.3058823645114899f, 0.3058823645114899f, 1.0f);
-		style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.2000000029802322f, 0.2000000029802322f, 0.2156862765550613f, 1.0f);
-		style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.321568638086319f, 0.321568638086319f, 0.3333333432674408f, 1.0f);
-		style.Colors[ImGuiCol_Tab] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_TabHovered] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_TabActive] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_PlotLines] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.1137254908680916f, 0.5921568870544434f, 0.9254902005195618f, 1.0f);
-		style.Colors[ImGuiCol_TableHeaderBg] = ImVec4(0.1882352977991104f, 0.1882352977991104f, 0.2000000029802322f, 1.0f);
-		style.Colors[ImGuiCol_TableBorderStrong] = ImVec4(0.3098039329051971f, 0.3098039329051971f, 0.3490196168422699f, 1.0f);
-		style.Colors[ImGuiCol_TableBorderLight] = ImVec4(0.2274509817361832f, 0.2274509817361832f, 0.2470588237047195f, 1.0f);
-		style.Colors[ImGuiCol_TableRowBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
-		style.Colors[ImGuiCol_TableRowBgAlt] = ImVec4(1.0f, 1.0f, 1.0f, 0.05999999865889549f);
-		style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.0f, 0.4666666686534882f, 0.7843137383460999f, 1.0f);
-		style.Colors[ImGuiCol_DragDropTarget] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_NavHighlight] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
-		style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.0f, 1.0f, 1.0f, 0.699999988079071f);
-		style.Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.2000000029802322f);
-		style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.1450980454683304f, 0.1450980454683304f, 0.1490196138620377f, 1.0f);
+		std::cout << "Failed to create DX11 Stuff" << std::endl;
 	}
-	
 
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	//ImGui::StyleColorsDark();
+
+	ImGui_ImplWin32_Init(myWindowHandle);
+	ImGui_ImplDX11_Init(DX11::Device.Get(), DX11::Context.Get());
+
+	// Setup Dear ImGui context
+	
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+	//io.ConfigViewportsNoAutoMerge = true;
+	//io.ConfigViewportsNoTaskBarIcon = true;
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	
 
 	m_bots.emplace_back(std::make_unique<VRChat>(m_client));
 	m_bots.emplace_back(std::make_unique<Chattu>(m_client));
@@ -205,46 +116,144 @@ Application::Application(const Application& aApplication) : Application(aApplica
 
 bool Application::Run()
 {
-	const sf::Time timePerFrame = sf::seconds(1.f / 60.0f);
+	
+	MSG msg = { 0 };
 
-	sf::Clock clock;
-	sf::Time timeSinceLastUpdate;
-
-	while (myIsRunning)
+	// Main loop
+	while(myIsRunning)
 	{
-		if (!mySettings.Headless)
+
+		// Poll and handle events (inputs, window resize, etc.)
+		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
+		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
+		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+
+		while(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
-			sf::Event event;
-			while(myWindow.pollEvent(event))
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+
+			if(msg.message == WM_QUIT)
 			{
-				ImGui::SFML::ProcessEvent(myWindow, event);
-				if(event.type == sf::Event::Closed)
-				{
-					myWindow.close();
-					ImGui::SFML::Shutdown(); // will shutdown all windows
-					return 0; // return here so that we don't call Update/Render
-				}
+
+				myIsRunning = false;
 			}
 		}
 
-		const sf::Time dt = clock.restart();
-		timeSinceLastUpdate += dt;
-
-		if(!mySettings.Headless)
+		if(!myIsRunning)
 		{
-			ImGui::SFML::Update(myWindow, dt);
+			break;
 		}
 
-		if (timeSinceLastUpdate >= timePerFrame)
-		{
-			timeSinceLastUpdate -= timePerFrame;
+		/*for(auto& layer : myLayerStack)
+			layer->OnUpdate(myTimeStep);*/
 
+	
+		if(!myIsMinimized)
+		{
+
+			// Start the Dear ImGui frame
+			ImGui_ImplWin32_NewFrame();
+			ImGui_ImplDX11_NewFrame();
+			ImGui::NewFrame();
+
+			if(myWantToResizeBuffers)
+			{
+				if(DX11::SwapChain)
+				{
+					DX11::Resize();
+				}
+				myWantToResizeBuffers = false;
+			}
+
+
+
+			std::array<float, 4> clear_color[4] = { 0.0f, 0.0f,0.0f,1.0f };
+
+			DX11::BeginFrame(clear_color[0]);
+
+			Update();
 			ProcessInput();
-			Update(timePerFrame);
-			TimerManager::Update();
-		}
 
-		Render();
+			{
+				static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+				// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+				// because it would be confusing to have two docking targets within each others.
+				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
+				
+
+				const ImGuiViewport* viewport = ImGui::GetMainViewport();
+				ImGui::SetNextWindowPos(viewport->WorkPos);
+				ImGui::SetNextWindowSize(viewport->WorkSize);
+				ImGui::SetNextWindowViewport(viewport->ID);
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+				window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+				window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+				// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
+				// and handle the pass-thru hole, so we ask Begin() to not render a background.
+				if(dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+					window_flags |= ImGuiWindowFlags_NoBackground;
+
+				// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
+				// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
+				// all active windows docked into it will lose their parent and become undocked.
+				// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
+				// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+				ImGui::Begin("DockSpace Demo", nullptr, window_flags);
+				ImGui::PopStyleVar();
+
+				ImGui::PopStyleVar(2);
+
+				// Submit the DockSpace
+				ImGuiIO& io = ImGui::GetIO();
+				if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+				{
+					ImGuiID dockspace_id = ImGui::GetID("VulkanAppDockspace");
+					ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+				}
+
+				
+				if(ImGui::BeginMenuBar())
+				{
+
+					if (ImGui::BeginMenu("Hello"))
+					{
+						
+					}
+
+					ImGui::EndMenuBar();
+				}
+
+				Render();
+
+				ImGui::End();
+			}
+
+
+			// Rendering
+			ImGui::Render();
+			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+			ImGuiIO& io = ImGui::GetIO();
+			// Update and Render additional Platform Windows
+			if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+			{
+				ImGui::UpdatePlatformWindows();
+				ImGui::RenderPlatformWindowsDefault();
+			}
+
+			/*float time = 0.0f;
+			myFrameTime = time - myLastFrameTime;
+			myLastFrameTime = time;*/
+
+			DX11::EndFrame();
+
+		}
 	}
 
 	return false;
@@ -257,32 +266,19 @@ bool Application::IsRunning()
 
 void Application::Stop()
 {
+
+
+
 	myIsRunning = false;
+
+	ImGui_ImplWin32_Shutdown();
+	ImGui_ImplDX11_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void Application::ProcessInput()
 {
-	sf::Event event;
-
-	while(myWindow.pollEvent(event))
-	{
-		if(event.type == sf::Event::Closed)
-		{
-			myWindow.close();
-		}
-		else if(event.type == sf::Event::KeyPressed)
-		{
-			if(event.key.code == sf::Keyboard::Escape)
-			{
-				myWindow.close();
-			}
-		}
-
-		for(auto& bot : m_bots)
-		{
-			bot->HandleEvent(event);
-		}
-	}
+	
 
 	while(!m_client.isMessageQueueEmpty())
 	{
@@ -310,11 +306,11 @@ void Application::ProcessInput()
 	}
 }
 
-void Application::Update(sf::Time dt)
+void Application::Update()
 {
 	for (auto& bot : m_bots)
 	{
-		bot->Update(dt);
+		bot->Update();
 	}
 }
 
@@ -325,19 +321,11 @@ void Application::Render()
 		return;
 	}
 
-	myWindow.clear(sf::Color::Transparent);
-
-	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_None);
-	ImGui::SFML::SetCurrentWindow(myWindow);
-
+	
 	for(const auto& bot : m_bots)
 	{
-		bot->Draw(myWindow);
+		bot->Draw();
 	}
-
-
-	ImGui::SFML::Render(myWindow);
-	myWindow.display();
 }
 
 void Application::HandlePRIVMSG(const PRIVMSG& priv)
@@ -431,4 +419,109 @@ void Application::HandlePRIVMSG(const PRIVMSG& priv)
 		m_client.RemoveAdmin(second);
 		m_client.sendPRIVMSG("Removed '" + second + "' as admin", priv.Channel);
 	}
+}
+
+void Application::SetUpdateBuffers(bool cond)
+{
+	myWantToResizeBuffers = cond;
+}
+
+void Application::SetMinimized(bool cond)
+{
+	myIsMinimized = cond;
+}
+
+LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
+{
+	// We want to be able to access the Graphics Engine instance from inside this function.
+	static Application* graphicsEnginePtr = nullptr;
+
+
+	if(ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+		return true;
+
+	switch(uMsg)
+	{
+		case WM_CREATE:
+		{
+			const CREATESTRUCT* createdStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
+			graphicsEnginePtr = static_cast<Application*>(createdStruct->lpCreateParams);
+		}
+
+		case WM_SIZE:
+		{
+			if(DX11::Device != NULL)
+			{
+				//graphicsEnginePtr->SetWindowSize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+
+				switch(wParam)
+				{
+					case SIZE_MAXIMIZED:
+						graphicsEnginePtr->SetUpdateBuffers(true);
+						graphicsEnginePtr->SetMinimized(false);
+						break;
+
+					case SIZE_MINIMIZED:
+						graphicsEnginePtr->SetMinimized(true);
+						break;
+
+					case SIZE_RESTORED:
+						graphicsEnginePtr->SetUpdateBuffers(true);
+						graphicsEnginePtr->SetMinimized(false);
+						break;
+
+					case SIZE_MAXSHOW:
+						graphicsEnginePtr->SetUpdateBuffers(true);
+						graphicsEnginePtr->SetMinimized(false);
+						break;
+				}
+			}
+		}
+
+		case WM_EXITSIZEMOVE:
+		{
+			if(DX11::Device != NULL)
+			{
+				graphicsEnginePtr->SetUpdateBuffers(true);
+			}
+		}
+
+		case WM_SYSCOMMAND:
+		{
+			if((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+			{
+				return 0;
+			}
+			break;
+		}
+
+
+
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+		}
+
+		case WM_DROPFILES:
+		{
+			std::cout << "Dropped something\n";
+			break;
+		}
+
+		case WM_QUIT:
+		{
+			
+			std::cout << "Test\n";
+			break;
+		}
+
+		case WM_CLOSE:
+		{
+			std::cout << "Dropped something\n";
+			break;
+		}
+
+	}
+
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

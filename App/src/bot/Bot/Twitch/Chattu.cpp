@@ -15,11 +15,11 @@ void Chattu::HandleEvent(const sf::Event& event)
 {
 }
 
-void Chattu::Update(sf::Time dt)
+void Chattu::Update()
 {
 }
 
-void Chattu::Draw(sf::RenderTarget& target)
+void Chattu::Draw()
 {
 }
 

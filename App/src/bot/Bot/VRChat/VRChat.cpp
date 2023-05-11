@@ -62,7 +62,7 @@ VRChat::VRChat(Client& client) : ::Bot(client)
 			}
 		}
 
-		print_osc_value(addr, value);
+		//print_osc_value(addr, value);
 	};
 
 	auto commandRoot = std::make_shared<VRChatRootCmd>(this);
@@ -84,11 +84,12 @@ void VRChat::HandleEvent(const sf::Event& event)
 {
 }
 
-void VRChat::Update(sf::Time dt)
+void VRChat::Update()
 {
+
 }
 
-void VRChat::Draw(sf::RenderTarget& target)
+void VRChat::Draw()
 {
 	ImGui::Begin("VRChat");
 

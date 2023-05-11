@@ -30,11 +30,11 @@ void Discord::HandleEvent(const sf::Event& event)
 {
 }
 
-void Discord::Update(sf::Time dt)
+void Discord::Update()
 {
 }
 
-void Discord::Draw(sf::RenderTarget& target)
+void Discord::Draw()
 {
 	ImGui::Begin("Discord");
 

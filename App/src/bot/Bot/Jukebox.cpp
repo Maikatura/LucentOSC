@@ -26,11 +26,11 @@ void Jukebox::HandleEvent(const sf::Event& event)
 {
 }
 
-void Jukebox::Update(sf::Time dt)
+void Jukebox::Update()
 {
 }
 
-void Jukebox::Draw(sf::RenderTarget& target)
+void Jukebox::Draw()
 {
 }
 

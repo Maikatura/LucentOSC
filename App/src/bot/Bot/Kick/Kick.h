@@ -10,8 +10,8 @@ public:
 	~Kick();
 
 	void HandleEvent(const sf::Event& event) override;
-	void Update(sf::Time dt) override;
-	void Draw(sf::RenderTarget& target) override;
+	void Update() override;
+	void Draw() override;
 
 	void HandlePRIVMSG(const PRIVMSG& priv) override;
 

@@ -4,9 +4,6 @@
 // Changelog:
 // - v0.10: Initial version. Added InputText() / InputTextMultiline() calls with std::string
 
-// See more C++ related extension (fmt, RAII, syntaxis sugar) on Wiki:
-//   https://github.com/ocornut/imgui/wiki/Useful-Extensions#cness
-
 #include "imgui.h"
 #include "imgui_stdlib.h"
 

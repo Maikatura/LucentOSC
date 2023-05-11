@@ -86,7 +86,9 @@ links
 	"sfml-window.lib",
 	"sfml-audio.lib",
 	"opengl32.lib",
-	"winmm.lib"
+	"winmm.lib",
+	"d3d11.lib",
+	"dxguid.lib"
 }
 
 files 

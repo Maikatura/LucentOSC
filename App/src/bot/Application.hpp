@@ -2,7 +2,6 @@
 
 #include "Bot.hpp"
 
-#include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Settings.hpp"
 
@@ -20,15 +19,22 @@ public:
 
 private:
 	void ProcessInput();
-	void Update(sf::Time dt);
+	void Update();
 	void Render();
 
 	void HandlePRIVMSG(const PRIVMSG& priv);
+	void SetUpdateBuffers(bool cond);
+	void SetMinimized(bool cond);
+	static LRESULT CALLBACK WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 private:
+
+	HWND myWindowHandle{};
+
 	Settings mySettings;
 	Client& m_client;
+	bool myWantToResizeBuffers = false;
+	bool myIsMinimized = false;
 	bool myIsRunning = true;
-	sf::RenderWindow myWindow;
 	std::vector<Bot::Ptr> m_bots;
 };

@@ -15,7 +15,7 @@ void Kick::HandleEvent(const sf::Event& event)
 {
 }
 
-void Kick::Update(sf::Time dt)
+void Kick::Update()
 {
 	/*if (myDownloadCurrentTime <= 0.0f)
 	{
@@ -28,7 +28,7 @@ void Kick::Update(sf::Time dt)
 	}*/
 }
 
-void Kick::Draw(sf::RenderTarget& target)
+void Kick::Draw()
 {
 }
 

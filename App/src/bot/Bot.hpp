@@ -24,8 +24,8 @@ public:
 	Bot& operator=(const Bot&) = delete;
 
 	virtual void HandleEvent(const sf::Event& event) = 0;
-	virtual void Update(sf::Time dt) = 0;
-	virtual void Draw(sf::RenderTarget& target) = 0;
+	virtual void Update() {};
+	virtual void Draw() = 0;
 
 	virtual void HandlePRIVMSG(const PRIVMSG& priv) = 0;
 

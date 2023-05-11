@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{1362EE31-7FCC-A2A8-C80A-544E34B480FD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="bot">
       <UniqueIdentifier>{8A62880B-F66B-887C-7FE7-9E7CEBEF937C}</UniqueIdentifier>
     </Filter>
@@ -51,6 +54,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Framework\DX11.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
     <ClInclude Include="src\bot\Application.hpp">
       <Filter>bot</Filter>
     </ClInclude>
@@ -170,6 +176,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Framework\DX11.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
     <ClCompile Include="src\LucentOSC.cpp" />
     <ClCompile Include="src\bot\Application.cpp">
       <Filter>bot</Filter>

@@ -104,10 +104,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\imconfig-SFML.h" />
+    <ClInclude Include="src\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="src\backends\imgui_impl_win32.h" />
     <ClInclude Include="src\imconfig.h" />
-    <ClInclude Include="src\imgui-SFML.h" />
-    <ClInclude Include="src\imgui-SFML_export.h" />
     <ClInclude Include="src\imgui.h" />
     <ClInclude Include="src\imgui_internal.h" />
     <ClInclude Include="src\imgui_stdlib.h" />
@@ -116,7 +115,8 @@
     <ClInclude Include="src\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\imgui-SFML.cpp" />
+    <ClCompile Include="src\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="src\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="src\imgui.cpp" />
     <ClCompile Include="src\imgui_demo.cpp" />
     <ClCompile Include="src\imgui_draw.cpp" />

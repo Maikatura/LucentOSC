@@ -19,3 +19,4 @@ I will remake it later or just change many part of it later.
 - [ ] Move 100% away from SFML networking.
 - [ ] Add support for to run command via points redeems.
 - [ ] Blacklist word in toggles or just blacklist a toggle completely.
+- [ ] Add discord support.

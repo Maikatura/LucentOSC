@@ -105,6 +105,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Framework\DX11.h" />
+    <ClInclude Include="src\Testing\NewTwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />
     <ClInclude Include="src\bot\Bot.hpp" />
     <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="src\Framework\DX11.cpp" />
     <ClCompile Include="src\LucentOSC.cpp" />
+    <ClCompile Include="src\Testing\NewTwitchApi.cpp" />
     <ClCompile Include="src\bot\Application.cpp" />
     <ClCompile Include="src\bot\Bot.cpp" />
     <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp" />

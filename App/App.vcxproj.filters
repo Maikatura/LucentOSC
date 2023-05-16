@@ -4,6 +4,9 @@
     <Filter Include="Framework">
       <UniqueIdentifier>{1362EE31-7FCC-A2A8-C80A-544E34B480FD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Testing">
+      <UniqueIdentifier>{63FFD639-CFDE-55D5-D8F6-E0AB4455BC36}</UniqueIdentifier>
+    </Filter>
     <Filter Include="bot">
       <UniqueIdentifier>{8A62880B-F66B-887C-7FE7-9E7CEBEF937C}</UniqueIdentifier>
     </Filter>
@@ -56,6 +59,9 @@
   <ItemGroup>
     <ClInclude Include="src\Framework\DX11.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Testing\NewTwitchApi.h">
+      <Filter>Testing</Filter>
     </ClInclude>
     <ClInclude Include="src\bot\Application.hpp">
       <Filter>bot</Filter>
@@ -180,6 +186,9 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="src\LucentOSC.cpp" />
+    <ClCompile Include="src\Testing\NewTwitchApi.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
     <ClCompile Include="src\bot\Application.cpp">
       <Filter>bot</Filter>
     </ClCompile>

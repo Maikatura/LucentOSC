@@ -14,6 +14,8 @@
 #include <dpp/dpp.h>
 #include <tchar.h>
 
+#include <Testing/NewTwitchApi.h>
+
 
 std::string endpoint = "maikatura";
 
@@ -51,7 +53,11 @@ int main()
 
 	std::string oauth = twitch["oauth"].get<std::string>();
 	std::string username = twitch["username"].get<std::string>();
-	
+
+
+	NewTwitchApi test;
+	test.Start(oauth, username);
+
 
 	Client client;
 	if(client.Connect(oauth, username, myJoinChannel, admins))

@@ -308,6 +308,9 @@ void Application::ProcessInput()
 
 void Application::Update()
 {
+
+	TimerManager::Update();
+
 	for (auto& bot : m_bots)
 	{
 		bot->Update();

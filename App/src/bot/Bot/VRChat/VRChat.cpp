@@ -109,13 +109,12 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 		{
 			if (myCommands[i]->HandleCommand(myClient, priv, second))
 			{
-				return;
 			}
 		}
 	}
 
 	
-	if (first == "!vrchat")
+	if (first == "vrchat")
 	{
 		const auto [commandType, commandData] = SplitCommand(second);
 
@@ -152,7 +151,28 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 		{
 			if(!IsAppRunning(priv)) return;
 
-			SendPRIVMSG(priv.Channel, "Right now you can't find any commands since this is currently in DEV.");
+			const auto [toggleName, toggleValue] = SplitCommand(commandData);
+
+			if(toggleValue.empty() || ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
+			{
+				SendPRIVMSG(priv.Channel, "Value is Null or Invalid Input.");
+				return;
+			}
+
+			int value = std::stoi(toggleValue);
+
+			std::string parameterString = GetFullParameterName(priv.Channel, toggleName, OSCType::Int);
+			if(parameterString == "INVALID")
+			{
+				SendPRIVMSG(priv.Channel, "That Parameter is not a float");
+			}
+			else if(!parameterString.empty())
+			{
+				if(value >= 0 && value <= 256)
+				{
+					myOSCTransmitter.SendInt(parameterString, value);
+				}
+			}
 		}
 		else if(commandType == "move")
 		{

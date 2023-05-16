@@ -55,8 +55,8 @@ int main()
 	std::string username = twitch["username"].get<std::string>();
 
 
-	NewTwitchApi test;
-	test.Start(oauth, username);
+	/*NewTwitchApi test;
+	test.Start(oauth, username);*/
 
 
 	Client client;

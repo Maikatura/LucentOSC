@@ -59,7 +59,7 @@ std::string unquote(const std::string& s)
                 result[index] = '\0';
                 break;
             case 'n':
-                result[index] : = '\n';
+                result[index] = '\n';
                 break;
             case 'r':
                 result[index] = '\r';
@@ -117,94 +117,98 @@ bool sendCmd(SOCKET sock, const std::string& cmd)
 
 void NewTwitchApi::Start(const std::string& aOAuth, const std::string& aNickname)
 {
-    WSADATA wsa;
-    int ret = WSAStartup(MAKEWORD(2, 0), &wsa);
-    if(ret != 0)
+    WSADATA wsaData;
+    if(WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
     {
-        std::cout << "Winsock init error: " << ret << std::endl;
-        goto done;
+        std::cerr << "Failed to initialize Winsock." << std::endl;
+        return;
     }
 
-    SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(sock == INVALID_SOCKET)
+    const char* serverHostname = "irc.chat.twitch.tv";
+    const char* serverPort = "6667";
+
+    struct addrinfo hints, * result = nullptr;
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+
+    if(getaddrinfo(serverHostname, serverPort, &hints, &result) != 0) 
     {
-        std::cout << "socket() error: " << WSAGetLastError() << std::endl;
-        goto done;
+        std::cerr << "Failed to resolve server hostname." << std::endl;
+        WSACleanup();
+        return;
     }
 
-    SOCKADDR_IN addr = { 0 };
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr("52.25.27.117"); //the ip
-    addr.sin_port = htons(6667);
-
-    if(connect(sock, (SOCKADDR*)&addr, sizeof(addr)) != 0)
+    SOCKET socketDescriptor;
+    socketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
+    if(socketDescriptor == INVALID_SOCKET) 
     {
-        std::cout << "connect() error: " << WSAGetLastError() << std::endl;
-        goto cleanup:
+        std::cerr << "Failed to create socket." << std::endl;
+        WSACleanup();
+        return;
     }
 
-    std::cout << "connected" << std::endl;
-
-    std::string oauth = ...;
-    std::string nick = ...;
-    std::string user = ...;
-    std::string channel = ...;
-
-    sendCmd("PASS " + oauth);
-    sendCmd("NICK " + nick);
-    sendCmd("USER " + user);
-    sendCmd("JOIN " + channel);
-
-    char buf[1024];
-    std::string LineBuffer;
-    std::string::size_type StartIdx = 0;
-
-    do
+    if(connect(socketDescriptor, result->ai_addr, static_cast<int>(result->ai_addrlen)) == SOCKET_ERROR) 
     {
-        int ret = recv(sock, buf, sizeof(buf), 0);
-        if(ret == SOCKET_ERROR)
+        std::cerr << "Failed to connect to the server." << std::endl;
+        closesocket(socketDescriptor);
+        WSACleanup();
+        return;
+    }
+
+    // Send the authentication message
+    std::string authMessage = "PASS " + std::string(aOAuth) + "\r\n";
+    send(socketDescriptor, authMessage.c_str(), authMessage.length(), 0);
+
+    // Send the username
+    std::string userMessage = "NICK " + std::string(aNickname) + "\r\n";
+    send(socketDescriptor, userMessage.c_str(), userMessage.length(), 0);
+
+    // Join the desired channel (replace "target_channel" with the channel you want to join)
+    std::string joinMessage = "JOIN #maikatura\r\n";
+    send(socketDescriptor, joinMessage.c_str(), joinMessage.length(), 0);
+
+    const int bufferSize = 1024;
+    char buffer[bufferSize];
+
+  /*  std::string testMessage = "PRIVMSG #maikatura :lol\r\n";
+    send(socketDescriptor, testMessage.c_str(), testMessage.length(), 0);*/
+
+    while(true) 
+    {
+        // Receive data
+        int bytesReceived = recv(socketDescriptor, buffer, bufferSize - 1, 0);
+        if(bytesReceived == SOCKET_ERROR) 
         {
-            std::cout << "recv() error: " << WSAGetLastError() << std::endl;
-            goto cleanup;
-        }
-
-        if(ret == 0)
-        {
-            std::cout << "Server disconnected" << std::endl;
+            std::cerr << "Error in receiving data." << std::endl;
             break;
         }
 
-        LineBuffer.append(buf, ret);
-
-        do
+        if(bytesReceived == 0) 
         {
-            std::string::size_type pos = LineBuffer.find('\n', StartIdx);
-            if(pos == std::string::npos)
-                break;
+            // Connection closed
+            std::cout << "Connection closed by the server." << std::endl;
+            break;
+        }
 
-            std::string::size_type len = pos;
-            if((pos > 0) && (LineBuffer[pos - 1] == '\r'))
-                --len;
+        // Null-terminate the received data
+        buffer[bytesReceived] = '\0';
 
-            std::string msg = unquote(LineBuffer.substr(0, len));
-            LineBuffer.erase(0, pos + 1);
-            StartIdx = 0;
 
-            std::string senderNick;
-            std::string senderHost;
+        // Process received data
+        std::string receivedData(buffer);
+        std::cout << "Received data: " << receivedData << std::endl;
 
-            if(!msg.empty() && (msg[0] == ':'))
-            {
-                std::string tmp = fetch(msg, " ");
-                tmp.erase(0, 1); // remove ':'
-                senderNick = fetch(tmp, "!");
-                senderHost = tmp;
-            }
+        // Check if it's a PING message
+        if(receivedData.substr(0, 4) == "PING") {
+            // Extract the token from the PING message
+            std::string token = receivedData.substr(5);
 
-            std::cout << "Received: " << msg << std::endl;
+            // Send PONG response
+            std::string pongMessage = "PONG :" + token + "\r\n";
+            send(socketDescriptor, pongMessage.c_str(), pongMessage.length(), 0);
+        }
 
-            if(msg == "PING")
-                sendCmd("PONG :" + hostname);
-        } while(true);
-    } while(true);
-}
+    }
+
+} 

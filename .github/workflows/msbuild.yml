@@ -24,12 +24,23 @@ permissions:
   contents: read
 
 jobs:
+  checkout:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+  premake:
+    needs: checkout
+    runs-on: windows-latest
+    steps:
+      - working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: ./Generate.bat
+
   build:
+    needs: premake
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 

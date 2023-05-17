@@ -2,7 +2,7 @@ include "dependencies.lua"
 
 workspace "LucentOsc"
     architecture "x64"
-    startproject "App"
+    startproject "LucentOsc"
     configurations
     {
         "Debug",

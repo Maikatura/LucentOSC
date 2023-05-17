@@ -1,6 +1,6 @@
 #pragma once
 #include "bot/Bot.hpp"
-#include <dpp/dpp.h>
+//#include <dpp/dpp.h>
 
 #include "bot/DiscordSettings.h"
 
@@ -31,8 +31,8 @@ private:
 	void Stop();
 	bool IsAppRunning(const std::wstring& aApplication);
 
-	dpp::cluster* myCluster;
-	dpp::commandhandler* myCommandHandler;
+	/*dpp::cluster* myCluster;
+	dpp::commandhandler* myCommandHandler;*/
 
 	DiscordSettings mySettings;
 	ConnectionStatus myConnection;

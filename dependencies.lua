@@ -5,7 +5,6 @@
 --Includes
 IncludeDirs = {}
 IncludeDirs["DPP"] = "%{wks.location}/External/dpp/include/dpp-10.0"
-IncludeDirs["SFML"] = "%{wks.location}/External/SFML/include"
 IncludeDirs["ImGui"] = "%{wks.location}/External/ImGui/src"
 
 
@@ -21,5 +20,4 @@ LibDirs["UNKNOWN"] = "%{wks.location}/"
 --Libs["Example"] = "%{LibDirs.Example}/example.lib"
 
 Libs = {}
-Libs["SFML"] = "%{IncludeDirs.SFML}/../lib"
 Libs["DPP"] = "%{IncludeDirs.DPP}/../.."

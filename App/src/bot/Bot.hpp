@@ -42,7 +42,6 @@ protected:
 	void SendPRIVMSG(const std::string& aChannel, const std::string& msg);
 
 	std::vector<std::shared_ptr<Command>> myCommands;
-	std::vector<std::shared_ptr<CommandBase>> myDiscordCommands;
 
 	Lucent::TwitchApi& myClient;
 private:

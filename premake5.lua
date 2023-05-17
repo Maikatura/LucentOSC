@@ -17,5 +17,5 @@ group "Application"
 include "App"
 
 group "External"
-include "External/dpp"
+--include "External/dpp"
 include "External/imgui"

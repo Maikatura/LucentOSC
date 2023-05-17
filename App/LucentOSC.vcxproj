@@ -104,11 +104,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\bot\Bot\DebugBot\DebugBot.h" />
     <ClInclude Include="src\Framework\DX11.h" />
     <ClInclude Include="src\Twitch\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />
     <ClInclude Include="src\bot\Bot.hpp" />
+    <ClInclude Include="src\bot\Bot\DebugBot\DebugBot.h" />
     <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h" />
     <ClInclude Include="src\bot\Bot\Discord\CommandHeader.h" />
     <ClInclude Include="src\bot\Bot\Discord\Discord.h" />
@@ -148,12 +148,12 @@
     <ClInclude Include="src\osclib\sock.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\bot\Bot\DebugBot\DebugBot.cpp" />
     <ClCompile Include="src\Framework\DX11.cpp" />
     <ClCompile Include="src\LucentOSC.cpp" />
     <ClCompile Include="src\Twitch\TwitchApi.cpp" />
     <ClCompile Include="src\bot\Application.cpp" />
     <ClCompile Include="src\bot\Bot.cpp" />
+    <ClCompile Include="src\bot\Bot\DebugBot\DebugBot.cpp" />
     <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp" />
     <ClCompile Include="src\bot\Bot\Discord\Discord.cpp" />
     <ClCompile Include="src\bot\Bot\Discord\Fun\Pet.cpp" />

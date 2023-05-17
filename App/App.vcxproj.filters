@@ -60,7 +60,7 @@
     <ClInclude Include="src\Framework\DX11.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="src\Testing\TwitchApi.h">
+    <ClInclude Include="src\Twitch\TwitchApi.h">
       <Filter>Testing</Filter>
     </ClInclude>
     <ClInclude Include="src\bot\Application.hpp">
@@ -187,7 +187,7 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="src\LucentOSC.cpp" />
-    <ClCompile Include="src\Testing\TwitchApi.cpp">
+    <ClCompile Include="src\Twitch\TwitchApi.cpp">
       <Filter>Testing</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Application.cpp">

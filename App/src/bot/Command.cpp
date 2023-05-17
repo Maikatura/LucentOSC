@@ -4,7 +4,7 @@
 
 #include "Client.hpp"
 #include "misc/print.h"
-#include "Testing/TwitchApi.h"
+#include "Twitch/TwitchApi.h"
 
 Command::Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand) : myBot(aBot), myCommandName(aCommandName), myIsRootCommand(isARootCommand)
 {

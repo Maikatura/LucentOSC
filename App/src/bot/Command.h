@@ -5,7 +5,7 @@
 #include "Utility.hpp"
 #include <utility>
 
-#include <Testing/TwitchApi.h>
+#include <Twitch/TwitchApi.h>
 
 class Bot;
 

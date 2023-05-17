@@ -4,7 +4,7 @@
 
 
 #include "Settings.hpp"
-#include "Testing/TwitchApi.h"
+#include "Twitch/TwitchApi.h"
 
 class Application
 {

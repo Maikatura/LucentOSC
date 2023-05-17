@@ -14,7 +14,7 @@
 #include <dpp/dpp.h>
 #include <tchar.h>
 
-#include <Testing/TwitchApi.h>
+#include <Twitch/TwitchApi.h>
 
 
 std::string endpoint = "maikatura";

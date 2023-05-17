@@ -1,18 +1,11 @@
-#include "misc/print.h"
-#include "osclib/osc.h"
-#include "osclib/sock.h"
-#include <cstring>
 #include <fstream>
 #include <iostream>
-#include <signal.h>
 #include <thread>
-#include <Windows.h>
 
-#include "bot/Client.hpp"
 #include "bot/Application.hpp"
-#include "misc/TimerManager.h"
 #include <dpp/dpp.h>
-#include <tchar.h>
+
+#include <Twitch/TwitchApi.h>
 
 
 std::string endpoint = "maikatura";
@@ -51,11 +44,15 @@ int main()
 
 	std::string oauth = twitch["oauth"].get<std::string>();
 	std::string username = twitch["username"].get<std::string>();
+
+
+
 	
 
-	Client client;
-	if(client.Connect(oauth, username, myJoinChannel, admins))
+	Lucent::TwitchApi client;
+	if(client.Connect(oauth, username))
 	{
+		client.Join(myJoinChannel);
 		Application app(client);
 		app.Run();
 	}
@@ -65,6 +62,6 @@ int main()
 		std::cin.get();
 	}
 
-	client.disconnect();
+	client.Disconnect();
 }
 

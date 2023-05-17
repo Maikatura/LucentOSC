@@ -1,0 +1,1 @@
+@badge-info=;badges=glitchcon2020/1;color=#A89BE8;display-name=þÄïÕÑ│ÒâìÒâùÒâåÒâÑÒâ╝Òâî;emotes=;first-msg=0;flags=;id=d48ff4aa-aa72-476e-ba3d-7ab1bd840c32;mod=0;returning-chatter=0;room-id=214174522;subscriber=0;tmi-sent-ts=1684314173862;turbo=0;user-id=414446227;user-type= :maikatura!maikatura@maikatura.tmi.twitch.tv PRIVMSG #maikatura :almost nerf worthy

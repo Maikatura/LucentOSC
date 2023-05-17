@@ -1,5 +1,4 @@
 #include "Application.hpp"
-#include "Client.hpp"
 #include "Utility.hpp"
 
 // bots
@@ -28,7 +27,7 @@
 
 #pragma comment(lib, "dwmapi.lib")
 
-Client nullClient;
+Lucent::TwitchApi nullClient;
 
 inline bool ExistsTest(const std::string& name)
 {
@@ -40,13 +39,13 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 
 
-Application::Application() : m_client(nullClient)
+Application::Application() : myClient(nullClient)
 {
 
 }
 
-Application::Application(Client& client)
-	: m_client(client)
+Application::Application(Lucent::TwitchApi& client)
+	: myClient(client)
 {
 
 	std::string settingsPath = "data/user/settings.json";
@@ -104,13 +103,13 @@ Application::Application(Client& client)
 
 	
 
-	m_bots.emplace_back(std::make_unique<VRChat>(m_client));
-	m_bots.emplace_back(std::make_unique<Chattu>(m_client));
-	m_bots.emplace_back(std::make_unique<Discord>(m_client));
-	m_bots.emplace_back(std::make_unique<Kick>(m_client));
+	m_bots.emplace_back(std::make_unique<VRChat>(myClient));
+	m_bots.emplace_back(std::make_unique<Chattu>(myClient));
+	m_bots.emplace_back(std::make_unique<Discord>(myClient));
+	m_bots.emplace_back(std::make_unique<Kick>(myClient));
 }
 
-Application::Application(const Application& aApplication) : Application(aApplication.m_client)
+Application::Application(const Application& aApplication) : Application(aApplication.myClient)
 {
 }
 
@@ -280,27 +279,39 @@ void Application::ProcessInput()
 {
 	
 
-	while(!m_client.isMessageQueueEmpty())
+	while(!myClient.IsMessageQueueEmpty())
 	{
-		PRIVMSG priv = m_client.popMessage();
+		Lucent::ChatMessage message = myClient.PopMessage();
+
+
+		std::cout << "User: " << message.Username << std::endl;
+		std::cout << "Broadcaster: " << message.IsBroadcaster << std::endl;
+		std::cout << "Moderator: " << message.IsModerator << std::endl;
+		std::cout << "VIP: " << message.IsVIP << std::endl;
+		std::cout << "Subscriber: " << message.IsSub << std::endl;
+		std::cout << "Chat Channel: " << message.Channel << std::endl;
+		std::cout << "Message: " << message.Message << std::endl;
 
 		// HACK: auto join/part
-		if(priv.message == "JOIN")
+		if(message.Message == "JOIN")
 		{
-			priv.message = "!join";
+			message.Message = "!join";
 		}
-		else if(priv.message == "PART")
+		else if(message.Message == "PART")
 		{
-			priv.message = "!part";
+			message.Message = "!part";
 		}
 
-		if(!priv.message.empty() && priv.message[0] == '!')
+		if(!message.Message.empty() && message.Message[0] == '!')
 		{
-			HandlePRIVMSG(priv);
+			message.Message.erase(0, 1);
+			HandlePRIVMSG(message);
+
+
 
 			for(auto& bot : m_bots)
 			{
-				bot->HandlePRIVMSG(priv);
+				bot->HandleBotCommands(message);
 			}
 		}
 	}
@@ -308,6 +319,9 @@ void Application::ProcessInput()
 
 void Application::Update()
 {
+
+	TimerManager::Update();
+
 	for (auto& bot : m_bots)
 	{
 		bot->Update();
@@ -328,14 +342,14 @@ void Application::Render()
 	}
 }
 
-void Application::HandlePRIVMSG(const PRIVMSG& priv)
+void Application::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
-	if (!m_client.isAdmin(priv.username))
+	if (!myClient.IsAdmin(priv.Username))
 	{
 		return;
 	}
 
-	auto [first, second] = SplitCommand(priv.message);
+	auto [first, second] = SplitCommand(priv.Message);
 	toLower(second);
 
 
@@ -361,25 +375,25 @@ void Application::HandlePRIVMSG(const PRIVMSG& priv)
 
 		if (exists)
 		{
-			m_client.sendPRIVMSG('@' + priv.username + ' ' + second + " is already running.");
+			myClient.SendChatMessage(priv.Channel, '@' + priv.Username + ' ' + second + " is already running.");
 		}
 		else
 		{
 			Bot::Ptr bot = nullptr;
 
 			if (second == "vrchat")
-				bot = std::make_unique<VRChat>(m_client);
+				bot = std::make_unique<VRChat>(myClient);
 			else if(second == "chattu")
-				bot = std::make_unique<Chattu>(m_client);
+				bot = std::make_unique<Chattu>(myClient);
 
 			if (bot)
 			{
 				m_bots.emplace_back(std::move(bot));
-				m_client.sendPRIVMSG('@' + priv.username + " Added bot: " + second);
+				myClient.SendChatMessage(priv.Channel, '@' + priv.Username + " Added bot: " + second);
 			}
 			else
 			{
-				m_client.sendPRIVMSG('@' + priv.username + " Unrecognized bot name: " + second);
+				myClient.SendChatMessage(priv.Channel,'@' + priv.Username + " Unrecognized bot name: " + second);
 			}
 		}
 	}
@@ -402,22 +416,22 @@ void Application::HandlePRIVMSG(const PRIVMSG& priv)
 
 		if (removed)
 		{
-			m_client.sendPRIVMSG('@' + priv.username + " Removed bot: " + second);
+			myClient.SendChatMessage(priv.Channel,'@' + priv.Username + " Removed bot: " + second);
 		}
 		else
 		{
-			m_client.sendPRIVMSG('@' + priv.username + " Unrecognized bot name: " + second);
+			myClient.SendChatMessage(priv.Channel, '@' + priv.Username + " Unrecognized bot name: " + second);
 		}
 	}
 	else if(first == "!addadmin" && !second.empty())
 	{
-		m_client.AddAdmin(second);
-		m_client.sendPRIVMSG("Added '"  +second+ "' as admin", priv.Channel);
+		myClient.AddAdmin(second);
+		myClient.SendChatMessage(priv.Channel, "Added '"  +second+ "' as admin");
 	}
 	else if(first == "!removeadmin" && !second.empty())
 	{
-		m_client.RemoveAdmin(second);
-		m_client.sendPRIVMSG("Removed '" + second + "' as admin", priv.Channel);
+		myClient.RemoveAdmin(second);
+		myClient.SendChatMessage(priv.Channel,"Removed '" + second + "' as admin");
 	}
 }
 

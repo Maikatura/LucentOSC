@@ -6,14 +6,14 @@
 class Kick : public Bot
 {
 public:
-	explicit Kick(Client& client);
+	explicit Kick(Lucent::TwitchApi& client);
 	~Kick();
 
-	void HandleEvent(const sf::Event& event) override;
+	void HandleEvent() override;
 	void Update() override;
 	void Draw() override;
 
-	void HandlePRIVMSG(const PRIVMSG& priv) override;
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv) override;
 
 	void HandleKickParsing();
 

@@ -17,7 +17,7 @@ bool AllSameChars(std::string testStr, char aChar) {
 	return testStr.find_first_not_of(aChar) == std::string::npos;
 }
 
-VRChat::VRChat(Client& client) : ::Bot(client)
+VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
 {
 	sock::Startup();
 
@@ -80,7 +80,7 @@ VRChat::~VRChat()
 	m_running = false;
 }
 
-void VRChat::HandleEvent(const sf::Event& event)
+void VRChat::HandleEvent()
 {
 }
 
@@ -98,24 +98,14 @@ void VRChat::Draw()
 	ImGui::End();
 }
 
-void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
+void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
-	auto [first, second] = SplitCommand(priv.message);
-	first.erase(0, 1);
+	
 
-	for (int i = 0; i < myCommands.size(); i++)
-	{
-		if (myCommands[i]->IsCommand(first))
-		{
-			if (myCommands[i]->HandleCommand(myClient, priv, second))
-			{
-				return;
-			}
-		}
-	}
+	auto [first, second] = SplitCommand(priv.Message);
 
 	
-	if (first == "!vrchat")
+	if (first == "vrchat")
 	{
 		const auto [commandType, commandData] = SplitCommand(second);
 
@@ -152,7 +142,28 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 		{
 			if(!IsAppRunning(priv)) return;
 
-			SendPRIVMSG(priv.Channel, "Right now you can't find any commands since this is currently in DEV.");
+			const auto [toggleName, toggleValue] = SplitCommand(commandData);
+
+			if(toggleValue.empty() || ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
+			{
+				SendPRIVMSG(priv.Channel, "Value is Null or Invalid Input.");
+				return;
+			}
+
+			int value = std::stoi(toggleValue);
+
+			std::string parameterString = GetFullParameterName(priv.Channel, toggleName, OSCType::Int);
+			if(parameterString == "INVALID")
+			{
+				SendPRIVMSG(priv.Channel, "That Parameter is not a float");
+			}
+			else if(!parameterString.empty())
+			{
+				if(value >= 0 && value <= 256)
+				{
+					myOSCTransmitter.SendInt(parameterString, value);
+				}
+			}
 		}
 		else if(commandType == "move")
 		{
@@ -374,7 +385,7 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 		{
 			if(!IsAppRunning(priv)) return;
 
-			if (IsAdmin(priv.username))
+			if (IsAdmin(priv.Username))
 			{
 				myOSCTransmitter.SendChatboxMessage("/chatbox/input", commandData);
 			}
@@ -462,7 +473,7 @@ osc::Receiver& VRChat::GetReceiver()
 	return myOSCRx;
 }
 
-bool VRChat::IsAppRunning(const PRIVMSG& priv)
+bool VRChat::IsAppRunning(const Lucent::ChatMessage& priv)
 {
 	if(!IsProgramRunning(L"VRChat"))
 	{

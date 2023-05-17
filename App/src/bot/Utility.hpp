@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics/Text.hpp>
+#include <string>
 
 // random number generation
 int randomInt(int exclusiveMax); // [0, max)
@@ -28,6 +28,3 @@ std::string utf8ToAnsi(const std::string& utf8);
 // execute a file
 std::string exec(const std::string& cmd);
 std::string exec(const std::wstring& cmd);
-
-// center objects
-void centerOrigin(sf::Text& text);

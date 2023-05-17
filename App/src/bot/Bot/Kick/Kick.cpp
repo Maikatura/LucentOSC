@@ -1,7 +1,7 @@
 #include "Kick.h"
 #include "Downloader.h"
 
-Kick::Kick(Client& client) : Bot(client)
+Kick::Kick(Lucent::TwitchApi& client) : Bot(client)
 {
 	myDownloadTimer = 5.0f;
 	myDownloadCurrentTime = 0.0f;
@@ -11,7 +11,7 @@ Kick::~Kick()
 {
 }
 
-void Kick::HandleEvent(const sf::Event& event)
+void Kick::HandleEvent()
 {
 }
 
@@ -32,7 +32,7 @@ void Kick::Draw()
 {
 }
 
-void Kick::HandlePRIVMSG(const PRIVMSG& priv)
+void Kick::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
 }
 

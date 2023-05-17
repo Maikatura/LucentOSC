@@ -4,8 +4,9 @@
 
 #include "Client.hpp"
 #include "misc/print.h"
+#include "Twitch/TwitchApi.h"
 
-Command::Command(Bot* aBot, const std::string& aCommandName) : myBot(aBot), myCommandName(aCommandName)
+Command::Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand) : myBot(aBot), myCommandName(aCommandName), myIsRootCommand(isARootCommand)
 {
 }
 
@@ -19,26 +20,31 @@ bool Command::IsCommand(std::string aCommandName)
 	return false;
 }
 
-bool Command::HandleCommandLogic(Client& aClient, const PRIVMSG& priv, const std::string& aMessage)
+bool Command::HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage)
 {
-	return false;
+	return true;
 }
 
-bool Command::HandleCommand(Client& aClient, const PRIVMSG& priv, const std::string& command)
+bool Command::HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& command)
 {
 	auto [first, second] = SplitCommand(command);
 	for(int i = 0; i < mySubCommands.size(); i++)
 	{
 		if(mySubCommands[i]->IsCommand(first))
 		{
-			if(mySubCommands[i]->HandleCommand(aClient, priv, second))
+			if (mySubCommands[i]->HasSubCommands())
 			{
-				return true;
+				return mySubCommands[i]->HandleCommand(aClient, priv, second);
 			}
+			else
+			{
+				return mySubCommands[i]->HandleCommandLogic(aClient, priv, command);
+			}
+			
 		}
 	}
 
-	return HandleCommandLogic(aClient, priv, command);
+	return false;
 }
 
 std::pair<std::string, std::string> Command::SplitCommand(const std::string& command)
@@ -60,9 +66,24 @@ std::pair<std::string, std::string> Command::SplitCommand(const std::string& com
 	return { first, second };
 }
 
-void Command::SendPRIVMSG(Client& aClient, const std::string& aChannel, const std::string& msg)
+void Command::SendPRIVMSG(Lucent::TwitchApi& aClient, const std::string& aChannel, const std::string& msg)
 {
-	aClient.sendPRIVMSG(msg, aChannel);
+	aClient.SendChatMessage(aChannel, msg);
+}
+
+bool Command::HasSubCommands()
+{
+	return !mySubCommands.empty();
+}
+
+bool Command::IsEnabled()
+{
+	return myIsEnabled;
+}
+
+bool Command::IsRootCommand()
+{
+	return myIsRootCommand;
 }
 
 bool Command::IsAppOpen(const std::wstring& aApplication)

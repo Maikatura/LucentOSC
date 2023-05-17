@@ -4,11 +4,17 @@
     <Filter Include="Framework">
       <UniqueIdentifier>{1362EE31-7FCC-A2A8-C80A-544E34B480FD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Twitch">
+      <UniqueIdentifier>{F84B75D4-E4ED-9FAA-CDA8-B3FEB9E926FB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="bot">
       <UniqueIdentifier>{8A62880B-F66B-887C-7FE7-9E7CEBEF937C}</UniqueIdentifier>
     </Filter>
     <Filter Include="bot\Bot">
       <UniqueIdentifier>{DE84C586-4A64-4422-537C-CFF8BFDAAA83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\DebugBot">
+      <UniqueIdentifier>{D9848B58-C57D-AAAA-EEAF-8F2FDA078AB6}</UniqueIdentifier>
     </Filter>
     <Filter Include="bot\Bot\Discord">
       <UniqueIdentifier>{3598C879-A123-363E-AA34-B932163F923E}</UniqueIdentifier>
@@ -57,11 +63,17 @@
     <ClInclude Include="src\Framework\DX11.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="src\Twitch\TwitchApi.h">
+      <Filter>Twitch</Filter>
+    </ClInclude>
     <ClInclude Include="src\bot\Application.hpp">
       <Filter>bot</Filter>
     </ClInclude>
     <ClInclude Include="src\bot\Bot.hpp">
       <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\DebugBot\DebugBot.h">
+      <Filter>bot\Bot\DebugBot</Filter>
     </ClInclude>
     <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h">
       <Filter>bot\Bot\Discord\Base</Filter>
@@ -180,11 +192,17 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="src\LucentOSC.cpp" />
+    <ClCompile Include="src\Twitch\TwitchApi.cpp">
+      <Filter>Twitch</Filter>
+    </ClCompile>
     <ClCompile Include="src\bot\Application.cpp">
       <Filter>bot</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Bot.cpp">
       <Filter>bot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\DebugBot\DebugBot.cpp">
+      <Filter>bot\Bot\DebugBot</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp">
       <Filter>bot\Bot\Discord\Base</Filter>

@@ -16,14 +16,14 @@ class Discord : public Bot
 	};
 
 public:
-	explicit Discord(Client& client);
+	explicit Discord(Lucent::TwitchApi& client);
 	~Discord();
 
-	void HandleEvent(const sf::Event& event) override;
+	void HandleEvent() override;
 	void Update() override;
 	void Draw() override;
 
-	void HandlePRIVMSG(const PRIVMSG& priv) override;
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv) override;
 
 private:
 

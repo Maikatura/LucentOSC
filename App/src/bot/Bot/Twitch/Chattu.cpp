@@ -2,7 +2,7 @@
 #include "bot/Client.hpp"
 #include "Commands/CumCmd.h"
 
-Chattu::Chattu(Client& client) : Bot(client)
+Chattu::Chattu(Lucent::TwitchApi& client) : Bot(client)
 {
 	myCommands.push_back(std::make_shared<CumCmd>(this));
 }
@@ -11,7 +11,7 @@ Chattu::~Chattu()
 {
 }
 
-void Chattu::HandleEvent(const sf::Event& event)
+void Chattu::HandleEvent()
 {
 }
 
@@ -23,10 +23,9 @@ void Chattu::Draw()
 {
 }
 
-void Chattu::HandlePRIVMSG(const PRIVMSG& priv)
+void Chattu::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
-	auto [first, second] = SplitCommand(priv.message);
-	first.erase(0, 1);
+	auto [first, second] = SplitCommand(priv.Message);
 
 	for(int i = 0; i < myCommands.size(); i++)
 	{
@@ -41,6 +40,6 @@ void Chattu::HandlePRIVMSG(const PRIVMSG& priv)
 
 	if(first == "!help")
 	{
-		SendPRIVMSG(priv.Channel, "Find me at https://github.com/maikatura/VRCBotTV");
+		SendPRIVMSG(priv.Channel, "Find me at https://github.com/maikatura/LucentOSC");
 	}
 }

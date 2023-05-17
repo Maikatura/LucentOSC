@@ -78,12 +78,6 @@ links
 	"ws2_32.lib",
 	"Iphlpapi.lib",
 	"Userenv.lib",
-	"sfml-main.lib",
-	"sfml-graphics.lib",
-	"sfml-network.lib",
-	"sfml-system.lib",
-	"sfml-window.lib",
-	"sfml-audio.lib",
 	"opengl32.lib",
 	"winmm.lib",
 	"d3d11.lib",
@@ -115,7 +109,8 @@ filter "configurations:Debug"
     symbols "On"
 	
 filter "configurations:Release"
-	kind "WindowedApp"
+	--kind "WindowedApp"
+	kind "ConsoleApp"
     defines "_RELEASE"
     runtime "Release"
     optimize "On"

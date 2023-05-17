@@ -1,4 +1,4 @@
-9# This workflow uses actions that are not certified by GitHub.
+# This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
@@ -45,8 +45,6 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
     
-
-        
   Publish:
     needs: build
     runs-on: ubuntu-latest

@@ -5,10 +5,15 @@
 #include "Utility.hpp"
 #include <utility>
 
-#include "Client.hpp"
+#include <Testing/TwitchApi.h>
 
-class Client;
 class Bot;
+
+namespace Lucent
+{
+	class TwitchApi;
+	struct ChatMessage;
+}
 
 class Command
 {
@@ -18,14 +23,16 @@ public:
 	Command(Bot* aBot, const std::string& aCommandName);
 	bool IsCommand(std::string aCommandName);
 
-	virtual bool HandleCommandLogic(Client& aClient, const PRIVMSG& priv, const std::string& aMessage);
-	bool HandleCommand(Client& aClient, const PRIVMSG& priv, const std::string& command);
+	virtual bool HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage);
+	bool HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& command);
 	std::pair<std::string, std::string> SplitCommand(const std::string& command);
 
-	void SendPRIVMSG(Client& aClient, const std::string& aChannel, const std::string& msg);
+	void SendPRIVMSG(Lucent::TwitchApi& aClient, const std::string& aChannel, const std::string& msg);
 
 	template<typename T>
 	T* GetBot();
+
+	bool IsEnabled();
 
 protected:
 
@@ -33,6 +40,8 @@ protected:
 
 	std::string myCommandName;
 	std::vector<std::shared_ptr<Command>> mySubCommands;
+
+	bool myIsEnabled = true;
 
 private:
 	Bot* myBot;

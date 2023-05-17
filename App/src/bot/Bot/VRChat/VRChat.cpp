@@ -17,7 +17,7 @@ bool AllSameChars(std::string testStr, char aChar) {
 	return testStr.find_first_not_of(aChar) == std::string::npos;
 }
 
-VRChat::VRChat(Client& client) : ::Bot(client)
+VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
 {
 	sock::Startup();
 
@@ -80,7 +80,7 @@ VRChat::~VRChat()
 	m_running = false;
 }
 
-void VRChat::HandleEvent(const sf::Event& event)
+void VRChat::HandleEvent()
 {
 }
 
@@ -98,14 +98,14 @@ void VRChat::Draw()
 	ImGui::End();
 }
 
-void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
+void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
-	auto [first, second] = SplitCommand(priv.message);
+	auto [first, second] = SplitCommand(priv.Message);
 	first.erase(0, 1);
 
 	for (int i = 0; i < myCommands.size(); i++)
 	{
-		if (myCommands[i]->IsCommand(first))
+		if (myCommands[i]->IsCommand(first) && myCommands[i]->IsEnabled())
 		{
 			if (myCommands[i]->HandleCommand(myClient, priv, second))
 			{
@@ -394,7 +394,7 @@ void VRChat::HandlePRIVMSG(const PRIVMSG& priv)
 		{
 			if(!IsAppRunning(priv)) return;
 
-			if (IsAdmin(priv.username))
+			if (IsAdmin(priv.Username))
 			{
 				myOSCTransmitter.SendChatboxMessage("/chatbox/input", commandData);
 			}
@@ -482,7 +482,7 @@ osc::Receiver& VRChat::GetReceiver()
 	return myOSCRx;
 }
 
-bool VRChat::IsAppRunning(const PRIVMSG& priv)
+bool VRChat::IsAppRunning(const Lucent::ChatMessage& priv)
 {
 	if(!IsProgramRunning(L"VRChat"))
 	{

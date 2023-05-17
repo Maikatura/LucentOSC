@@ -4,12 +4,13 @@
 
 
 #include "Settings.hpp"
+#include "Testing/TwitchApi.h"
 
 class Application
 {
 public:
 	Application();
-	Application(Client& client);
+	Application(Lucent::TwitchApi& client);
 	Application(const Application& aApplication);
 
 	bool Run();
@@ -22,7 +23,7 @@ private:
 	void Update();
 	void Render();
 
-	void HandlePRIVMSG(const PRIVMSG& priv);
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv);
 	void SetUpdateBuffers(bool cond);
 	void SetMinimized(bool cond);
 	static LRESULT CALLBACK WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam);
@@ -32,7 +33,7 @@ private:
 	HWND myWindowHandle{};
 
 	Settings mySettings;
-	Client& m_client;
+	Lucent::TwitchApi& myClient;
 	bool myWantToResizeBuffers = false;
 	bool myIsMinimized = false;
 	bool myIsRunning = true;

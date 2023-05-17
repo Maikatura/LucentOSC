@@ -4,7 +4,7 @@ CumCmd::CumCmd(Bot* aBot) : Command(aBot, "cum")
 {
 }
 
-bool CumCmd::HandleCommandLogic(Client& aClient, const PRIVMSG& priv, const std::string& aMessage)
+bool CumCmd::HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage)
 {
 	SendPRIVMSG(aClient, priv.Channel, "CUM");
 

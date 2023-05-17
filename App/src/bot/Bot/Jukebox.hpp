@@ -17,14 +17,14 @@ public:
 	};
 
 public:
-	explicit Jukebox(Client& client);
+	explicit Jukebox(Lucent::TwitchApi& client);
 	~Jukebox();
 
-	void HandleEvent(const sf::Event& event) override;
+	void HandleEvent() override;
 	void Update() override;
 	void Draw() override;
 
-	void HandlePRIVMSG(const PRIVMSG& priv) override;
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv) override;
 
 
 private:

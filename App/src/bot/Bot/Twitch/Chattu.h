@@ -19,14 +19,14 @@ public:
 	};
 
 public:
-	explicit Chattu(Client& client);
+	explicit Chattu(Lucent::TwitchApi& client);
 	~Chattu();
 
-	void HandleEvent(const sf::Event& event) override;
+	void HandleEvent() override;
 	void Update() override;
 	void Draw() override;
 
-	void HandlePRIVMSG(const PRIVMSG& priv) override;
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv) override;
 
 
 private:

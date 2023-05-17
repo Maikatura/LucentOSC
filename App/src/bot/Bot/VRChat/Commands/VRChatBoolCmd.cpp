@@ -6,7 +6,7 @@
 VRChatBoolCmd::VRChatBoolCmd(Bot* aBot) : Command(aBot, "bool")
 { }
 
-bool VRChatBoolCmd::HandleCommandLogic(Client& aClient, const PRIVMSG& priv, const std::string& aMessage)
+bool VRChatBoolCmd::HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage)
 {
 	
 

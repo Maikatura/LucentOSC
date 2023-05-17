@@ -22,16 +22,16 @@ public:
 	};
 
 public:
-	explicit VRChat(Client& client);
+	explicit VRChat(Lucent::TwitchApi& client);
 	~VRChat();
 
-	void HandleEvent(const sf::Event& event) override;
+	void HandleEvent() override;
 	void Update() override;
 	void Draw() override;
 
-	void HandlePRIVMSG(const PRIVMSG& priv) override;
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv) override;
 
-	bool IsAppRunning(const PRIVMSG& priv);
+	bool IsAppRunning(const Lucent::ChatMessage& priv);
 
 	bool FindFile(std::filesystem::path path, std::filesystem::path& foundLocation, const std::string& aFilename, std::vector<std::filesystem::path>& filenames = std::vector<std::filesystem::path>());
 	std::string GetFullParameterName(const std::string& aChannel, const std::string& aToggleName, OSCType aType);

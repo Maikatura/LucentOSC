@@ -1,15 +1,18 @@
 #pragma once
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Window/Event.hpp>
 
 #include <memory>
 
 #include "Command.h"
 #include "Bot/Discord/Base/CommandBase.h"
 
-class Client;
-struct PRIVMSG;
+
+namespace Lucent
+{
+	class TwitchApi;
+	struct ChatMessage;
+}
+
 
 class Bot
 {
@@ -17,17 +20,17 @@ public:
 	using Ptr = std::unique_ptr<Bot>;
 
 public:
-	explicit Bot(Client& client);
+	explicit Bot(Lucent::TwitchApi& client);
 	virtual ~Bot() = default;
 
 	Bot(const Bot&) = delete;
 	Bot& operator=(const Bot&) = delete;
 
-	virtual void HandleEvent(const sf::Event& event) = 0;
+	virtual void HandleEvent() = 0;
 	virtual void Update() {};
 	virtual void Draw() = 0;
 
-	virtual void HandlePRIVMSG(const PRIVMSG& priv) = 0;
+	virtual void HandlePRIVMSG(const Lucent::ChatMessage& aMessage) = 0;
 
 protected:
 	bool IsAdmin(const std::string& username) const;
@@ -36,7 +39,7 @@ protected:
 	std::vector<std::shared_ptr<Command>> myCommands;
 	std::vector<std::shared_ptr<CommandBase>> myDiscordCommands;
 
-	Client& myClient;
+	Lucent::TwitchApi& myClient;
 private:
 };
 

@@ -5,5 +5,5 @@ class VRChatRootCmd : public Command
 {
 public:
 	VRChatRootCmd(Bot* aBot);
-	bool HandleCommandLogic(Client& aClient,const PRIVMSG& priv, const std::string& aMessage) override;
+	bool HandleCommandLogic(Lucent::TwitchApi& aClient,const Lucent::ChatMessage& priv, const std::string& aMessage) override;
 };

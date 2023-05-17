@@ -163,10 +163,3 @@ std::string exec(const std::wstring& cmd)
 
 	return result;
 }
-
-void centerOrigin(sf::Text& text)
-{
-	const sf::FloatRect bounds = text.getLocalBounds();
-
-	text.setOrigin(std::floor(bounds.left + bounds.width / 2), std::floor(bounds.top + bounds.height / 2));
-}

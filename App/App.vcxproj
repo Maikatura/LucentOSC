@@ -72,7 +72,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;d3d11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;opengl32.lib;winmm.lib;d3d11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\lib;..\External\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>-ignore:4006 -ignore:4099 -ignore:4324 -ignore:4251 -ignore:4275 -ignore:4355 -ignore:4505 -ignore:4244 %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -98,14 +98,14 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;sfml-main.lib;sfml-graphics.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;opengl32.lib;winmm.lib;d3d11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Iphlpapi.lib;Userenv.lib;opengl32.lib;winmm.lib;d3d11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\lib;..\External\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>-ignore:4006 -ignore:4099 -ignore:4324 -ignore:4251 -ignore:4275 -ignore:4355 -ignore:4505 -ignore:4244 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Framework\DX11.h" />
-    <ClInclude Include="src\Testing\NewTwitchApi.h" />
+    <ClInclude Include="src\Testing\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />
     <ClInclude Include="src\bot\Bot.hpp" />
     <ClInclude Include="src\bot\Bot\Discord\Base\CommandBase.h" />
@@ -149,7 +149,7 @@
   <ItemGroup>
     <ClCompile Include="src\Framework\DX11.cpp" />
     <ClCompile Include="src\LucentOSC.cpp" />
-    <ClCompile Include="src\Testing\NewTwitchApi.cpp" />
+    <ClCompile Include="src\Testing\TwitchApi.cpp" />
     <ClCompile Include="src\bot\Application.cpp" />
     <ClCompile Include="src\bot\Bot.cpp" />
     <ClCompile Include="src\bot\Bot\Discord\Base\CommandBase.cpp" />

@@ -15,7 +15,7 @@
 #include <iomanip>
 
 
-Discord::Discord(Client& client) : Bot(client)
+Discord::Discord(Lucent::TwitchApi& client) : Bot(client)
 {
 	myConnection = ConnectionStatus::Disconnected;
 	//Start();
@@ -26,7 +26,7 @@ Discord::~Discord()
 	Stop();
 }
 
-void Discord::HandleEvent(const sf::Event& event)
+void Discord::HandleEvent()
 {
 }
 
@@ -68,7 +68,7 @@ void Discord::Draw()
 	ImGui::End();
 }
 
-void Discord::HandlePRIVMSG(const PRIVMSG& priv)
+void Discord::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
 }
 

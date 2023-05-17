@@ -11,7 +11,7 @@
 
 namespace fs = std::filesystem;
 
-Jukebox::Jukebox(Client& client)
+Jukebox::Jukebox(Lucent::TwitchApi& client)
 	: Bot(client)
 {
 	
@@ -22,7 +22,7 @@ Jukebox::~Jukebox()
 	m_running = false;
 }
 
-void Jukebox::HandleEvent(const sf::Event& event)
+void Jukebox::HandleEvent()
 {
 }
 
@@ -34,9 +34,9 @@ void Jukebox::Draw()
 {
 }
 
-void Jukebox::HandlePRIVMSG(const PRIVMSG& priv)
+void Jukebox::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
-	const auto [first, second] = SplitCommand(priv.message);
+	const auto [first, second] = SplitCommand(priv.Message);
 
 
 	if (first == "!songrequest" || first == "!sr")
@@ -53,7 +53,7 @@ void Jukebox::HandlePRIVMSG(const PRIVMSG& priv)
 		}
 
 		else
-			SendPRIVMSG(priv.Channel, '@' + priv.username + " Usage: !sr [a link or song title] (Supported sites: https://rg3.github.io/youtube-dl/supportedsites.html)");
+			SendPRIVMSG(priv.Channel, '@' + priv.Username + " Usage: !sr [a link or song title] (Supported sites: https://rg3.github.io/youtube-dl/supportedsites.html)");
 	}
 
 	else if (first == "!skip")
@@ -62,11 +62,11 @@ void Jukebox::HandlePRIVMSG(const PRIVMSG& priv)
 
 		if (m_state == State::PlayingDefaultSong)
 		{
-			SendPRIVMSG(priv.Channel, '@' + priv.username + " Skipped the current song.");
+			SendPRIVMSG(priv.Channel, '@' + priv.Username + " Skipped the current song.");
 		}
 
 		else
-			SendPRIVMSG(priv.Channel, '@' + priv.username + " Requested songs can't be skipped.");
+			SendPRIVMSG(priv.Channel, '@' + priv.Username + " Requested songs can't be skipped.");
 	}
 
 }

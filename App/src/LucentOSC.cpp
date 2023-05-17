@@ -14,7 +14,7 @@
 #include <dpp/dpp.h>
 #include <tchar.h>
 
-#include <Testing/NewTwitchApi.h>
+#include <Testing/TwitchApi.h>
 
 
 std::string endpoint = "maikatura";
@@ -55,13 +55,13 @@ int main()
 	std::string username = twitch["username"].get<std::string>();
 
 
-	/*NewTwitchApi test;
-	test.Start(oauth, username);*/
 
+	
 
-	Client client;
-	if(client.Connect(oauth, username, myJoinChannel, admins))
+	Lucent::TwitchApi client;
+	if(client.Connect(oauth, username))
 	{
+		client.Join(myJoinChannel);
 		Application app(client);
 		app.Run();
 	}
@@ -71,6 +71,6 @@ int main()
 		std::cin.get();
 	}
 
-	client.disconnect();
+	client.Disconnect();
 }
 

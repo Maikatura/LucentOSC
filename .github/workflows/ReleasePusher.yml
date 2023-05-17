@@ -8,8 +8,6 @@ name: Release Pusher
 on:
   push:
     branches: [ "main" ]
-    tags:
-      - "v*.*.*"
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -51,5 +49,6 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
+          tag_name: "Windows"
           files: ./bin/*
       

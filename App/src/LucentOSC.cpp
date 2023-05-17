@@ -1,18 +1,9 @@
-#include "misc/print.h"
-#include "osclib/osc.h"
-#include "osclib/sock.h"
-#include <cstring>
 #include <fstream>
 #include <iostream>
-#include <signal.h>
 #include <thread>
-#include <Windows.h>
 
-#include "bot/Client.hpp"
 #include "bot/Application.hpp"
-#include "misc/TimerManager.h"
 #include <dpp/dpp.h>
-#include <tchar.h>
 
 #include <Twitch/TwitchApi.h>
 

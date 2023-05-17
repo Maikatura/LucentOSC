@@ -20,7 +20,7 @@ class Command
 public:
 
 
-	Command(Bot* aBot, const std::string& aCommandName);
+	Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand = false);
 	bool IsCommand(std::string aCommandName);
 
 	virtual bool HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage);
@@ -32,7 +32,9 @@ public:
 	template<typename T>
 	T* GetBot();
 
+	bool HasSubCommands();
 	bool IsEnabled();
+	bool IsRootCommand();
 
 protected:
 
@@ -42,9 +44,10 @@ protected:
 	std::vector<std::shared_ptr<Command>> mySubCommands;
 
 	bool myIsEnabled = true;
+	bool myIsRootCommand = false;
 
 private:
-	Bot* myBot;
+	Bot* myBot = nullptr;
 };
 
 template <typename T>

@@ -30,6 +30,11 @@ public:
 	virtual void Update() {};
 	virtual void Draw() = 0;
 
+
+	void HandleBotCommands(const Lucent::ChatMessage& priv);
+
+	void HandleCommands(const Lucent::ChatMessage& priv);
+
 	virtual void HandlePRIVMSG(const Lucent::ChatMessage& aMessage) = 0;
 
 protected:

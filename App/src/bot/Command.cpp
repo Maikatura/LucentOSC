@@ -6,7 +6,7 @@
 #include "misc/print.h"
 #include "Testing/TwitchApi.h"
 
-Command::Command(Bot* aBot, const std::string& aCommandName) : myBot(aBot), myCommandName(aCommandName)
+Command::Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand) : myBot(aBot), myCommandName(aCommandName), myIsRootCommand(isARootCommand)
 {
 }
 
@@ -22,7 +22,7 @@ bool Command::IsCommand(std::string aCommandName)
 
 bool Command::HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage)
 {
-	return false;
+	return true;
 }
 
 bool Command::HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& command)
@@ -32,14 +32,19 @@ bool Command::HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessag
 	{
 		if(mySubCommands[i]->IsCommand(first))
 		{
-			if(mySubCommands[i]->HandleCommand(aClient, priv, second))
+			if (mySubCommands[i]->HasSubCommands())
 			{
-				return true;
+				return mySubCommands[i]->HandleCommand(aClient, priv, second);
 			}
+			else
+			{
+				return mySubCommands[i]->HandleCommandLogic(aClient, priv, command);
+			}
+			
 		}
 	}
 
-	return HandleCommandLogic(aClient, priv, command);
+	return false;
 }
 
 std::pair<std::string, std::string> Command::SplitCommand(const std::string& command)
@@ -66,9 +71,19 @@ void Command::SendPRIVMSG(Lucent::TwitchApi& aClient, const std::string& aChanne
 	aClient.SendChatMessage(aChannel, msg);
 }
 
+bool Command::HasSubCommands()
+{
+	return !mySubCommands.empty();
+}
+
 bool Command::IsEnabled()
 {
 	return myIsEnabled;
+}
+
+bool Command::IsRootCommand()
+{
+	return myIsRootCommand;
 }
 
 bool Command::IsAppOpen(const std::wstring& aApplication)

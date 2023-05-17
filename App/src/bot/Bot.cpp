@@ -7,6 +7,28 @@ Bot::Bot(Lucent::TwitchApi& client)
 {
 }
 
+void Bot::HandleBotCommands(const Lucent::ChatMessage& priv)
+{
+	HandleCommands(priv);
+	HandlePRIVMSG(priv);
+}
+
+void Bot::HandleCommands(const Lucent::ChatMessage& priv)
+{
+	auto [first, second] = SplitCommand(priv.Message);
+	for(int i = 0; i < myCommands.size(); i++)
+	{
+		if(myCommands[i]->IsCommand(first))
+		{
+			if(myCommands[i]->HasSubCommands())
+			{
+				myCommands[i]->HandleCommand(myClient, priv, second);
+			}
+		}
+	}
+}
+
+
 bool Bot::IsAdmin(const std::string& username) const
 {
 	return false;

@@ -100,18 +100,9 @@ void VRChat::Draw()
 
 void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
-	auto [first, second] = SplitCommand(priv.Message);
-	first.erase(0, 1);
+	
 
-	for (int i = 0; i < myCommands.size(); i++)
-	{
-		if (myCommands[i]->IsCommand(first) && myCommands[i]->IsEnabled())
-		{
-			if (myCommands[i]->HandleCommand(myClient, priv, second))
-			{
-			}
-		}
-	}
+	auto [first, second] = SplitCommand(priv.Message);
 
 	
 	if (first == "vrchat")

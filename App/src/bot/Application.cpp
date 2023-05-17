@@ -304,11 +304,14 @@ void Application::ProcessInput()
 
 		if(!message.Message.empty() && message.Message[0] == '!')
 		{
+			message.Message.erase(0, 1);
 			HandlePRIVMSG(message);
+
+
 
 			for(auto& bot : m_bots)
 			{
-				bot->HandlePRIVMSG(message);
+				bot->HandleBotCommands(message);
 			}
 		}
 	}

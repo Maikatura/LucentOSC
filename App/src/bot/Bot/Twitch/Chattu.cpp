@@ -26,7 +26,6 @@ void Chattu::Draw()
 void Chattu::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 {
 	auto [first, second] = SplitCommand(priv.Message);
-	first.erase(0, 1);
 
 	for(int i = 0; i < myCommands.size(); i++)
 	{
@@ -41,6 +40,6 @@ void Chattu::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 
 	if(first == "!help")
 	{
-		SendPRIVMSG(priv.Channel, "Find me at https://github.com/maikatura/VRCBotTV");
+		SendPRIVMSG(priv.Channel, "Find me at https://github.com/maikatura/LucentOSC");
 	}
 }

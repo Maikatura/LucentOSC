@@ -45,11 +45,16 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
     
+
+        
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
     - name: Install zip
       uses: montudor/action-zip@v1  
     
     - name: Zip output
-      run: zip -qq -r Build_Windows_x64.zip ./bin
+      run: zip -qq -r LucentOSC_Windows_x64.zip ./bin
       working-directory: ./build    
     
     - name: Release
@@ -57,4 +62,3 @@ jobs:
       with:
         tag_name: "Windows"
         files: ./build/*
-      

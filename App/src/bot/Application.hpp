@@ -19,6 +19,8 @@ public:
 
 
 private:
+	void SetupImGuiStyle();
+
 	void ProcessInput();
 	void Update();
 	void Render();
@@ -33,6 +35,9 @@ private:
 	HWND myWindowHandle{};
 
 	Settings mySettings;
+
+	std::string myJoinChannel;
+
 	Lucent::TwitchApi& myClient;
 	bool myWantToResizeBuffers = false;
 	bool myIsMinimized = false;

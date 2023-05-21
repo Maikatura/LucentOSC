@@ -29,8 +29,7 @@ linkoptions
 disablewarnings
 {
     "26812", --prefer enum class over enum
-    "26451", --arithmetic overflow
-	"2220"
+    "26451" --arithmetic overflow
 }
 
 defines
@@ -54,14 +53,13 @@ defines
 libdirs 
 { 
 	"%{wks.location}/lib/",
-	"%{Libs.SFML}"
 }
 
 includedirs{
     "./src",
 	"%{IncludeDirs.ImGui}",
-	"%{IncludeDirs.SFML}",
-	"%{IncludeDirs.DPP}"
+	"%{IncludeDirs.SFML}"
+	--"%{IncludeDirs.DPP}"
 }
 
 externalincludedirs {
@@ -72,7 +70,7 @@ externalwarnings "Off"
 
 links
 {
-	"DPP",
+	--"DPP",
 	"ImGui",
 	
 	"ws2_32.lib",

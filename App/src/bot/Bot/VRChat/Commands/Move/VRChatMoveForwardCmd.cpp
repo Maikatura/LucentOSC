@@ -1,0 +1,36 @@
+#include "VRChatMoveForwardCmd.h"
+
+#include "bot/Bot/VRChat/VRChat.h"
+#include "misc/TimerManager.h"
+
+VRChatMoveForwardCmd::VRChatMoveForwardCmd(Bot* aBot) : Command(aBot, "forward")
+{
+}
+
+bool VRChatMoveForwardCmd::HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv,
+	const std::string& aMessage)
+{
+
+	if(!IsAppOpen(L"VRChat"))
+		return false;
+
+
+	auto bot = GetBot<VRChat>();
+
+	const auto toggleValue = aMessage;
+
+	bot->GetTransmitter().SendInt("/input/MoveForward", 1);
+
+	std::string value = toggleValue;
+	if(toggleValue.empty() && ContainsOnlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
+	{
+		value = "1";
+	}
+
+	TimerManager::AddTimer([&]()
+	{
+		GetBot<VRChat>()->GetTransmitter().SendInt("/input/MoveForward", 0);
+	}, std::stof(value), false);
+
+	return true;
+}

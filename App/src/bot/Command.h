@@ -29,12 +29,16 @@ public:
 
 	void SendPRIVMSG(Lucent::TwitchApi& aClient, const std::string& aChannel, const std::string& msg);
 
+
+	void Draw();
+
 	template<typename T>
 	T* GetBot();
 
 	bool HasSubCommands();
-	bool IsEnabled();
 	bool IsRootCommand();
+	bool& IsEnabled();
+	std::string GetCommandName();
 
 protected:
 
@@ -47,8 +51,12 @@ protected:
 	bool myIsRootCommand = false;
 
 private:
+
+	void DrawInternalStuff();
+
 	Bot* myBot = nullptr;
 };
+
 
 template <typename T>
 T* Command::GetBot()

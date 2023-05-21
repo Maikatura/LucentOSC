@@ -32,7 +32,7 @@ void Kick::Draw()
 {
 }
 
-void Kick::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void Kick::HandlePRIVMSG(const Lucent::ChatMessage& priv,  bool aIgnoreEnabledCheck)
 {
 }
 

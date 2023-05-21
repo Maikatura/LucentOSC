@@ -14,6 +14,15 @@ namespace Lucent
 }
 
 
+inline bool ContainsOnlyNumber(std::string const& str) {
+	return str.find_first_of("1234567890.") ==
+		std::string::npos;
+}
+
+inline bool AllSameChars(std::string testStr, char aChar) {
+	return testStr.find_first_not_of(aChar) == std::string::npos;
+}
+
 class Bot
 {
 public:
@@ -35,7 +44,7 @@ public:
 
 	void HandleCommands(const Lucent::ChatMessage& priv);
 
-	virtual void HandlePRIVMSG(const Lucent::ChatMessage& aMessage) = 0;
+	virtual void HandlePRIVMSG(const Lucent::ChatMessage& aMessage, bool aIgnoreEnabledCheck = false) = 0;
 
 protected:
 	bool IsAdmin(const std::string& username) const;

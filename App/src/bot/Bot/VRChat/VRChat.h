@@ -29,7 +29,7 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void HandlePRIVMSG(const Lucent::ChatMessage& priv) override;
+	void HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck = false) override;
 
 	bool IsAppRunning(const Lucent::ChatMessage& priv);
 

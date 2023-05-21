@@ -8,13 +8,9 @@
 #include "misc/TimerManager.h"
 #include "osclib/sock.h"
 
-bool ContainsOlyNumber(std::string const& str) {
+inline bool ContainsOlyNumber(std::string const& str) {
 	return str.find_first_of("1234567890.") ==
 		std::string::npos;
-}
-
-bool AllSameChars(std::string testStr, char aChar) {
-	return testStr.find_first_not_of(aChar) == std::string::npos;
 }
 
 VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
@@ -32,7 +28,7 @@ VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
 
 	myOSCListener.received = [](char const* ptr, int len)
 	{
-		//print_hex_dump(ptr, len);
+		print_hex_dump(ptr, len);
 	};
 
 	myOSCListener.value = [&](std::string const& addr, osc::Value const& value)
@@ -53,6 +49,7 @@ VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
 
 				if (oldAvatarName.empty())
 				{
+					
 					SendPRIVMSG("#maikatura", "Changed into '" + myAvatarData.AvatarName + "'");
 				}
 				else
@@ -66,6 +63,7 @@ VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
 	};
 
 	auto commandRoot = std::make_shared<VRChatRootCmd>(this);
+
 	myCommands.push_back(commandRoot);
 
 	myOSCRx.SetListener(&myOSCListener);
@@ -93,12 +91,26 @@ void VRChat::Draw()
 {
 	ImGui::Begin("VRChat");
 
-	ImGui::TextWrapped("I will add stuff here later :)");
+	ImGui::Indent();
+
+
+	if(ImGui::TreeNodeEx("Commands"))
+	{
+		for (int i = 0; i < myCommands.size(); i++)
+		{
+			myCommands[i]->Draw();
+		}
+
+		ImGui::TreePop();
+	}
+
+
+	ImGui::Unindent();
 
 	ImGui::End();
 }
 
-void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool tesedhjkashjkld)
 {
 	
 
@@ -112,15 +124,11 @@ void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 		
 		if(commandType == "float")
 		{
-			if(!IsAppRunning(priv)) return;
+			/*if(!IsAppRunning(priv)) return;
 
 			const auto [toggleName, toggleValue] = SplitCommand(commandData);
 
-			if (toggleValue.empty() || ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-			{
-				SendPRIVMSG(priv.Channel, "Value is Null or Invalid Input.");
-				return;
-			}
+			
 
 			float value = std::stof(toggleValue);
 
@@ -135,7 +143,7 @@ void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 				{
 					myOSCTransmitter.SendFloat(parameterString, value);
 				}
-			}
+			}*/
 			
 		}
 		else if(commandType == "int")
@@ -167,7 +175,7 @@ void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 		}
 		else if(commandType == "move")
 		{
-			if(!IsAppRunning(priv)) return;
+			/*if(!IsAppRunning(priv)) return;
 
 			const auto [toggleName, toggleValue] = SplitCommand(commandData);
 
@@ -249,7 +257,7 @@ void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 				myOSCTransmitter.SendInt("/input/MoveRight", 0);
 				myOSCTransmitter.SendInt("/input/MoveForward", 0);
 				myOSCTransmitter.SendInt("/input/MoveBackward", 0);
-			}
+			}*/
 		}
 		else if(commandType == "jump")
 		{

@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "Client.hpp"
+#include "imgui.h"
+#include "imgui_stdlib.h"
 #include "misc/print.h"
 #include "Twitch/TwitchApi.h"
 
@@ -32,13 +34,16 @@ bool Command::HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessag
 	{
 		if(mySubCommands[i]->IsCommand(first))
 		{
-			if (mySubCommands[i]->HasSubCommands())
+			if (mySubCommands[i]->IsEnabled())
 			{
-				return mySubCommands[i]->HandleCommand(aClient, priv, second);
-			}
-			else
-			{
-				return mySubCommands[i]->HandleCommandLogic(aClient, priv, command);
+				if(mySubCommands[i]->HasSubCommands())
+				{
+					return mySubCommands[i]->HandleCommand(aClient, priv, second);
+				}
+				else
+				{
+					return mySubCommands[i]->HandleCommandLogic(aClient, priv, second);
+				}
 			}
 			
 		}
@@ -71,12 +76,53 @@ void Command::SendPRIVMSG(Lucent::TwitchApi& aClient, const std::string& aChanne
 	aClient.SendChatMessage(aChannel, msg);
 }
 
+void Command::Draw()
+{
+
+	if (!mySubCommands.empty())
+	{
+		if(ImGui::TreeNode(myCommandName.c_str()))
+		{
+			DrawInternalStuff();
+
+			if(ImGui::TreeNode("Sub Commands"))
+			{
+				for(int i = 0; i < mySubCommands.size(); i++)
+				{
+					mySubCommands[i]->Draw();
+				}
+
+				ImGui::TreePop();
+			}
+
+			ImGui::TreePop();
+		}
+	}
+	else
+	{
+		if(ImGui::TreeNode(myCommandName.c_str()))
+		{
+			DrawInternalStuff();
+
+			ImGui::TreePop();
+		}
+	}
+
+
+}
+
+void Command::DrawInternalStuff()
+{
+	ImGui::InputText("##name", &myCommandName);
+	ImGui::Checkbox("Enabled", &myIsEnabled);
+}
+
 bool Command::HasSubCommands()
 {
 	return !mySubCommands.empty();
 }
 
-bool Command::IsEnabled()
+bool& Command::IsEnabled()
 {
 	return myIsEnabled;
 }
@@ -84,6 +130,11 @@ bool Command::IsEnabled()
 bool Command::IsRootCommand()
 {
 	return myIsRootCommand;
+}
+
+std::string Command::GetCommandName()
+{
+	return myCommandName;
 }
 
 bool Command::IsAppOpen(const std::wstring& aApplication)

@@ -68,7 +68,7 @@ void Discord::Draw()
 	ImGui::End();
 }
 
-void Discord::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void Discord::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck)
 {
 }
 

@@ -104,6 +104,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.h" />
     <ClInclude Include="src\Framework\DX11.h" />
     <ClInclude Include="src\Twitch\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />
@@ -121,7 +125,7 @@
     <ClInclude Include="src\bot\Bot\Kick\Kick.h" />
     <ClInclude Include="src\bot\Bot\Twitch\Chattu.h" />
     <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatBoolCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\VRChat.h" />
     <ClInclude Include="src\bot\Client.hpp" />
@@ -146,8 +150,15 @@
     <ClInclude Include="src\osclib\OscTypes.h" />
     <ClInclude Include="src\osclib\osc.h" />
     <ClInclude Include="src\osclib\sock.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.cpp" />
     <ClCompile Include="src\Framework\DX11.cpp" />
     <ClCompile Include="src\LucentOSC.cpp" />
     <ClCompile Include="src\Twitch\TwitchApi.cpp" />
@@ -165,7 +176,7 @@
     <ClCompile Include="src\bot\Bot\Kick\Kick.cpp" />
     <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp" />
     <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatBoolCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatBoolCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
     <ClCompile Include="src\bot\Client.cpp" />
@@ -181,6 +192,9 @@
     <ClCompile Include="src\osclib\OscTypes.cpp" />
     <ClCompile Include="src\osclib\osc.cpp" />
     <ClCompile Include="src\osclib\sock.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\External\imgui\ImGui.vcxproj">

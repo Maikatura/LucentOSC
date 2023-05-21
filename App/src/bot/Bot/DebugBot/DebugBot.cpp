@@ -23,7 +23,7 @@ void DebugBot::Draw()
 {
 }
 
-void DebugBot::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void DebugBot::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck)
 {
 
 }

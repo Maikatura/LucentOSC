@@ -23,7 +23,7 @@ void Chattu::Draw()
 {
 }
 
-void Chattu::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void Chattu::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck)
 {
 	auto [first, second] = SplitCommand(priv.Message);
 

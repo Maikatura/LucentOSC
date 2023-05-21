@@ -1,27 +1,9 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
-
 #include "bot/Application.hpp"
-#include <dpp/dpp.h>
-
 #include <Twitch/TwitchApi.h>
-
-
-std::string endpoint = "maikatura";
-
-bool interrupted = false;
-
-
-void onSIGINT(int)
-{
-	interrupted = true;
-}
-
-void msleep(int n)
-{
-	std::this_thread::sleep_for(std::chrono::milliseconds(n));
-}
+#include <json/json.hpp>
 
 int main()
 {
@@ -29,7 +11,7 @@ int main()
 	std::vector<std::string> admins;
 
 	std::ifstream ifsTwitch("data/user/twitch.json");
-	json twitch = json::parse(ifsTwitch);
+	nlohmann::json twitch = nlohmann::json::parse(ifsTwitch);
 
 
 	for(auto& admin : twitch["admins"])
@@ -45,10 +27,6 @@ int main()
 	std::string oauth = twitch["oauth"].get<std::string>();
 	std::string username = twitch["username"].get<std::string>();
 
-
-
-	
-
 	Lucent::TwitchApi client;
 	if(client.Connect(oauth, username))
 	{
@@ -63,5 +41,7 @@ int main()
 	}
 
 	client.Disconnect();
+
+	return 0;
 }
 

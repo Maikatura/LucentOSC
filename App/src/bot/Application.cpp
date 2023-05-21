@@ -35,10 +35,6 @@ inline bool ExistsTest(const std::string& name)
 	return f.good();
 }
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-
-
 Application::Application() : myClient(nullClient)
 {
 
@@ -84,29 +80,23 @@ Application::Application(Lucent::TwitchApi& client)
 	ImGui::CreateContext();
 	//ImGui::StyleColorsDark();
 
-	ImGui_ImplWin32_Init(myWindowHandle);
-	ImGui_ImplDX11_Init(DX11::Device.Get(), DX11::Context.Get());
-
-	// Setup Dear ImGui context
-	
 	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	//io.ConfigViewportsNoAutoMerge = true;
 	//io.ConfigViewportsNoTaskBarIcon = true;
 
+	ImGui_ImplWin32_Init(myWindowHandle);
+	ImGui_ImplDX11_Init(DX11::Device.Get(), DX11::Context.Get());
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
-
-	
 
 	m_bots.emplace_back(std::make_unique<VRChat>(myClient));
 	m_bots.emplace_back(std::make_unique<Chattu>(myClient));
-	m_bots.emplace_back(std::make_unique<Discord>(myClient));
-	m_bots.emplace_back(std::make_unique<Kick>(myClient));
+	//m_bots.emplace_back(std::make_unique<Kick>(myClient));
+	//m_bots.emplace_back(std::make_unique<Discord>(myClient));
 }
 
 Application::Application(const Application& aApplication) : Application(aApplication.myClient)
@@ -115,19 +105,11 @@ Application::Application(const Application& aApplication) : Application(aApplica
 
 bool Application::Run()
 {
-	
-	MSG msg = { 0 };
-
 	// Main loop
+	myIsRunning = true;
 	while(myIsRunning)
 	{
-
-		// Poll and handle events (inputs, window resize, etc.)
-		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-
+		MSG msg = { 0 };
 		while(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -135,7 +117,6 @@ bool Application::Run()
 
 			if(msg.message == WM_QUIT)
 			{
-
 				myIsRunning = false;
 			}
 		}
@@ -145,18 +126,8 @@ bool Application::Run()
 			break;
 		}
 
-		/*for(auto& layer : myLayerStack)
-			layer->OnUpdate(myTimeStep);*/
-
-	
 		if(!myIsMinimized)
 		{
-
-			// Start the Dear ImGui frame
-			ImGui_ImplWin32_NewFrame();
-			ImGui_ImplDX11_NewFrame();
-			ImGui::NewFrame();
-
 			if(myWantToResizeBuffers)
 			{
 				if(DX11::SwapChain)
@@ -166,10 +137,12 @@ bool Application::Run()
 				myWantToResizeBuffers = false;
 			}
 
+			// Start the Dear ImGui frame
+			ImGui_ImplWin32_NewFrame();
+			ImGui_ImplDX11_NewFrame();
+			ImGui::NewFrame();
 
-
-			std::array<float, 4> clear_color[4] = { 0.0f, 0.0f,0.0f,1.0f };
-
+			std::array<float, 4> clear_color[4] = { 0.0f, 0.0f, 0.0f ,1.0f };
 			DX11::BeginFrame(clear_color[0]);
 
 			Update();
@@ -178,10 +151,8 @@ bool Application::Run()
 			{
 				static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-				// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-				// because it would be confusing to have two docking targets within each others.
-				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
 				
+				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
 
 				const ImGuiViewport* viewport = ImGui::GetMainViewport();
 				ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -192,40 +163,35 @@ bool Application::Run()
 				window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 				window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-				// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
-				// and handle the pass-thru hole, so we ask Begin() to not render a background.
+				
 				if(dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 					window_flags |= ImGuiWindowFlags_NoBackground;
 
-				// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-				// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
-				// all active windows docked into it will lose their parent and become undocked.
-				// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
-				// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+				
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 				ImGui::Begin("DockSpace Demo", nullptr, window_flags);
 				ImGui::PopStyleVar();
 
 				ImGui::PopStyleVar(2);
 
-				// Submit the DockSpace
+				
 				ImGuiIO& io = ImGui::GetIO();
 				if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 				{
-					ImGuiID dockspace_id = ImGui::GetID("VulkanAppDockspace");
+					ImGuiID dockspace_id = ImGui::GetID("DX11AppDockspace");
 					ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 				}
 
 				
-				if(ImGui::BeginMenuBar())
+				if(ImGui::BeginMainMenuBar())
 				{
 
-					if (ImGui::BeginMenu("Hello"))
+					if(ImGui::BeginMenu("Help"))
 					{
-						
+						ImGui::EndMenu();
 					}
 
-					ImGui::EndMenuBar();
+					ImGui::EndMainMenuBar();
 				}
 
 				Render();
@@ -239,19 +205,13 @@ bool Application::Run()
 			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 			ImGuiIO& io = ImGui::GetIO();
-			// Update and Render additional Platform Windows
 			if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 			{
 				ImGui::UpdatePlatformWindows();
 				ImGui::RenderPlatformWindowsDefault();
 			}
 
-			/*float time = 0.0f;
-			myFrameTime = time - myLastFrameTime;
-			myLastFrameTime = time;*/
-
 			DX11::EndFrame();
-
 		}
 	}
 
@@ -265,14 +225,14 @@ bool Application::IsRunning()
 
 void Application::Stop()
 {
-
-
-
 	myIsRunning = false;
 
 	ImGui_ImplWin32_Shutdown();
 	ImGui_ImplDX11_Shutdown();
 	ImGui::DestroyContext();
+
+	::DestroyWindow(myWindowHandle);
+	//::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 }
 
 void Application::ProcessInput()
@@ -445,6 +405,8 @@ void Application::SetMinimized(bool cond)
 	myIsMinimized = cond;
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
 {
 	// We want to be able to access the Graphics Engine instance from inside this function.
@@ -490,6 +452,13 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 						break;
 				}
 			}
+			return 0;
+		}
+
+		case WM_DESTROY:
+		{
+			::PostQuitMessage(0);
+			return 0;
 		}
 
 		case WM_EXITSIZEMOVE:
@@ -498,6 +467,7 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 			{
 				graphicsEnginePtr->SetUpdateBuffers(true);
 			}
+			return 0;
 		}
 
 		case WM_SYSCOMMAND:
@@ -507,13 +477,6 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 				return 0;
 			}
 			break;
-		}
-
-
-
-		case WM_DESTROY:
-		{
-			PostQuitMessage(0);
 		}
 
 		case WM_DROPFILES:

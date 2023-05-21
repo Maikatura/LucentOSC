@@ -37,7 +37,8 @@ defines
 {
     "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS",
 	"_WINSOCKAPI_",
-	"NOMINMAX"
+	"NOMINMAX",
+	"DPP_STATIC"
 }
 
 includedirs{

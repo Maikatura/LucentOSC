@@ -68,92 +68,92 @@ void Discord::Draw()
 	ImGui::End();
 }
 
-void Discord::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void Discord::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck)
 {
 }
 
 void Discord::Start()
 {
-	if(myConnection == ConnectionStatus::Connected)
-	{
-		return;
-	}
+	//if(myConnection == ConnectionStatus::Connected)
+	//{
+	//	return;
+	//}
 
 
-	FileChecker::LoadFile<DiscordSettings>("data/user/discord.json", mySettings);
+	//FileChecker::LoadFile<DiscordSettings>("data/user/discord.json", mySettings);
 
-	if(mySettings.Token.empty())
-	{
-		return;
-	}
-
-
-	myCluster = new dpp::cluster(mySettings.Token, dpp::i_default_intents | dpp::i_message_content);
-	myCluster->on_log(dpp::utility::cout_logger());
-
-	myCommandHandler = new dpp::commandhandler(myCluster);
-	myCommandHandler->add_prefix(mySettings.Prefix).add_prefix("/");
+	//if(mySettings.Token.empty())
+	//{
+	//	return;
+	//}
 
 
-	myCluster->on_ready([&](const dpp::ready_t& event)
-	{
-	/*	myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
-		myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
-		myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
-		myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));*/
+	//myCluster = new dpp::cluster(mySettings.Token, dpp::i_default_intents | dpp::i_message_content);
+	//myCluster->on_log(dpp::utility::cout_logger());
 
-		///* NOTE: We must call this to ensure slash commands are registered.
-		// * This does a bulk register, which will replace other commands
-		// * that are registered already!
-		// */
-		//myCommandHandler->register_commands();
+	//myCommandHandler = new dpp::commandhandler(myCluster);
+	//myCommandHandler->add_prefix(mySettings.Prefix).add_prefix("/");
 
 
-		if(dpp::run_once<struct register_bot_commands>())
-		{
-			myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
-			myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
-			myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
-			myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));
-		}
-	});
+	//myCluster->on_ready([&](const dpp::ready_t& event)
+	//{
+	///*	myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
+	//	myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
+	//	myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
+	//	myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));*/
 
-	
-	myCluster->on_slashcommand([&](const dpp::slashcommand_t& event)
-	{
-
-		for (int i = 0; i < myDiscordCommands.size(); i++)
-		{
-			if (event.command.get_command_name() == myDiscordCommands[i]->GetName())
-			{
-				myDiscordCommands[i]->Run(event);
-				return;
-			}
-		}
-	});
+	//	///* NOTE: We must call this to ensure slash commands are registered.
+	//	// * This does a bulk register, which will replace other commands
+	//	// * that are registered already!
+	//	// */
+	//	//myCommandHandler->register_commands();
 
 
-	/* Use the on_message_create event to look for commands */
-	myCluster->on_message_create([&](const dpp::message_create_t& event)
-	{
-		/*std::stringstream ss(event.msg.content);
-		std::string command;
-		ss >> command;
+	//	if(dpp::run_once<struct register_bot_commands>())
+	//	{
+	//		myDiscordCommands.push_back(std::make_shared<Ping>(*myCommandHandler, myCluster));
+	//		myDiscordCommands.push_back(std::make_shared<Pet>(*myCommandHandler, myCluster));
+	//		myDiscordCommands.push_back(std::make_shared<Join>(*myCommandHandler, myCluster));
+	//		myDiscordCommands.push_back(std::make_shared<VRChatCmd>(*myCommandHandler, myCluster));
+	//	}
+	//});
 
-		for (int i = 0; i < myDiscordCommands.size(); i++)
-		{
-			if (myDiscordCommands[i]->GetName() == command)
-			{
-			}
-		}*/
-	});
+	//
+	//myCluster->on_slashcommand([&](const dpp::slashcommand_t& event)
+	//{
 
-	myCluster->on_ready([&](const dpp::ready_t& event)
-	{
-		myConnection = ConnectionStatus::Connected;
-	});
+	//	for (int i = 0; i < myDiscordCommands.size(); i++)
+	//	{
+	//		if (event.command.get_command_name() == myDiscordCommands[i]->GetName())
+	//		{
+	//			myDiscordCommands[i]->Run(event);
+	//			return;
+	//		}
+	//	}
+	//});
 
-	myCluster->start(dpp::st_return);
+
+	///* Use the on_message_create event to look for commands */
+	//myCluster->on_message_create([&](const dpp::message_create_t& event)
+	//{
+	//	/*std::stringstream ss(event.msg.content);
+	//	std::string command;
+	//	ss >> command;
+
+	//	for (int i = 0; i < myDiscordCommands.size(); i++)
+	//	{
+	//		if (myDiscordCommands[i]->GetName() == command)
+	//		{
+	//		}
+	//	}*/
+	//});
+
+	//myCluster->on_ready([&](const dpp::ready_t& event)
+	//{
+	//	myConnection = ConnectionStatus::Connected;
+	//});
+
+	//myCluster->start(dpp::st_return);
 }
 
 void Discord::Stop()
@@ -163,11 +163,11 @@ void Discord::Stop()
 		return;
 	}
 
-	if (myCluster)
+	/*if (myCluster)
 	{
 		myCluster->shutdown();
 		delete myCluster;
-	}
+	}*/
 	myConnection = ConnectionStatus::Disconnected;
 }
 

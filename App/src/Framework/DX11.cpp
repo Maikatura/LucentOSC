@@ -61,7 +61,7 @@ void DX11::BeginFrame(std::array<float, 4> aClearColor)
 
 void DX11::EndFrame()
 {
-	SwapChain->Present(0, 0);
+	SwapChain->Present(1, 0);
 }
 
 RECT DX11::GetClientSize()

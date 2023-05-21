@@ -34,7 +34,7 @@ void Jukebox::Draw()
 {
 }
 
-void Jukebox::HandlePRIVMSG(const Lucent::ChatMessage& priv)
+void Jukebox::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck)
 {
 	const auto [first, second] = SplitCommand(priv.Message);
 

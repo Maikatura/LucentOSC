@@ -104,7 +104,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleLog.h" />
+    <ClInclude Include="src\misc\ConsoleLog.h" />
+    <ClInclude Include="src\misc\EnumHelper.h" />
     <ClInclude Include="src\Framework\DX11.h" />
     <ClInclude Include="src\Twitch\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />

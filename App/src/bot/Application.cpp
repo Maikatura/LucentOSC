@@ -26,7 +26,7 @@
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
 
-#include "ConsoleLog.h"
+#include "misc/ConsoleLog.h"
 
 #pragma comment(lib, "dwmapi.lib")
 

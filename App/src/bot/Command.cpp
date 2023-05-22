@@ -78,7 +78,6 @@ void Command::SendPRIVMSG(Lucent::TwitchApi& aClient, const std::string& aChanne
 
 void Command::Draw()
 {
-
 	if (!mySubCommands.empty())
 	{
 		if(ImGui::TreeNode(myCommandName.c_str()))
@@ -115,6 +114,26 @@ void Command::DrawInternalStuff()
 {
 	ImGui::InputText("##name", &myCommandName);
 	ImGui::Checkbox("Enabled", &myIsEnabled);
+	if(ImGui::BeginCombo("##Type", CommandTriggerMap[myCommandTrigger].c_str())) // The second parameter is the label previewed before opening the combo.
+	{
+		for (auto commandType : CommandTriggerMap)
+		{
+			if (commandType.first != CommandTrigger::Count)
+			{
+				bool is_selected = (myCommandTrigger == commandType.first); // You can store your selection however you want, outside or inside your objects
+				if(ImGui::Selectable(commandType.second.c_str(), is_selected))
+				{
+					myCommandTrigger = commandType.first;
+					if(is_selected)
+					{
+						ImGui::SetItemDefaultFocus();
+					}
+					// You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+				}
+			}
+		}
+		ImGui::EndCombo();
+	}
 }
 
 bool Command::HasSubCommands()

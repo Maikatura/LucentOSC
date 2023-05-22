@@ -6,6 +6,11 @@
 #include <utility>
 
 #include <Twitch/TwitchApi.h>
+#include <json/json.hpp>
+#include <type_traits>
+
+#include "misc/EnumHelper.h"
+
 
 class Bot;
 
@@ -15,6 +20,8 @@ namespace Lucent
 	struct ChatMessage;
 }
 
+
+
 enum class CommandTrigger
 {
 	Viewer,
@@ -23,6 +30,15 @@ enum class CommandTrigger
 	ChannelPoints,
 	Bits,
 	Count
+};
+
+inline std::map<CommandTrigger, std::string> CommandTriggerMap = {
+	{CommandTrigger::Viewer, "Viewer" },
+	{CommandTrigger::Subscriber, "Subscriber" },
+	{CommandTrigger::Broadcaster, "Broadcaster" },
+	{CommandTrigger::ChannelPoints, "ChannelPoints" },
+	{CommandTrigger::Bits, "Bits" },
+	{CommandTrigger::Count, "Count" }
 };
 
 class Command
@@ -49,18 +65,19 @@ public:
 	std::string GetCommandName();
 
 protected:
+	bool IsAppOpen(const std::wstring& aApplication);
 
+
+	bool myIsEnabled = true;
+	bool myIsRootCommand = false;
 
 	int myBitAmount = 0;
 	int mySubscriberMonths = 0;
 
-	bool IsAppOpen(const std::wstring& aApplication);
+	CommandTrigger myCommandTrigger = CommandTrigger::Viewer;
 
 	std::string myCommandName;
 	std::vector<std::shared_ptr<Command>> mySubCommands;
-
-	bool myIsEnabled = true;
-	bool myIsRootCommand = false;
 
 private:
 

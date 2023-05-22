@@ -7,8 +7,6 @@ name: Windows Release
 
 on:
   push:
-    tags:
-      - 'v*'
     branches: [ "main" ]
 
 env:

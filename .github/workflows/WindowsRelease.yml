@@ -18,11 +18,11 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
-permissions:
-  contents: read
+
 
 jobs:
   Upload-Release:
+    permissions: write-all
     runs-on: ubuntu-latest
     needs: build-windows
     steps:

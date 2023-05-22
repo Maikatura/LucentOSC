@@ -17,21 +17,17 @@ namespace Lucent
 
 enum class CommandTrigger
 {
-	Chat,
-	ChannelPoints,
+	Viewer,
 	Subscriber,
+	Broadcaster,
+	ChannelPoints,
 	Bits,
 	Count
 };
 
 class Command
 {
-	
-
-
 public:
-
-
 	Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand = false);
 	bool IsCommand(std::string aCommandName);
 

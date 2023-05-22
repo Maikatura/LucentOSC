@@ -26,6 +26,8 @@
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
 
+#include "ConsoleLog.h"
+
 #pragma comment(lib, "dwmapi.lib")
 
 Lucent::TwitchApi nullClient;
@@ -91,14 +93,10 @@ Application::Application(Lucent::TwitchApi& client)
 	ImGui_ImplWin32_Init(myWindowHandle);
 	ImGui_ImplDX11_Init(DX11::Device.Get(), DX11::Context.Get());
 
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-
-	m_bots.emplace_back(std::make_unique<VRChat>(myClient));
-	m_bots.emplace_back(std::make_unique<Chattu>(myClient));
-	//m_bots.emplace_back(std::make_unique<Kick>(myClient));
-	//m_bots.emplace_back(std::make_unique<Discord>(myClient));
-
+	myBots.emplace_back(std::make_unique<VRChat>(myClient));
+	myBots.emplace_back(std::make_unique<Chattu>(myClient));
+	//myBots.emplace_back(std::make_unique<Kick>(myClient));
+	//myBots.emplace_back(std::make_unique<Discord>(myClient));
 
 	SetupImGuiStyle();
 }
@@ -303,7 +301,6 @@ void Application::ProcessInput()
 	{
 		Lucent::ChatMessage message = myClient.PopMessage();
 
-
 		std::cout << "User: " << message.Username << std::endl;
 		std::cout << "Broadcaster: " << message.IsBroadcaster << std::endl;
 		std::cout << "Moderator: " << message.IsModerator << std::endl;
@@ -331,9 +328,7 @@ void Application::ProcessInput()
 			message.Message.erase(0, 1);
 			HandlePRIVMSG(message);
 
-
-
-			for(auto& bot : m_bots)
+			for(auto& bot : myBots)
 			{
 				bot->HandleBotCommands(message);
 			}
@@ -346,7 +341,7 @@ void Application::Update()
 
 	TimerManager::Update();
 
-	for (auto& bot : m_bots)
+	for (auto& bot : myBots)
 	{
 		bot->Update();
 	}
@@ -384,39 +379,11 @@ void Application::Render()
 		}
 	}
 
-	/*static std::string dataParse = " @badge-info=subscriber/4;badges=subscriber/3003,no_video/1;color=#FF69B4;display-name=Maikatura;emotes=;first-msg=0;flags=;id=25a936fb-0172-4df1-bf2c-6fa601e06981;mod=0;returning-chatter=0;room-id=27243360;subscriber=1;tmi-sent-ts=1684749476150;turbo=0;user-id=160823759;user-type= :maikatura!maikatura@maikatura.tmi.twitch.tv PRIVMSG #akiwoo :wideVIBE";
-
-	if(ImGui::Button("Parse"))
-	{
-		dataTestingBadgeInfo.clear();
-		dataTestingBadges.clear();
-		
-
-	}
-
-	for(auto data : dataTestingBadgeInfo)
-	{
-		ImGui::Text(data.first.c_str());
-		ImGui::SameLine();
-		ImGui::Text(data.second.c_str());
-	}
-
-	for(auto data : dataTestingBadges)
-	{
-		ImGui::Text(data.first.c_str());
-		ImGui::SameLine();
-		ImGui::Text(data.second.c_str());
-	}*/
-
 	ImGui::End();
 
-	ImGui::Begin("Console");
+	ConsoleLog::Get().Draw("Console");
 
-	ImGui::TextWrapped("There is nothing here right now but it will be when I have made everything print here instead of console");
-
-	ImGui::End();
-
-	for(const auto& bot : m_bots)
+	for(const auto& bot : myBots)
 	{
 		bot->Draw();
 	}
@@ -441,7 +408,7 @@ void Application::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 	{
 		bool exists = false;
 
-		for (const auto& bot : m_bots)
+		for (const auto& bot : myBots)
 		{
 			std::string name = typeid(*bot).name();
 			toLower(name);
@@ -468,7 +435,7 @@ void Application::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 
 			if (bot)
 			{
-				m_bots.emplace_back(std::move(bot));
+				myBots.emplace_back(std::move(bot));
 				myClient.SendChatMessage(priv.Channel, '@' + priv.Username + " Added bot: " + second);
 			}
 			else
@@ -481,7 +448,7 @@ void Application::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 	{
 		bool removed = false;
 
-		for (auto it = m_bots.begin(); it != m_bots.end(); ++it)
+		for (auto it = myBots.begin(); it != myBots.end(); ++it)
 		{
 			std::string name = typeid(*(*it)).name();
 			toLower(name);
@@ -489,7 +456,7 @@ void Application::HandlePRIVMSG(const Lucent::ChatMessage& priv)
 			if (endsWith(name, second))
 			{
 				removed = true;
-				m_bots.erase(it);
+				myBots.erase(it);
 				break;
 			}
 		}

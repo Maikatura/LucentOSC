@@ -34,13 +34,12 @@ private:
 
 	HWND myWindowHandle{};
 
-	Settings mySettings;
-
-	std::string myJoinChannel;
-
-	Lucent::TwitchApi& myClient;
 	bool myWantToResizeBuffers = false;
 	bool myIsMinimized = false;
 	bool myIsRunning = true;
-	std::vector<Bot::Ptr> m_bots;
+
+	Settings mySettings;
+	std::string myJoinChannel;
+	Lucent::TwitchApi& myClient;
+	std::vector<Bot::Ptr> myBots;
 };

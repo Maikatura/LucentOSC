@@ -104,6 +104,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ConsoleLog.h" />
     <ClInclude Include="src\Framework\DX11.h" />
     <ClInclude Include="src\Twitch\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />

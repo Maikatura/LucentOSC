@@ -113,4 +113,10 @@ filter "configurations:Release"
     runtime "Release"
     optimize "On"
 	
+filter "configurations:Distribution"
+	kind "WindowedApp"
+	defines "_DISTRO"
+    runtime "Release"
+    optimize "On"
+	
 filter {}

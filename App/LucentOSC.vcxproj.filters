@@ -213,6 +213,9 @@
     <ClInclude Include="src\osclib\sock.h">
       <Filter>osclib</Filter>
     </ClInclude>
+    <ClInclude Include="ConsoleLog.h">
+      <Filter>misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Framework\DX11.cpp">

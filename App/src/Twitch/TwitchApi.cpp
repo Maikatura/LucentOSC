@@ -270,7 +270,7 @@ void Lucent::TwitchApi::NetworkLoop()
 			std::string receivedData(buffer);
 
 		#ifdef _DEBUG
-			std::cout << "Received data: " << receivedData << std::endl;
+			std::cout << receivedData << std::endl;
 		#endif
 			if(receivedData.substr(0, 4) == "PING")
 			{

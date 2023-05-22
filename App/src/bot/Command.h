@@ -24,20 +24,20 @@ namespace Lucent
 
 enum class CommandTrigger
 {
-	Viewer,
+	Chat,
 	Subscriber,
-	Broadcaster,
-	ChannelPoints,
 	Bits,
+	GiftedSubs,
+	ChannelPoints,
 	Count
 };
 
 inline std::map<CommandTrigger, std::string> CommandTriggerMap = {
-	{CommandTrigger::Viewer, "Viewer" },
+	{CommandTrigger::Chat, "Chat" },
 	{CommandTrigger::Subscriber, "Subscriber" },
-	{CommandTrigger::Broadcaster, "Broadcaster" },
-	{CommandTrigger::ChannelPoints, "ChannelPoints" },
 	{CommandTrigger::Bits, "Bits" },
+	{CommandTrigger::GiftedSubs, "Gifted Subs" },
+	{CommandTrigger::ChannelPoints, "Channel Points" },
 	{CommandTrigger::Count, "Count" }
 };
 
@@ -74,7 +74,7 @@ protected:
 	int myBitAmount = 0;
 	int mySubscriberMonths = 0;
 
-	CommandTrigger myCommandTrigger = CommandTrigger::Viewer;
+	CommandTrigger myCommandTrigger = CommandTrigger::Chat;
 
 	std::string myCommandName;
 	std::vector<std::shared_ptr<Command>> mySubCommands;

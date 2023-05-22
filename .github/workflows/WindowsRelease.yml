@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: MSBuild
+name: Windows Release
 
 on:
   push:
@@ -26,31 +26,31 @@ jobs:
     runs-on: ubuntu-18.04
     needs: build-windows
     steps:
-        - uses: actions/checkout@v1
-        - name: create release
+      - uses: actions/checkout@v1
+      - name: create release
         id: create_release
         uses: actions/create-release@master
         env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-            tag_name: ${{ github.ref }}
-            release_name: Release ${{ github.ref }}
-            draft: false
-            prerelease: false
-        - name: download artifacts
-          uses: actions/download-artifact@v1
-          with:
-            name: uploads
-        - name: upload windows
-          id: upload-windows
-          uses: actions/upload-release-asset@v1.0.1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./uploads/Windows_Release.zip
-            asset_name: Windows_Release.zip
-            asset_content_type: application/zip
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: uploads
+      - name: upload windows
+        id: upload-windows
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uploads/Windows_Release.zip
+          asset_name: Windows_Release.zip
+          asset_content_type: application/zip
 
   build-windows:
     runs-on: windows-latest
@@ -76,8 +76,7 @@ jobs:
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
       
     - name: zip win artifact
-      run: |
-        powershell Compress-Archive ./bin windows.zip 
+      run: powershell Compress-Archive ./bin windows.zip 
     
     - name: upload windows artifact
       uses: actions/upload-artifact@v1

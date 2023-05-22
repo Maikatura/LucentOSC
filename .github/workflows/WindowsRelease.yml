@@ -76,7 +76,7 @@ jobs:
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
       
     - name: zip win artifact
-      run: powershell Compress-Archive ./bin Windows_Release.zip 
+      run: powershell Compress-Archive ./bin/ Windows_Release.zip 
     
     - name: upload windows artifact
       uses: actions/upload-artifact@v1

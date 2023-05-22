@@ -9,9 +9,19 @@
 
 namespace Lucent
 {
+	enum class SubcriberTier
+	{
+		None,
+		Tier1,
+		Tier2,
+		Tier3,
+		Count
+	};
 
 	struct ChatMessage
 	{
+
+
 		std::string Username;
 		std::string Message;
 		std::string Nickname; // display name
@@ -22,6 +32,8 @@ namespace Lucent
 		bool IsVIP = false;
 		bool IsFirstMessage = false;
 		bool IsTurbo = false;
+		int SubMonths = 0;
+		SubcriberTier SubTier = SubcriberTier::None;
 		unsigned int Color = 0;
 	};
 
@@ -47,11 +59,13 @@ namespace Lucent
 
 		std::vector<std::string>& GetJoinedChannels();
 
+
+		ChatMessage ParseMessage(const std::string& aMessage);
+
 	private:
 
 		void Send(const std::string& aCmd);
 
-		ChatMessage ParseMessage(const std::string& aMessage);
 		void NetworkLoop();
 
 		SOCKET mySocketDescriptor {};

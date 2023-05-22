@@ -308,7 +308,11 @@ void Application::ProcessInput()
 		std::cout << "Broadcaster: " << message.IsBroadcaster << std::endl;
 		std::cout << "Moderator: " << message.IsModerator << std::endl;
 		std::cout << "VIP: " << message.IsVIP << std::endl;
+
 		std::cout << "Subscriber: " << message.IsSub << std::endl;
+		std::cout << "Sub Tier: " << static_cast<int>(message.SubTier) << std::endl;
+		std::cout << "Sub Months: " << message.SubMonths << std::endl;
+
 		std::cout << "Chat Channel: " << message.Channel << std::endl;
 		std::cout << "Message: " << message.Message << std::endl;
 
@@ -358,6 +362,7 @@ void Application::Render()
 
 	ImGui::Begin("Twitch Settings");
 
+
 	ImGui::InputText("##Join", &myJoinChannel);
 	ImGui::SameLine();
 	if (ImGui::Button("Join"))
@@ -372,11 +377,36 @@ void Application::Render()
 	{
 		ImGui::TextWrapped(joinedChannels[i].c_str());
 		ImGui::SameLine();
-		if(ImGui::Button("Part"))
+		std::string ButtonWithId = "Part##" + joinedChannels[i];
+		if(ImGui::Button(ButtonWithId.c_str()))
 		{
 			myClient.Part(joinedChannels[i]);
 		}
 	}
+
+	/*static std::string dataParse = " @badge-info=subscriber/4;badges=subscriber/3003,no_video/1;color=#FF69B4;display-name=Maikatura;emotes=;first-msg=0;flags=;id=25a936fb-0172-4df1-bf2c-6fa601e06981;mod=0;returning-chatter=0;room-id=27243360;subscriber=1;tmi-sent-ts=1684749476150;turbo=0;user-id=160823759;user-type= :maikatura!maikatura@maikatura.tmi.twitch.tv PRIVMSG #akiwoo :wideVIBE";
+
+	if(ImGui::Button("Parse"))
+	{
+		dataTestingBadgeInfo.clear();
+		dataTestingBadges.clear();
+		
+
+	}
+
+	for(auto data : dataTestingBadgeInfo)
+	{
+		ImGui::Text(data.first.c_str());
+		ImGui::SameLine();
+		ImGui::Text(data.second.c_str());
+	}
+
+	for(auto data : dataTestingBadges)
+	{
+		ImGui::Text(data.first.c_str());
+		ImGui::SameLine();
+		ImGui::Text(data.second.c_str());
+	}*/
 
 	ImGui::End();
 

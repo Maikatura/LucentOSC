@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 // random number generation
 int randomInt(int exclusiveMax); // [0, max)
@@ -28,3 +29,5 @@ std::string utf8ToAnsi(const std::string& utf8);
 // execute a file
 std::string exec(const std::string& cmd);
 std::string exec(const std::wstring& cmd);
+
+std::vector<std::string> Split(std::string str, std::string token);

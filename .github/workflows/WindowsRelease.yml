@@ -9,7 +9,6 @@ on:
   push:
     tags:
       - 'v*'
-    branches: [ "main" ]
 
 env:
   # Path to the solution file relative to the root of the project.

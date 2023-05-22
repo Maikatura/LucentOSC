@@ -45,6 +45,8 @@ namespace Lucent
 		ChatMessage PopMessage();
 		bool IsMessageQueueEmpty() const;
 
+		std::vector<std::string>& GetJoinedChannels();
+
 	private:
 
 		void Send(const std::string& aCmd);
@@ -54,8 +56,10 @@ namespace Lucent
 
 		SOCKET mySocketDescriptor {};
 
+
 		std::atomic_bool myNetworkIsWalking = false;
 		std::thread myNetworkThread;
 		std::queue<std::string> myChatMessages;
+		std::vector<std::string> myJoinedChannels;
 	};
 }

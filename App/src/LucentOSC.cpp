@@ -5,8 +5,27 @@
 #include <Twitch/TwitchApi.h>
 #include <json/json.hpp>
 
-int main()
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
+
+#if _DEBUG
+#pragma warning( push )
+#pragma warning( disable : 4996 )
+	AllocConsole();
+	freopen("CONIN$", "r", stdin);
+	freopen("CONOUT$", "w", stdout);
+	freopen("CONOUT$", "w", stderr);
+
+	setbuf(stdin, NULL);
+	setbuf(stdout, NULL);
+	setbuf(stderr, NULL);
+#pragma warning( pop )
+#endif
+
+
 	std::vector<std::string> myJoinChannel;
 	std::vector<std::string> admins;
 
@@ -41,6 +60,15 @@ int main()
 	}
 
 	client.Disconnect();
+
+#if _DEBUG
+#pragma warning( push )
+#pragma warning( disable : 4996 )
+	fclose(stdin);
+	fclose(stdout);
+	fclose(stderr);
+#pragma warning( pop )
+#endif
 
 	return 0;
 }

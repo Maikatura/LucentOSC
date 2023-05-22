@@ -49,6 +49,12 @@
     <Filter Include="bot\Bot\VRChat\Commands">
       <UniqueIdentifier>{9641FCD8-0279-4470-0B83-A89377396B69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bot\Bot\VRChat\Commands\Move">
+      <UniqueIdentifier>{FC4F31D7-E80A-2183-91C2-99CD7D5C6B13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bot\Bot\VRChat\Commands\Parameters">
+      <UniqueIdentifier>{F9EB0C85-E527-10EF-4E3A-28E63A95B809}</UniqueIdentifier>
+    </Filter>
     <Filter Include="json">
       <UniqueIdentifier>{9F27997C-8B5E-9A0D-344B-80102061160F}</UniqueIdentifier>
     </Filter>
@@ -57,9 +63,6 @@
     </Filter>
     <Filter Include="osclib">
       <UniqueIdentifier>{61C72413-4D69-4FE9-3624-633D2265D639}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="bot\Bot\VRChat\Commands\Move">
-      <UniqueIdentifier>{bfb8573d-ce1c-49c5-b2d8-999db2d6157f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +117,28 @@
     <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h">
       <Filter>bot\Bot\Twitch\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.h">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.h">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.h">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.h">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClInclude>
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatBoolCmd.h">
+      <Filter>bot\Bot\VRChat\Commands\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.h">
+      <Filter>bot\Bot\VRChat\Commands\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.h">
+      <Filter>bot\Bot\VRChat\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.h">
       <Filter>bot\Bot\VRChat\Commands</Filter>
     </ClInclude>
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h">
@@ -189,13 +213,6 @@
     <ClInclude Include="src\osclib\sock.h">
       <Filter>osclib</Filter>
     </ClInclude>
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Framework\DX11.cpp">
@@ -247,7 +264,28 @@
     <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp">
       <Filter>bot\Bot\Twitch\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands\Move</Filter>
+    </ClCompile>
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatBoolCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.cpp">
+      <Filter>bot\Bot\VRChat\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.cpp">
       <Filter>bot\Bot\VRChat\Commands</Filter>
     </ClCompile>
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp">
@@ -295,12 +333,5 @@
     <ClCompile Include="src\osclib\sock.cpp">
       <Filter>osclib</Filter>
     </ClCompile>
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.cpp" />
   </ItemGroup>
 </Project>

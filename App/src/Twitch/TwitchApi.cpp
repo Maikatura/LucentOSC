@@ -86,6 +86,7 @@ void Lucent::TwitchApi::Disconnect()
 
 void Lucent::TwitchApi::Join(const std::string& aChannel)
 {
+	myJoinedChannels.push_back(aChannel);
 	Send("JOIN #" + aChannel);
 }
 
@@ -100,6 +101,14 @@ void Lucent::TwitchApi::Join(std::vector<std::string> aJoinList)
 void Lucent::TwitchApi::Part(const std::string& aChannel)
 {
 	Send("PART #" + aChannel);
+	for(int i = 0; i < myJoinedChannels.size(); i++)
+	{
+		if(myJoinedChannels[i] == aChannel)
+		{
+			myJoinedChannels.erase(myJoinedChannels.begin() + i);
+			i--;
+		}
+	}
 }
 
 void Lucent::TwitchApi::SendChatMessage(const std::string& aChannel, const std::string& aMessage)
@@ -164,6 +173,11 @@ Lucent::ChatMessage Lucent::TwitchApi::PopMessage()
 bool Lucent::TwitchApi::IsMessageQueueEmpty() const
 {
 	return myChatMessages.empty();
+}
+
+std::vector<std::string>& Lucent::TwitchApi::GetJoinedChannels()
+{
+	return myJoinedChannels;
 }
 
 void Lucent::TwitchApi::Send(const std::string& aCmd)

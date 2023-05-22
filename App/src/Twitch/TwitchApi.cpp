@@ -6,6 +6,7 @@
 #include <Ws2tcpip.h>
 #include <cstdlib>
 #include <iostream>
+#include <map>
 #include <thread>
 
 #include "bot/Utility.hpp"
@@ -141,14 +142,74 @@ Lucent::ChatMessage Lucent::TwitchApi::ParseMessage(const std::string& aMessage)
 
 	if(chatMsg.Message == "PRIVMSG")
 	{
+		std::map<std::string, std::string> badgeInfoData;
+		std::map<std::string, std::string> badgeData;
+
+		auto message = getSubstring(aMessage, "@");
+		auto split = Split(message, ";");
+
+		for(size_t i = 0; i < split.size(); i++)
+		{
+			auto split2 = Split(split[i], "=");
+
+			if(split2[0] == "badge-info")
+			{
+				for(size_t i = 1; i < split2.size(); i++)
+				{
+					auto dataValues = Split(split2[i], ",");
+					for(size_t i = 0; i < dataValues.size(); i++)
+					{
+						auto dataAndValue = Split(dataValues[i], "/");
+						badgeInfoData.insert({ dataAndValue[0],dataAndValue[1] });
+					}
+				}
+			}
+			else if(split2[0] == "badges")
+			{
+				for(size_t i = 1; i < split2.size(); i++)
+				{
+					auto dataValues = Split(split2[i], ",");
+					for(size_t i = 0; i < dataValues.size(); i++)
+					{
+						auto dataAndValue = Split(dataValues[i], "/");
+						badgeData.insert({ dataAndValue[0],dataAndValue[1] });
+					}
+				}
+			}
+		}
+
+
 		chatMsg.Channel = getSubstring(aMessage, "PRIVMSG ", " ");
 		chatMsg.Message = getSubstring(aMessage, chatMsg.Channel + " :");
 		chatMsg.IsFirstMessage = (getSubstring(aMessage, "first-msg=")[0] == '1') ? true : false;
-		chatMsg.IsBroadcaster = (getSubstring(aMessage, "broadcaster/")[0] == '1') ? true : false;
-		chatMsg.IsModerator = (getSubstring(aMessage, "mod=")[0] == '1') ? true : false;
-		chatMsg.IsVIP = (getSubstring(aMessage, "vip=")[0] == '1') ? true : false;
-		chatMsg.IsSub = (getSubstring(aMessage, "subscriber=")[0] == '1') ? true : false;
-		chatMsg.IsTurbo = (getSubstring(aMessage, "turbo=")[0] == '1') ? true : false;
+		chatMsg.IsBroadcaster = (badgeData["broadcaster"] == "1") ? true : false;
+		chatMsg.IsModerator = (badgeData["mod="] == "1") ? true : false;
+		chatMsg.IsVIP = (badgeData["vip"] == "1") ? true : false;
+		chatMsg.IsTurbo = (getSubstring(aMessage, "turbo=") == "1") ? true : false;
+		chatMsg.IsSub = (getSubstring(aMessage, "subscriber=", ";") == "1") ? true : false;
+
+		if (chatMsg.IsSub)
+		{
+			std::string subTier = badgeData["subscriber"];
+
+			if(subTier.size() == 4)
+			{
+				if (subTier[0] == '3')
+				{
+					chatMsg.SubTier = SubcriberTier::Tier3;
+				}
+				else
+				{
+					chatMsg.SubTier = SubcriberTier::Tier2;
+				}
+			}
+			else
+			{
+				chatMsg.SubTier = SubcriberTier::Tier1;
+			}
+
+			chatMsg.SubMonths = std::stoi(badgeInfoData["subscriber"]);
+		}
 	}
 
 	chatMsg.Nickname = getSubstring(aMessage, "display-name=", ";");

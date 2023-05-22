@@ -15,8 +15,20 @@ namespace Lucent
 	struct ChatMessage;
 }
 
+enum class CommandTrigger
+{
+	Chat,
+	ChannelPoints,
+	Subscriber,
+	Bits,
+	Count
+};
+
 class Command
 {
+	
+
+
 public:
 
 
@@ -41,6 +53,10 @@ public:
 	std::string GetCommandName();
 
 protected:
+
+
+	int myBitAmount = 0;
+	int mySubscriberMonths = 0;
 
 	bool IsAppOpen(const std::wstring& aApplication);
 

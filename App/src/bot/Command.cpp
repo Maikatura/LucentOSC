@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "imgui_stdlib.h"
 #include "misc/print.h"
+#include "misc/TimerManager.h"
 #include "Twitch/TwitchApi.h"
 
 Command::Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand) : myBot(aBot), myCommandName(aCommandName), myIsRootCommand(isARootCommand)
@@ -34,16 +35,16 @@ bool Command::HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessag
 	{
 		if(mySubCommands[i]->IsCommand(first))
 		{
-			if (mySubCommands[i]->IsEnabled())
+			if (mySubCommands[i]->IsEnabled() && !mySubCommands[i]->IsOnCooldown())
 			{
 				if(mySubCommands[i]->HasSubCommands())
 				{
+					mySubCommands[i]->StartCooldown();
 					return mySubCommands[i]->HandleCommand(aClient, priv, second);
 				}
-				else
-				{
-					return mySubCommands[i]->HandleCommandLogic(aClient, priv, second);
-				}
+
+				mySubCommands[i]->StartCooldown();
+				return mySubCommands[i]->HandleCommandLogic(aClient, priv, second);
 			}
 			
 		}
@@ -84,6 +85,12 @@ void Command::Draw()
 		{
 			DrawInternalStuff();
 
+			if(!myIsEnabled)
+			{
+				ImGui::TreePop();
+				return;
+			}
+
 			if(ImGui::TreeNode("Sub Commands"))
 			{
 				for(int i = 0; i < mySubCommands.size(); i++)
@@ -114,6 +121,13 @@ void Command::DrawInternalStuff()
 {
 	ImGui::InputText("##name", &myCommandName);
 	ImGui::Checkbox("Enabled", &myIsEnabled);
+
+	if(!myIsEnabled)
+	{
+		return;
+	}
+
+	ImGui::InputFloat("Cooldown Time", &myCommandCooldownTime);
 	if(ImGui::BeginCombo("##Type", CommandTriggerMap[myCommandTrigger].c_str()))
 	{
 		for (auto commandType : CommandTriggerMap)
@@ -133,6 +147,29 @@ void Command::DrawInternalStuff()
 		}
 		ImGui::EndCombo();
 	}
+}
+
+void Command::StartCooldown()
+{
+	if (!IsOnCooldown() && 0.0f < myCommandCooldownTime)
+	{
+		myIsOnCooldown = true;
+
+		TimerManager::AddTimer([&]()
+		{
+			myIsOnCooldown = false;
+		}, myCommandCooldownTime, false);
+	}
+	else
+	{
+		myIsOnCooldown = false;
+	}
+	
+}
+
+bool Command::IsOnCooldown()
+{
+	return myIsOnCooldown;
 }
 
 bool Command::HasSubCommands()

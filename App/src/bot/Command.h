@@ -33,12 +33,12 @@ enum class CommandTrigger
 };
 
 inline std::map<CommandTrigger, std::string> CommandTriggerMap = {
-	{CommandTrigger::Chat, "Chat" },
-	{CommandTrigger::Subscriber, "Subscriber" },
-	{CommandTrigger::Bits, "Bits" },
-	{CommandTrigger::GiftedSubs, "Gifted Subs" },
-	{CommandTrigger::ChannelPoints, "Channel Points" },
-	{CommandTrigger::Count, "Count" }
+	{ CommandTrigger::Chat, "Chat" },
+	{ CommandTrigger::Subscriber, "Subscriber" },
+	{ CommandTrigger::Bits, "Bits" },
+	{ CommandTrigger::GiftedSubs, "Gifted Subs" },
+	{ CommandTrigger::ChannelPoints, "Channel Points" },
+	{ CommandTrigger::Count, "Count" }
 };
 
 class Command
@@ -59,6 +59,9 @@ public:
 	template<typename T>
 	T* GetBot();
 
+	void StartCooldown();
+
+	bool IsOnCooldown();
 	bool HasSubCommands();
 	bool IsRootCommand();
 	bool& IsEnabled();
@@ -70,9 +73,12 @@ protected:
 
 	bool myIsEnabled = true;
 	bool myIsRootCommand = false;
+	bool myIsOnCooldown = false;
 
 	int myBitAmount = 0;
 	int mySubscriberMonths = 0;
+
+	float myCommandCooldownTime = 0.0f;
 
 	CommandTrigger myCommandTrigger = CommandTrigger::Chat;
 

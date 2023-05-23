@@ -20,8 +20,9 @@ void Bot::HandleCommands(const Lucent::ChatMessage& priv)
 	{
 		if(myCommands[i]->IsCommand(first))
 		{
-			if(myCommands[i]->HasSubCommands() && myCommands[i]->IsEnabled())
+			if(myCommands[i]->HasSubCommands() && myCommands[i]->IsEnabled() && !myCommands[i]->IsOnCooldown())
 			{
+				myCommands[i]->StartCooldown();
 				myCommands[i]->HandleCommand(myClient, priv, second);
 			}
 		}

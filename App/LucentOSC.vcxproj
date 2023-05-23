@@ -104,8 +104,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\misc\ConsoleLog.h" />
-    <ClInclude Include="src\misc\EnumHelper.h" />
     <ClInclude Include="src\Framework\DX11.h" />
     <ClInclude Include="src\Twitch\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />
@@ -140,6 +138,8 @@
     <ClInclude Include="src\bot\Settings.hpp" />
     <ClInclude Include="src\bot\Utility.hpp" />
     <ClInclude Include="src\json\json.hpp" />
+    <ClInclude Include="src\misc\ConsoleLog.h" />
+    <ClInclude Include="src\misc\EnumHelper.h" />
     <ClInclude Include="src\misc\TimerClock.h" />
     <ClInclude Include="src\misc\TimerHandle.h" />
     <ClInclude Include="src\misc\TimerManager.h" />

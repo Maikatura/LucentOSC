@@ -168,6 +168,12 @@
     <ClInclude Include="src\json\json.hpp">
       <Filter>json</Filter>
     </ClInclude>
+    <ClInclude Include="src\misc\ConsoleLog.h">
+      <Filter>misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc\EnumHelper.h">
+      <Filter>misc</Filter>
+    </ClInclude>
     <ClInclude Include="src\misc\TimerClock.h">
       <Filter>misc</Filter>
     </ClInclude>
@@ -212,12 +218,6 @@
     </ClInclude>
     <ClInclude Include="src\osclib\sock.h">
       <Filter>osclib</Filter>
-    </ClInclude>
-    <ClInclude Include="src\misc\ConsoleLog.h">
-      <Filter>misc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\misc\EnumHelper.h">
-      <Filter>misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

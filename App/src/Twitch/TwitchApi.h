@@ -30,8 +30,9 @@ namespace Lucent
 		bool IsModerator = false;
 		bool IsBroadcaster = false;
 		bool IsVIP = false;
-		bool IsFirstMessage = false;
 		bool IsTurbo = false;
+		bool IsFounder = false;
+		bool IsFirstMessage = false;
 		int SubMonths = 0;
 		SubcriberTier SubTier = SubcriberTier::None;
 		unsigned int Color = 0;

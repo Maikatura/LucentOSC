@@ -295,8 +295,6 @@ void Application::SetupImGuiStyle()
 
 void Application::ProcessInput()
 {
-	
-
 	while(!myClient.IsMessageQueueEmpty())
 	{
 		Lucent::ChatMessage message = myClient.PopMessage();

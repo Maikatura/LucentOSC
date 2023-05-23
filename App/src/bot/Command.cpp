@@ -114,13 +114,13 @@ void Command::DrawInternalStuff()
 {
 	ImGui::InputText("##name", &myCommandName);
 	ImGui::Checkbox("Enabled", &myIsEnabled);
-	if(ImGui::BeginCombo("##Type", CommandTriggerMap[myCommandTrigger].c_str())) // The second parameter is the label previewed before opening the combo.
+	if(ImGui::BeginCombo("##Type", CommandTriggerMap[myCommandTrigger].c_str()))
 	{
 		for (auto commandType : CommandTriggerMap)
 		{
 			if (commandType.first != CommandTrigger::Count)
 			{
-				bool is_selected = (myCommandTrigger == commandType.first); // You can store your selection however you want, outside or inside your objects
+				bool is_selected = (myCommandTrigger == commandType.first);
 				if(ImGui::Selectable(commandType.second.c_str(), is_selected))
 				{
 					myCommandTrigger = commandType.first;
@@ -128,7 +128,6 @@ void Command::DrawInternalStuff()
 					{
 						ImGui::SetItemDefaultFocus();
 					}
-					// You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
 				}
 			}
 		}

@@ -178,15 +178,19 @@ Lucent::ChatMessage Lucent::TwitchApi::ParseMessage(const std::string& aMessage)
 			}
 		}
 
-
+		// Data
 		chatMsg.Channel = getSubstring(aMessage, "PRIVMSG ", " ");
 		chatMsg.Message = getSubstring(aMessage, chatMsg.Channel + " :");
 		chatMsg.IsFirstMessage = (getSubstring(aMessage, "first-msg=")[0] == '1') ? true : false;
+
+		// Badges
 		chatMsg.IsBroadcaster = (badgeData["broadcaster"] == "1") ? true : false;
-		chatMsg.IsModerator = (badgeData["mod="] == "1") ? true : false;
 		chatMsg.IsVIP = (badgeData["vip"] == "1") ? true : false;
-		chatMsg.IsTurbo = (getSubstring(aMessage, "turbo=") == "1") ? true : false;
-		chatMsg.IsSub = (getSubstring(aMessage, "subscriber=", ";") == "1") ? true : false;
+		chatMsg.IsModerator = (getSubstring(aMessage, "mod=")[0] == '1') ? true : false;
+		chatMsg.IsSub = (getSubstring(aMessage, "subscriber=", ";")[0] == '1') ? true : false;
+		chatMsg.IsTurbo = (getSubstring(aMessage, "turbo=")[0] == '1') ? true : false;
+		chatMsg.IsFounder = (getSubstring(aMessage, "founder=")[0] == '1') ? true : false;
+
 
 		if (chatMsg.IsSub)
 		{

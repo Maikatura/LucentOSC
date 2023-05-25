@@ -108,6 +108,10 @@ Application::Application(const Application& aApplication) : Application(aApplica
 bool Application::Run()
 {
 	// Main loop
+
+	const int FPS = 60;
+	const int FRAME_TIME = 1000 / FPS;
+
 	myIsRunning = true;
 	while(myIsRunning)
 	{
@@ -139,6 +143,8 @@ bool Application::Run()
 				myWantToResizeBuffers = false;
 			}
 
+			auto start = std::chrono::high_resolution_clock::now();
+
 			// Start the Dear ImGui frame
 			ImGui_ImplWin32_NewFrame();
 			ImGui_ImplDX11_NewFrame();
@@ -149,6 +155,7 @@ bool Application::Run()
 
 			Update();
 			ProcessInput();
+
 
 			{
 				static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -214,7 +221,16 @@ bool Application::Run()
 			}
 
 			DX11::EndFrame();
+
+			auto end = std::chrono::high_resolution_clock::now();
+			auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+			if(elapsed_time < FRAME_TIME)
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(FRAME_TIME - elapsed_time));
+			}
 		}
+
 	}
 
 	return false;

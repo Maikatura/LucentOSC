@@ -40,9 +40,9 @@ public:
 	virtual void Draw() = 0;
 
 
-	void HandleBotCommands(const Lucent::ChatMessage& priv);
+	void HandleBotCommands(Lucent::ChatMessage& priv);
 
-	void HandleCommands(const Lucent::ChatMessage& priv);
+	void HandleCommands(Lucent::ChatMessage& priv);
 
 	virtual void HandlePRIVMSG(const Lucent::ChatMessage& aMessage, bool aIgnoreEnabledCheck = false) = 0;
 

@@ -10,7 +10,7 @@
 #include <type_traits>
 
 #include "misc/EnumHelper.h"
-
+#include <regex>
 
 class Bot;
 
@@ -41,11 +41,22 @@ inline std::map<CommandTrigger, std::string> CommandTriggerMap = {
 	{ CommandTrigger::Count, "Count" }
 };
 
+enum class ContextMenuReturn
+{
+	None,
+	Delete,
+	Copy,
+	Count,
+};
+
 class Command
 {
+
+
+
 public:
-	Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand = false);
-	bool IsCommand(std::string aCommandName);
+	Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand = false, bool aPrefixIsNeeded = true);
+	bool IsCommand(std::string aCommandName, std::string aFullMessage);
 
 	virtual bool HandleCommandLogic(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& aMessage);
 	bool HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessage& priv, const std::string& command);
@@ -55,15 +66,20 @@ public:
 
 
 	void Draw();
+	ContextMenuReturn DrawContextMenu(const std::string& aCommandName);
+	virtual void CommandDraw() {}
+
 
 	template<typename T>
 	T* GetBot();
 
 	void StartCooldown();
 
+	bool NeedPrefix();
 	bool IsOnCooldown();
 	bool HasSubCommands();
 	bool IsRootCommand();
+	void SetIsRootCommand(bool isRootCommand);;
 	bool& IsEnabled();
 	std::string GetCommandName();
 
@@ -71,8 +87,10 @@ protected:
 	bool IsAppOpen(const std::wstring& aApplication);
 
 
+	bool myUseRegex = false;
 	bool myIsEnabled = true;
 	bool myIsRootCommand = false;
+	bool myPrefixNeeded = false;
 	bool myIsOnCooldown = false;
 
 	int myBitAmount = 0;
@@ -84,6 +102,8 @@ protected:
 
 	std::string myCommandName;
 	std::vector<std::shared_ptr<Command>> mySubCommands;
+
+	std::string myRegexCommandCheck;
 
 private:
 

@@ -9,17 +9,29 @@
 #include "misc/TimerManager.h"
 #include "Twitch/TwitchApi.h"
 
-Command::Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand) : myBot(aBot), myCommandName(aCommandName), myIsRootCommand(isARootCommand)
+Command::Command(Bot* aBot, const std::string& aCommandName, bool isARootCommand, bool aPrefixIsNeeded) :
+	myBot(aBot), myCommandName(aCommandName), myIsRootCommand(isARootCommand), myPrefixNeeded(aPrefixIsNeeded)
 {
 }
 
-bool Command::IsCommand(std::string aCommandName)
+bool Command::IsCommand(std::string aCommandName, std::string aFullMessage)
 {
-	if (toLower(aCommandName) == toLower(myCommandName))
+	if (!myUseRegex)
 	{
-		return true;
+		if(toLower(aCommandName) == toLower(myCommandName))
+		{
+			return true;
+		}
 	}
-
+	else
+	{
+		std::regex reg(myRegexCommandCheck);
+		if(std::regex_match(toLower(aFullMessage), reg))
+		{
+			return true;
+		}
+	}
+	
 	return false;
 }
 
@@ -33,7 +45,7 @@ bool Command::HandleCommand(Lucent::TwitchApi& aClient, const Lucent::ChatMessag
 	auto [first, second] = SplitCommand(command);
 	for(int i = 0; i < mySubCommands.size(); i++)
 	{
-		if(mySubCommands[i]->IsCommand(first))
+		if(mySubCommands[i]->IsCommand(first, priv.Message))
 		{
 			if (mySubCommands[i]->IsEnabled() && !mySubCommands[i]->IsOnCooldown())
 			{
@@ -84,6 +96,7 @@ void Command::Draw()
 		if(ImGui::TreeNode(myCommandName.c_str()))
 		{
 			DrawInternalStuff();
+			CommandDraw();
 
 			if(!myIsEnabled)
 			{
@@ -96,6 +109,20 @@ void Command::Draw()
 				for(int i = 0; i < mySubCommands.size(); i++)
 				{
 					mySubCommands[i]->Draw();
+					auto contextValue = mySubCommands[i]->DrawContextMenu(mySubCommands[i]->GetCommandName());
+
+					switch(contextValue)
+					{
+						case ContextMenuReturn::Delete:
+							mySubCommands.erase(mySubCommands.begin() + i);
+							i--;
+							break;
+						case ContextMenuReturn::Copy:
+							break;
+						case ContextMenuReturn::Count:
+							break;
+						default: ;
+					}
 				}
 
 				ImGui::TreePop();
@@ -109,12 +136,27 @@ void Command::Draw()
 		if(ImGui::TreeNode(myCommandName.c_str()))
 		{
 			DrawInternalStuff();
+			CommandDraw();
 
 			ImGui::TreePop();
 		}
 	}
+}
 
+ContextMenuReturn Command::DrawContextMenu(const std::string& aCommandName)
+{
+	ContextMenuReturn returnContext = ContextMenuReturn::None;
+	std::string commandName = aCommandName + "##Popup";
+	if(ImGui::BeginPopupContextItem(commandName.c_str()))
+	{
+		if(ImGui::Button("Delete"))
+		{
+			returnContext = ContextMenuReturn::Delete;
+		}
+		ImGui::EndPopup();
+	}
 
+	return returnContext;
 }
 
 void Command::DrawInternalStuff()
@@ -125,6 +167,13 @@ void Command::DrawInternalStuff()
 	if(!myIsEnabled)
 	{
 		return;
+	}
+
+	ImGui::Checkbox("Need Prefix", &myPrefixNeeded);
+	ImGui::Checkbox("Use Regex", &myUseRegex);
+	if (myUseRegex)
+	{
+		ImGui::InputText("Regex", &myRegexCommandCheck);
 	}
 
 	ImGui::InputFloat("Cooldown Time", &myCommandCooldownTime);
@@ -167,6 +216,11 @@ void Command::StartCooldown()
 	
 }
 
+bool Command::NeedPrefix()
+{
+	return myPrefixNeeded;
+}
+
 bool Command::IsOnCooldown()
 {
 	return myIsOnCooldown;
@@ -185,6 +239,11 @@ bool& Command::IsEnabled()
 bool Command::IsRootCommand()
 {
 	return myIsRootCommand;
+}
+
+void Command::SetIsRootCommand(bool isRootCommand)
+{
+	myIsRootCommand = isRootCommand;
 }
 
 std::string Command::GetCommandName()

@@ -7,23 +7,46 @@ Bot::Bot(Lucent::TwitchApi& client)
 {
 }
 
-void Bot::HandleBotCommands(const Lucent::ChatMessage& priv)
+void Bot::HandleBotCommands(Lucent::ChatMessage& priv)
 {
 	HandleCommands(priv);
 	HandlePRIVMSG(priv);
 }
 
-void Bot::HandleCommands(const Lucent::ChatMessage& priv)
+void Bot::HandleCommands(Lucent::ChatMessage& priv)
 {
-	auto [first, second] = SplitCommand(priv.Message);
+
+	int indexPos = 0;
+	while(indexPos < priv.Message.length())
+	{
+		indexPos = priv.Message.find('\r\n', indexPos);
+		if(indexPos != std::string::npos)
+		{
+			priv.Message.erase(indexPos);
+		}
+	}
+
 	for(int i = 0; i < myCommands.size(); i++)
 	{
-		if(myCommands[i]->IsCommand(first))
+		auto [first, second] = SplitCommand(priv.Message);
+
+		myCommands[i]->SetIsRootCommand(true);
+
+		if (myCommands[i]->NeedPrefix())
+		{
+			first.erase(0, 1);
+		}
+
+		if(myCommands[i]->IsCommand(first, priv.Message))
 		{
 			if(myCommands[i]->HasSubCommands() && myCommands[i]->IsEnabled() && !myCommands[i]->IsOnCooldown())
 			{
 				myCommands[i]->StartCooldown();
 				myCommands[i]->HandleCommand(myClient, priv, second);
+			}
+			else if (myCommands[i]->IsEnabled() && !myCommands[i]->IsOnCooldown())
+			{
+				myCommands[i]->HandleCommandLogic(myClient, priv, second);
 			}
 		}
 	}

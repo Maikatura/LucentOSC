@@ -64,6 +64,9 @@
     <Filter Include="osclib">
       <UniqueIdentifier>{61C72413-4D69-4FE9-3624-633D2265D639}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bot\NewFilter1">
+      <UniqueIdentifier>{1cfc0f5d-19b8-4d2d-a891-d0bb41fd7198}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Framework\DX11.h">
@@ -219,6 +222,7 @@
     <ClInclude Include="src\osclib\sock.h">
       <Filter>osclib</Filter>
     </ClInclude>
+    <ClInclude Include="src\bot\Commands\MessageCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Framework\DX11.cpp">
@@ -339,5 +343,6 @@
     <ClCompile Include="src\osclib\sock.cpp">
       <Filter>osclib</Filter>
     </ClCompile>
+    <ClCompile Include="src\bot\Commands\MessageCommand.cpp" />
   </ItemGroup>
 </Project>

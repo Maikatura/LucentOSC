@@ -295,43 +295,52 @@ void Application::SetupImGuiStyle()
 
 void Application::ProcessInput()
 {
-	while(!myClient.IsMessageQueueEmpty())
+
+	try
 	{
-		Lucent::ChatMessage message = myClient.PopMessage();
-
-		std::cout << "User: " << message.Username << std::endl;
-		std::cout << "Broadcaster: " << message.IsBroadcaster << std::endl;
-		std::cout << "Moderator: " << message.IsModerator << std::endl;
-		std::cout << "VIP: " << message.IsVIP << std::endl;
-
-		std::cout << "Subscriber: " << message.IsSub << std::endl;
-		std::cout << "Sub Tier: " << static_cast<int>(message.SubTier) << std::endl;
-		std::cout << "Sub Months: " << message.SubMonths << std::endl;
-
-		std::cout << "Chat Channel: " << message.Channel << std::endl;
-		std::cout << "Message: " << message.Message << std::endl;
-
-		// HACK: auto join/part
-		if(message.Message == "JOIN")
+		while(!myClient.IsMessageQueueEmpty())
 		{
-			message.Message = "!join";
-		}
-		else if(message.Message == "PART")
-		{
-			message.Message = "!part";
-		}
+			Lucent::ChatMessage message = myClient.PopMessage();
 
-		if(!message.Message.empty() && message.Message[0] == '!')
-		{
-			message.Message.erase(0, 1);
-			HandlePRIVMSG(message);
+			std::cout << "User: " << message.Username << std::endl;
+			std::cout << "Broadcaster: " << message.IsBroadcaster << std::endl;
+			std::cout << "Moderator: " << message.IsModerator << std::endl;
+			std::cout << "VIP: " << message.IsVIP << std::endl;
 
-			for(auto& bot : myBots)
+			std::cout << "Subscriber: " << message.IsSub << std::endl;
+			std::cout << "Sub Tier: " << static_cast<int>(message.SubTier) << std::endl;
+			std::cout << "Sub Months: " << message.SubMonths << std::endl;
+
+			std::cout << "Chat Channel: " << message.Channel << std::endl;
+			std::cout << "Message: " << message.Message << std::endl;
+
+			// HACK: auto join/part
+			if(message.Message == "JOIN")
 			{
-				bot->HandleBotCommands(message);
+				message.Message = "!join";
+			}
+			else if(message.Message == "PART")
+			{
+				message.Message = "!part";
+			}
+
+			if(!message.Message.empty())
+			{
+				HandlePRIVMSG(message);
+
+				for(auto& bot : myBots)
+				{
+					bot->HandleBotCommands(message);
+				}
 			}
 		}
 	}
+	catch(...)
+	{
+		std::cout << "Something went wrong!" << std::endl;
+	}
+
+	
 }
 
 void Application::Update()

@@ -29,7 +29,7 @@ void Chattu::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledC
 
 	for(int i = 0; i < myCommands.size(); i++)
 	{
-		if(myCommands[i]->IsCommand(first))
+		if(myCommands[i]->IsCommand(first, priv.Message))
 		{
 			if(myCommands[i]->HandleCommand(myClient, priv, second))
 			{

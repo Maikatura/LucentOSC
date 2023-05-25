@@ -3,6 +3,7 @@
 
 #include "imgui.h"
 #include "bot/Client.hpp"
+#include "bot/Commands/MessageCommand.h"
 #include "Commands/VRChatRootCmd.h"
 #include "misc/print.h"
 #include "misc/TimerManager.h"
@@ -89,7 +90,13 @@ void VRChat::Update()
 
 void VRChat::Draw()
 {
-	ImGui::Begin("VRChat");
+	ImGui::Begin("Commands");
+
+
+	if (ImGui::Button("Add Command"))
+	{
+		myCommands.push_back(std::make_shared<MessageCommand>(this));
+	}
 
 	ImGui::Indent();
 
@@ -99,6 +106,20 @@ void VRChat::Draw()
 		for (int i = 0; i < myCommands.size(); i++)
 		{
 			myCommands[i]->Draw();
+			auto contextValue = myCommands[i]->DrawContextMenu(myCommands[i]->GetCommandName());
+
+			switch(contextValue)
+			{
+			case ContextMenuReturn::Delete:
+				myCommands.erase(myCommands.begin() + i);
+				i--;
+				break;
+			case ContextMenuReturn::Copy:
+				break;
+			case ContextMenuReturn::Count:
+				break;
+			default:;
+			}
 		}
 
 		ImGui::TreePop();

@@ -3,13 +3,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: MSBuild
+name: Windows Release
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - 'v*'
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -20,11 +20,41 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
-permissions:
-  contents: read
+
 
 jobs:
-  build:
+  Upload-Release:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    needs: build-windows
+    steps:
+      - uses: actions/checkout@v1
+      - name: create release
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: uploads
+      - name: upload windows
+        id: upload-windows
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uploads/Windows_Release.zip
+          asset_name: Windows_Release.zip
+          asset_content_type: application/zip
+
+  build-windows:
     runs-on: windows-latest
 
     steps:
@@ -46,3 +76,15 @@ jobs:
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      
+    - name: Remove Temp Files
+      run: Get-ChildItem -Path '.\bin\' *.pdb | foreach { Remove-Item -Path $_.FullName }
+      
+    - name: zip win artifact
+      run: powershell Compress-Archive ./bin/ Windows_Release.zip 
+    
+    - name: upload windows artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: uploads
+        path: Windows_Release.zip

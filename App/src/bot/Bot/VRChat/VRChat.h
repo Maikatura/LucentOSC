@@ -39,6 +39,8 @@ public:
 	osc::Transmitter& GetTransmitter();
 	osc::Receiver& GetReceiver();
 
+	const OSCData& GetAvatarData() const;
+
 private:
 
 

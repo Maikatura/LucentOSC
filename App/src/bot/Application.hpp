@@ -37,6 +37,7 @@ private:
 	bool myWantToResizeBuffers = false;
 	bool myIsMinimized = false;
 	bool myIsRunning = true;
+	bool myNeedToBeChannelModToBeAdmin = true;
 
 	Settings mySettings;
 	std::string myJoinChannel;

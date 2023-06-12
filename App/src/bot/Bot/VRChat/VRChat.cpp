@@ -133,11 +133,9 @@ void VRChat::Draw()
 
 void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool tesedhjkashjkld)
 {
-	
-
+	// THIS IS NOT USED ANYMORE
 	auto [first, second] = SplitCommand(priv.Message);
 
-	
 	if (first == "vrchat")
 	{
 		const auto [commandType, commandData] = SplitCommand(second);
@@ -145,287 +143,38 @@ void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool tesedhjkashjkld
 		
 		if(commandType == "float")
 		{
-			/*if(!IsAppRunning(priv)) return;
-
-			const auto [toggleName, toggleValue] = SplitCommand(commandData);
-
-			
-
-			float value = std::stof(toggleValue);
-
-			std::string parameterString = GetFullParameterName(priv.Channel, toggleName, OSCType::Float);
-			if(parameterString == "INVALID")
-			{
-				SendPRIVMSG(priv.Channel, "That Parameter is not a float");
-			}
-			else if (!parameterString.empty())
-			{
-				if(value >= 0.0f && value <= 1.0f)
-				{
-					myOSCTransmitter.SendFloat(parameterString, value);
-				}
-			}*/
-			
+			// DONE
 		}
 		else if(commandType == "int")
 		{
-			if(!IsAppRunning(priv)) return;
-
-			const auto [toggleName, toggleValue] = SplitCommand(commandData);
-
-			if(toggleValue.empty() || ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-			{
-				SendPRIVMSG(priv.Channel, "Value is Null or Invalid Input.");
-				return;
-			}
-
-			int value = std::stoi(toggleValue);
-
-			std::string parameterString = GetFullParameterName(priv.Channel, toggleName, OSCType::Int);
-			if(parameterString == "INVALID")
-			{
-				SendPRIVMSG(priv.Channel, "That Parameter is not a float");
-			}
-			else if(!parameterString.empty())
-			{
-				if(value >= 0 && value <= 256)
-				{
-					myOSCTransmitter.SendInt(parameterString, value);
-				}
-			}
+			// DONE
 		}
 		else if(commandType == "move")
 		{
-			/*if(!IsAppRunning(priv)) return;
-
-			const auto [toggleName, toggleValue] = SplitCommand(commandData);
-
-			if (toggleName.empty())
-			{
-				SendPRIVMSG(priv.Channel, "Valid move types: forward, backward, left and right");
-				return;
-			}
-
-
-
-			if (toggleName == "forward")
-			{
-				myOSCTransmitter.SendInt("/input/MoveForward", 1);
-				myOSCTransmitter.SendInt("/input/MoveBackward", 0);
-
-				std::string value = toggleValue;
-				if (toggleValue.empty() && ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-				{
-					value = "1";
-				}
-
-				TimerManager::AddTimer([&]()
-				{
-					myOSCTransmitter.SendInt("/input/MoveForward", 0);
-				}, std::stof(value), false);
-
-			}
-			else if(toggleName == "backward")
-			{
-				myOSCTransmitter.SendInt("/input/MoveBackward", 1);
-
-				std::string value = toggleValue;
-				if(toggleValue.empty() && ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-				{
-					value = "1";
-				}
-
-				TimerManager::AddTimer([&]()
-				{
-					myOSCTransmitter.SendInt("/input/MoveBackward", 0);
-				}, std::stof(value), false);
-			}
-			else if (toggleName == "left")
-			{
-				
-				myOSCTransmitter.SendInt("/input/MoveLeft", 1);
-			
-
-				std::string value = toggleValue;
-				if(toggleValue.empty() && ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-				{
-					value = "1";
-				}
-
-				TimerManager::AddTimer([&]()
-				{
-					myOSCTransmitter.SendInt("/input/MoveLeft", 0);
-				}, std::stof(value), false);
-			}
-			else if(toggleName == "right")
-			{
-				myOSCTransmitter.SendInt("/input/MoveRight", 1);
-
-				std::string value = toggleValue;
-				if(toggleValue.empty() && ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-				{
-					value = "1";
-				}
-
-				TimerManager::AddTimer([&]()
-				{
-					myOSCTransmitter.SendInt("/input/MoveRight", 0);
-				}, std::stof(value), false);
-			}
-			else if (toggleName == "stop")
-			{
-				myOSCTransmitter.SendInt("/input/MoveLeft", 0);
-				myOSCTransmitter.SendInt("/input/MoveRight", 0);
-				myOSCTransmitter.SendInt("/input/MoveForward", 0);
-				myOSCTransmitter.SendInt("/input/MoveBackward", 0);
-			}*/
+			// DONE
 		}
 		else if(commandType == "jump")
 		{
-			if(!IsAppRunning(priv)) return;
-
-			myOSCTransmitter.SendInt("/input/Jump", 1);
-
-
-			TimerManager::AddTimer([&]()
-			{
-				myOSCTransmitter.SendInt("/input/Jump", 0);
-			}, 0.1f, false);
+			// DONE
 		}
 		else if(commandType == "look")
 		{
-			if(!IsAppRunning(priv)) return;
-
-			const auto [toggleName, toggleValue] = SplitCommand(commandData);
-
-			if(toggleName.empty())
-			{
-				SendPRIVMSG(priv.Channel, "Valid move types: forward, backward, left and right");
-				return;
-			}
-
-
-
-			if(toggleName == "right")
-			{
-				myOSCTransmitter.SendInt("/input/LookRight", 1);
-
-				std::string value = toggleValue;
-				if(toggleValue.empty() && ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-				{
-					value = "1";
-				}
-
-				TimerManager::AddTimer([&]()
-				{
-					myOSCTransmitter.SendInt("/input/LookRight", 0);
-				}, std::stof(value), false);
-
-			}
-			else if(toggleName == "left")
-			{
-				myOSCTransmitter.SendInt("/input/LookLeft", 1);
-
-				std::string value = toggleValue;
-				if(toggleValue.empty() && ContainsOlyNumber(toggleValue) || AllSameChars(toggleValue, '.'))
-				{
-					value = "1";
-				}
-
-				TimerManager::AddTimer([&]()
-				{
-					myOSCTransmitter.SendInt("/input/LookLeft", 0);
-				}, std::stof(value), false);
-
-			}
-			else if(toggleName == "stop")
-			{
-				myOSCTransmitter.SendInt("/input/MoveLeft", 0);
-				myOSCTransmitter.SendInt("/input/MoveRight", 0);
-				myOSCTransmitter.SendInt("/input/MoveForward", 0);
-				myOSCTransmitter.SendInt("/input/MoveBackward", 0);
-			}
-		}
-		else if(commandType == "avatar")
-		{
-			/*if(!IsAppRunning(priv)) return;
-
-			const auto [toggleName, toggleValue] = splitCommand(commandData);
-
-			if(toggleName.empty())
-			{
-				sendPRIVMSG(priv.Channel, "Valid move types: forward, backward, left and right");
-				return;
-			}
-
-
-
-			if(toggleName == "change")
-			{
-				myOSCTransmitter.SendString("/avatar/change", toggleValue);
-			}*/
-		}
-		else if(commandType == "page")
-		{
-			if(!IsAppRunning(priv)) return;
-
-			int page;
-			if (commandData.empty())
-			{
-				page = 1;
-			}
-			else
-			{
-				page = std::stoi(commandData);
-			}
-
-
-			page = 5 * page - 1;
-
-			if (page < 0)
-			{
-				page = 0;
-			}
-
-			std::string pageParameters = "Page ";
-			pageParameters += commandData;
-			pageParameters += ": ";
-
-			for (int i = 0; i < 5; i++)
-			{
-				if (page + i <= myAvatarData.Parameters.size())
-				{
-
-					if (i == 4)
-					{
-						pageParameters += myAvatarData.Parameters[page + i].ParameterName;
-					}
-					else
-					{
-						pageParameters += myAvatarData.Parameters[page + i].ParameterName + ", ";
-						
-					}
-				}
-			}
-
-			SendPRIVMSG(priv.Channel, pageParameters);
+			// DONE
 		}
 		else if(commandType == "speak")
 		{
-			if(!IsAppRunning(priv)) return;
-
-			if (IsAdmin(priv.Username))
-			{
-				myOSCTransmitter.SendChatboxMessage("/chatbox/input", commandData);
-			}
-			else
-			{
-				SendPRIVMSG(priv.Channel, "You can't use that command");
-			}
+			// DONE
+		}
+		else if(commandType == "page")
+		{
+			// DONE
 		}
 		else if(commandType == "help")
 		{
-			if(commandData == "bool")
+			// Maybe Sometime
+
+
+			/*if(commandData == "bool")
 			{
 				SendPRIVMSG(priv.Channel, "Right now you can't find any commands since this is currently in DEV.");
 			}
@@ -456,7 +205,7 @@ void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool tesedhjkashjkld
 			else if(commandData.empty())
 			{
 				SendPRIVMSG(priv.Channel, "Usage: !vrchat help [TYPE], Available Types: parameter");
-			}
+			}*/
 		}
 	}
 }
@@ -500,6 +249,11 @@ osc::Transmitter& VRChat::GetTransmitter()
 osc::Receiver& VRChat::GetReceiver()
 {
 	return myOSCRx;
+}
+
+const OSCData& VRChat::GetAvatarData() const
+{
+	return myAvatarData;
 }
 
 bool VRChat::IsAppRunning(const Lucent::ChatMessage& priv)

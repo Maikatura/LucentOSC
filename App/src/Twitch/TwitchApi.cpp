@@ -65,7 +65,6 @@ bool Lucent::TwitchApi::Connect(const std::string& aOAuth, const std::string& aN
 	Send("CAP REQ :twitch.tv/tags");
 	Send("CAP REQ :twitch.tv/commands");
 
-
 	myNetworkThread = std::thread([&]()
 	{
 		myNetworkIsWalking = true;

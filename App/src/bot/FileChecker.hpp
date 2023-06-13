@@ -41,9 +41,27 @@ public:
 
 		std::ifstream ifJson(aPath);
 		nlohmann::json settings = nlohmann::json::parse(ifJson);
-		aType.FromJson(settings);
+		if(!aType.FromJson(settings))
+		{
+			ifJson.close();
+
+			nlohmann::json settingsSetup;
+			aType.ToJson(settingsSetup);
+
+			std::ofstream myfile(aPath);
+			if(myfile.is_open())
+			{
+				myfile << std::setw(4) << settingsSetup;
+				myfile.close();
+			}
+
+			std::ifstream ifJson(aPath);
+			nlohmann::json settingsRetry = nlohmann::json::parse(ifJson);
+			aType.FromJson(settingsRetry);
+		}
 	}
 
+	
 	static bool Exists(const std::string& name)
 	{
 		std::ifstream f(name.c_str());

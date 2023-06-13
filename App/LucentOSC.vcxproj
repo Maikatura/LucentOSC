@@ -60,7 +60,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>26812;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WINSOCKAPI_;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266;BUILDING_LIBCURL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\External\ImGui\src;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\External\ImGui\src;.;..\External\Tray\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -83,7 +83,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>26812;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_WINSOCKAPI_;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_HAS_EXCEPTIONS=0;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT=0x0602;ESP8266;BUILDING_LIBCURL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\External\ImGui\src;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\External\ImGui\src;.;..\External\Tray\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -104,13 +104,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookLeftCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookRightCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatIntCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatJumpCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatLookCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatParameterPageCmd.h" />
-    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatSpeakCmd.h" />
     <ClInclude Include="src\Framework\DX11.h" />
     <ClInclude Include="src\Twitch\TwitchApi.h" />
     <ClInclude Include="src\bot\Application.hpp" />
@@ -128,15 +121,22 @@
     <ClInclude Include="src\bot\Bot\Kick\Kick.h" />
     <ClInclude Include="src\bot\Bot\Twitch\Chattu.h" />
     <ClInclude Include="src\bot\Bot\Twitch\Commands\CumCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookLeftCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookRightCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatBoolCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatIntCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatJumpCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatLookCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatParameterPageCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.h" />
+    <ClInclude Include="src\bot\Bot\VRChat\Commands\VRChatSpeakCmd.h" />
     <ClInclude Include="src\bot\Bot\VRChat\VRChat.h" />
     <ClInclude Include="src\bot\Client.hpp" />
     <ClInclude Include="src\bot\Command.h" />
@@ -165,13 +165,6 @@
     <ClInclude Include="src\osclib\sock.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookLeftCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookRightCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatIntCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatJumpCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatLookCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatParameterPageCmd.cpp" />
-    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatSpeakCmd.cpp" />
     <ClCompile Include="src\Framework\DX11.cpp" />
     <ClCompile Include="src\LucentOSC.cpp" />
     <ClCompile Include="src\Twitch\TwitchApi.cpp" />
@@ -189,15 +182,22 @@
     <ClCompile Include="src\bot\Bot\Kick\Kick.cpp" />
     <ClCompile Include="src\bot\Bot\Twitch\Chattu.cpp" />
     <ClCompile Include="src\bot\Bot\Twitch\Commands\CumCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookLeftCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Look\VRChatLookRightCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveBackwardCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveForwardCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveLeftCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Move\VRChatMoveRightCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatBoolCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatFloatCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\Parameters\VRChatIntCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatChangeAvatarCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatJumpCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatLookCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatMoveCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatParameterPageCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatRootCmd.cpp" />
+    <ClCompile Include="src\bot\Bot\VRChat\Commands\VRChatSpeakCmd.cpp" />
     <ClCompile Include="src\bot\Bot\VRChat\VRChat.cpp" />
     <ClCompile Include="src\bot\Client.cpp" />
     <ClCompile Include="src\bot\Command.cpp" />
@@ -217,6 +217,9 @@
   <ItemGroup>
     <ProjectReference Include="..\External\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\Tray\Tray.vcxproj">
+      <Project>{45118D7C-3148-8E0D-DA34-7410C64A0A0F}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

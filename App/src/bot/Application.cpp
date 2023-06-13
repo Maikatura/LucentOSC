@@ -27,6 +27,7 @@
 #include <backends/imgui_impl_win32.h>
 
 #include "misc/ConsoleLog.h"
+#include <tray.hpp>
 
 #pragma comment(lib, "dwmapi.lib")
 
@@ -38,13 +39,13 @@ inline bool ExistsTest(const std::string& name)
 	return f.good();
 }
 
-Application::Application() : myClient(nullClient)
+Application::Application() : myClient(nullClient), myTray("LucentOSC", "icon.ico")
 {
-
+	
 }
 
 Application::Application(Lucent::TwitchApi& client)
-	: myClient(client)
+	: myClient(client), myTray("LucentOSC", "icon.ico")
 {
 
 	std::string settingsPath = "data/user/settings.json";
@@ -99,6 +100,32 @@ Application::Application(Lucent::TwitchApi& client)
 	//myBots.emplace_back(std::make_unique<Discord>(myClient));
 
 	SetupImGuiStyle();
+
+	myTray.addEntry(Tray::Label(L"LucentOSC"));
+	myTray.addEntry(Tray::Separator());
+
+	myTray.addEntry(Tray::Button(L"Open", [&] {
+		SetMinimized(false);
+		ShowWindow(myWindowHandle, SW_NORMAL);
+	}));
+
+	myTray.addEntry(Tray::Toggle(L"Pause", false,[&](bool aState) {
+
+		myProgramIsPaused = aState;
+
+	}));
+
+	myTray.addEntry(Tray::Separator());
+	myTray.addEntry(Tray::Button(L"Exit", [&] {
+
+		myIsRunning = false;
+		::PostQuitMessage(0);
+
+		myTray.exit();
+
+
+
+	}));
 }
 
 Application::Application(const Application& aApplication) : Application(aApplication.myClient)
@@ -132,6 +159,11 @@ bool Application::Run()
 			break;
 		}
 
+
+		Update();
+		ProcessInput();
+
+
 		if(!myIsMinimized)
 		{
 			if(myWantToResizeBuffers)
@@ -152,10 +184,6 @@ bool Application::Run()
 
 			std::array<float, 4> clear_color[4] = { 0.0f, 0.0f, 0.0f ,1.0f };
 			DX11::BeginFrame(clear_color[0]);
-
-			Update();
-			ProcessInput();
-
 
 			{
 				static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -542,24 +570,33 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 
 				switch(wParam)
 				{
-					case SIZE_MAXIMIZED:
-						graphicsEnginePtr->SetUpdateBuffers(true);
-						graphicsEnginePtr->SetMinimized(false);
-						break;
-
-					case SIZE_MINIMIZED:
-						graphicsEnginePtr->SetMinimized(true);
-						break;
-
-					case SIZE_RESTORED:
-						graphicsEnginePtr->SetUpdateBuffers(true);
-						graphicsEnginePtr->SetMinimized(false);
-						break;
-
-					case SIZE_MAXSHOW:
-						graphicsEnginePtr->SetUpdateBuffers(true);
-						graphicsEnginePtr->SetMinimized(false);
-						break;
+				case SIZE_MAXIMIZED:
+				{
+					graphicsEnginePtr->SetMinimized(false);
+					graphicsEnginePtr->SetUpdateBuffers(true);
+					break;
+				}
+				case SIZE_MINIMIZED:
+				{
+					graphicsEnginePtr->SetMinimized(true);
+					if(graphicsEnginePtr->GetSettings().MinimizeToSystemTray)
+					{
+						graphicsEnginePtr->GetTray().run();
+					}
+					break;
+				}
+				case SIZE_RESTORED:
+				{
+					graphicsEnginePtr->SetUpdateBuffers(true);
+					graphicsEnginePtr->SetMinimized(false);
+					break;
+				}
+				case SIZE_MAXSHOW:
+				{
+					graphicsEnginePtr->SetUpdateBuffers(true);
+					graphicsEnginePtr->SetMinimized(false);
+					break;
+				}
 				}
 			}
 			return 0;
@@ -611,4 +648,14 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+Tray::Tray& Application::GetTray()
+{
+	return myTray;
+}
+
+Settings& Application::GetSettings()
+{
+	return mySettings;
 }

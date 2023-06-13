@@ -20,8 +20,6 @@ namespace Lucent
 
 	struct ChatMessage
 	{
-
-
 		std::string Username;
 		std::string Message;
 		std::string Nickname; // display name

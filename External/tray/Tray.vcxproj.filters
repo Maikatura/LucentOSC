@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\components">
+      <UniqueIdentifier>{1E5107FE-0A35-C853-7395-C2A65F98B2D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\core">
+      <UniqueIdentifier>{A17DD969-8DE0-680E-3666-A1C422A83491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\core\linux">
+      <UniqueIdentifier>{A0B523B7-8C99-E40C-F5F9-DE5FE1FCCE8E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\core\windows">
+      <UniqueIdentifier>{FBD09E5D-E75F-2827-907E-3C227CEC38CD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\components">
+      <UniqueIdentifier>{423E2ECF-2E0C-22D5-17A0-92FB030DFE39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{C55F2ECF-B12C-89DA-DA45-7782C671BE68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\linux">
+      <UniqueIdentifier>{C4A24A88-B070-3E8E-9904-AFB485711AF3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\windows">
+      <UniqueIdentifier>{1F973514-0B90-5466-34C2-39EB201A3472}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\components\button.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\imagebutton.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\label.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\separator.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\submenu.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\syncedtoggle.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\toggle.hpp">
+      <Filter>include\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\entry.hpp">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\icon.hpp">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\image.hpp">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\linux\tray.hpp">
+      <Filter>include\core\linux</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\traybase.hpp">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\windows\tray.hpp">
+      <Filter>include\core\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tray.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\components\button.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\imagebutton.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\label.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\separator.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\submenu.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\syncedtoggle.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\toggle.cpp">
+      <Filter>src\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\entry.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\linux\icon.cpp">
+      <Filter>src\core\linux</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\linux\image.cpp">
+      <Filter>src\core\linux</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\linux\tray.cpp">
+      <Filter>src\core\linux</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\traybase.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\windows\icon.cpp">
+      <Filter>src\core\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\windows\image.cpp">
+      <Filter>src\core\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\windows\tray.cpp">
+      <Filter>src\core\windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

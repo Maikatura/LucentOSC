@@ -15,10 +15,13 @@ struct DiscordSettings
         };
     }
 
-    void FromJson(const nlohmann::json& j)
+    bool FromJson(const nlohmann::json& j)
     {
         Prefix  = j.contains("prefix") ? j["prefix"].get<std::string>() : "";
         Token   = j.contains("token") ? j["token"].get<std::string>() : "";
+
+
+        return true;
     }
 };
 

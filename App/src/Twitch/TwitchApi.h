@@ -58,6 +58,7 @@ namespace Lucent
 
 		std::vector<std::string>& GetJoinedChannels();
 
+		const std::string& GetAccountName();
 
 		ChatMessage ParseMessage(const std::string& aMessage);
 
@@ -70,6 +71,7 @@ namespace Lucent
 		SOCKET mySocketDescriptor {};
 
 
+		std::string myAccountName;
 		std::atomic_bool myNetworkIsWalking = false;
 		std::thread myNetworkThread;
 		std::queue<std::string> myChatMessages;

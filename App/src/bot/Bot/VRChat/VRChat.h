@@ -31,7 +31,7 @@ public:
 
 	void HandlePRIVMSG(const Lucent::ChatMessage& priv, bool aIgnoreEnabledCheck = false) override;
 
-	bool IsAppRunning(const Lucent::ChatMessage& priv);
+	bool IsAppRunning(const std::wstring& aProgram, const Lucent::ChatMessage& priv);
 
 	bool FindFile(std::filesystem::path path, std::filesystem::path& foundLocation, const std::string& aFilename, std::vector<std::filesystem::path>& filenames = std::vector<std::filesystem::path>());
 	std::string GetFullParameterName(const std::string& aChannel, const std::string& aToggleName, OSCType aType);

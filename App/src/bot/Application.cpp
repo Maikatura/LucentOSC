@@ -122,9 +122,6 @@ Application::Application(Lucent::TwitchApi& client)
 		::PostQuitMessage(0);
 
 		myTray.exit();
-
-
-
 	}));
 }
 

@@ -72,6 +72,8 @@ bool Lucent::TwitchApi::Connect(const std::string& aOAuth, const std::string& aN
 
 	});
 
+	myAccountName = aNickname;
+
 	return true;
 }
 
@@ -242,6 +244,11 @@ bool Lucent::TwitchApi::IsMessageQueueEmpty() const
 std::vector<std::string>& Lucent::TwitchApi::GetJoinedChannels()
 {
 	return myJoinedChannels;
+}
+
+const std::string& Lucent::TwitchApi::GetAccountName()
+{
+	return myAccountName;
 }
 
 void Lucent::TwitchApi::Send(const std::string& aCmd)

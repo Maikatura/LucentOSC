@@ -65,12 +65,19 @@ bool Lucent::TwitchApi::Connect(const std::string& aOAuth, const std::string& aN
 	Send("CAP REQ :twitch.tv/tags");
 	Send("CAP REQ :twitch.tv/commands");
 
+
+
+
 	myNetworkThread = std::thread([&]()
 	{
 		myNetworkIsWalking = true;
 		NetworkLoop();
 
 	});
+
+	myAccountAuth = aOAuth;
+	myAccountName = aNickname;
+
 
 	return true;
 }
@@ -242,6 +249,16 @@ bool Lucent::TwitchApi::IsMessageQueueEmpty() const
 std::vector<std::string>& Lucent::TwitchApi::GetJoinedChannels()
 {
 	return myJoinedChannels;
+}
+
+std::string& Lucent::TwitchApi::GetAccountName()
+{
+	return myAccountName;
+}
+
+std::string& Lucent::TwitchApi::GetAccountAuth()
+{
+	return myAccountAuth;
 }
 
 void Lucent::TwitchApi::Send(const std::string& aCmd)

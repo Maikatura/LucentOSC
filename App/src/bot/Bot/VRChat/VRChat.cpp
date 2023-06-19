@@ -14,7 +14,7 @@ inline bool ContainsOlyNumber(std::string const& str) {
 		std::string::npos;
 }
 
-VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
+VRChat::VRChat(Lucent::TwitchApi& client) : Bot(client)
 {
 	sock::Startup();
 
@@ -51,11 +51,11 @@ VRChat::VRChat(Lucent::TwitchApi& client) : ::Bot(client)
 				if (oldAvatarName.empty())
 				{
 					
-					SendPRIVMSG("#maikatura", "Changed into '" + myAvatarData.AvatarName + "'");
+					SendPRIVMSG("#" + client.GetAccountName(), "Changed into '" + myAvatarData.AvatarName + "'");
 				}
 				else
 				{
-					SendPRIVMSG("#maikatura", "Changed avatar from '"+ oldAvatarName+ "' to '" + myAvatarData.AvatarName + "'");
+					SendPRIVMSG("#"+client.GetAccountName(), "Changed avatar from '" + oldAvatarName + "' to '" + myAvatarData.AvatarName + "'");
 				}
 			}
 		}
@@ -81,6 +81,8 @@ VRChat::~VRChat()
 
 void VRChat::HandleEvent()
 {
+
+
 }
 
 void VRChat::Update()
@@ -133,6 +135,15 @@ void VRChat::Draw()
 
 void VRChat::HandlePRIVMSG(const Lucent::ChatMessage& priv, bool tesedhjkashjkld)
 {
+
+
+	if (!IsAppRunning(L"VRChat",  priv)) return;
+
+	std::string ParameterString = GetFullParameterName(priv.Channel, "FutaCock", OSCType::Bool);
+
+	GetTransmitter().SendBool(ParameterString, true);
+
+
 	// THIS IS NOT USED ANYMORE
 	auto [first, second] = SplitCommand(priv.Message);
 
@@ -256,9 +267,9 @@ const OSCData& VRChat::GetAvatarData() const
 	return myAvatarData;
 }
 
-bool VRChat::IsAppRunning(const Lucent::ChatMessage& priv)
+bool VRChat::IsAppRunning(const std::wstring& aProgram, const Lucent::ChatMessage& priv)
 {
-	if(!IsProgramRunning(L"VRChat"))
+	if(!IsProgramRunning(aProgram.c_str()))
 	{
 		std::cout << "Please start vrchat and then press any key" << std::endl;
 		SendPRIVMSG(priv.Channel, "Doesn't look Like VRChat is running on host computer.");

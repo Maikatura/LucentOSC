@@ -6,6 +6,7 @@
 IncludeDirs = {}
 IncludeDirs["DPP"] = "%{wks.location}/External/dpp/include/dpp-10.0"
 IncludeDirs["ImGui"] = "%{wks.location}/External/ImGui/src"
+IncludeDirs["Tray"] = "%{wks.location}/External/Tray/include"
 
 
 -- Eternal Includes

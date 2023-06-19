@@ -20,8 +20,6 @@ namespace Lucent
 
 	struct ChatMessage
 	{
-
-
 		std::string Username;
 		std::string Message;
 		std::string Nickname; // display name
@@ -60,6 +58,8 @@ namespace Lucent
 
 		std::vector<std::string>& GetJoinedChannels();
 
+		std::string& GetAccountName();
+		std::string& GetAccountAuth();
 
 		ChatMessage ParseMessage(const std::string& aMessage);
 
@@ -72,6 +72,8 @@ namespace Lucent
 		SOCKET mySocketDescriptor {};
 
 
+		std::string myAccountAuth;
+		std::string myAccountName;
 		std::atomic_bool myNetworkIsWalking = false;
 		std::thread myNetworkThread;
 		std::queue<std::string> myChatMessages;

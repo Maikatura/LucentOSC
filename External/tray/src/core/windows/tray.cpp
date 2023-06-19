@@ -29,8 +29,7 @@ Tray::Tray::Tray(std::string identifier, Icon icon) : BaseTray(std::move(identif
     }
 
     // NOLINTNEXTLINE
-    hwnd = CreateWindow(reinterpret_cast<LPCWSTR>(this->identifier.c_str()), nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, windowClass.hInstance,
-                        nullptr);
+    hwnd = CreateWindow(reinterpret_cast<LPCWSTR>(this->identifier.c_str()), nullptr, 0, 0, 0, 0, 0, nullptr, nullptr,nullptr,nullptr);
     if (hwnd == nullptr)
     {
         throw std::runtime_error("Failed to create window");
@@ -74,6 +73,8 @@ void Tray::Tray::exit()
 
 void Tray::Tray::update()
 {
+    
+   
     DestroyMenu(menu);
     menu = construct(entries, this, true);
 
@@ -81,7 +82,21 @@ void Tray::Tray::update()
     {
         throw std::runtime_error("Failed to update tray icon");
     }
+
     SendMessage(hwnd, WM_INITMENUPOPUP, reinterpret_cast<WPARAM>(menu), 0);
+}
+
+void Tray::Tray::stop()
+{
+    exit();
+}
+
+void Tray::Tray::destroyIfNotNull()
+{
+    if (hwnd)
+    {
+        exit();
+    }
 }
 
 HMENU Tray::Tray::construct(const std::vector<std::shared_ptr<TrayEntry>> &entries, Tray *parent, bool cleanup)

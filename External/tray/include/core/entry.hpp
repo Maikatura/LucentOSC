@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+
+class Application;
+
 namespace Tray
 {
     class BaseTray;
@@ -9,14 +12,14 @@ namespace Tray
       protected:
         std::wstring text;
         bool disabled = false;
-        BaseTray *parent = nullptr;
+        Application *parent = nullptr;
 
       public:
         TrayEntry(std::wstring text);
         virtual ~TrayEntry() = default;
 
-        BaseTray *getParent();
-        void setParent(BaseTray *);
+        Application* getParent();
+        void setParent(Application *);
 
         std::wstring getText();
         void setText(std::wstring);

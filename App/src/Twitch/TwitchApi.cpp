@@ -65,6 +65,9 @@ bool Lucent::TwitchApi::Connect(const std::string& aOAuth, const std::string& aN
 	Send("CAP REQ :twitch.tv/tags");
 	Send("CAP REQ :twitch.tv/commands");
 
+
+
+
 	myNetworkThread = std::thread([&]()
 	{
 		myNetworkIsWalking = true;
@@ -72,7 +75,9 @@ bool Lucent::TwitchApi::Connect(const std::string& aOAuth, const std::string& aN
 
 	});
 
+	myAccountAuth = aOAuth;
 	myAccountName = aNickname;
+
 
 	return true;
 }
@@ -246,9 +251,14 @@ std::vector<std::string>& Lucent::TwitchApi::GetJoinedChannels()
 	return myJoinedChannels;
 }
 
-const std::string& Lucent::TwitchApi::GetAccountName()
+std::string& Lucent::TwitchApi::GetAccountName()
 {
 	return myAccountName;
+}
+
+std::string& Lucent::TwitchApi::GetAccountAuth()
+{
+	return myAccountAuth;
 }
 
 void Lucent::TwitchApi::Send(const std::string& aCmd)

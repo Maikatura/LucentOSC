@@ -32,7 +32,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	std::ifstream ifsTwitch("data/user/twitch.json");
 	nlohmann::json twitch = nlohmann::json::parse(ifsTwitch);
 
-
 	for(auto& admin : twitch["admins"])
 	{
 		admins.push_back(admin.get<std::string>());
@@ -47,17 +46,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	std::string username = twitch["username"].get<std::string>();
 
 	Lucent::TwitchApi client;
+
+	Application app(client);
+
 	if(client.Connect(oauth, username))
 	{
 		client.Join(myJoinChannel);
-		Application app(client);
-		app.Run();
 	}
 	else
 	{
-		std::cout << "Press Enter to exit... ";
-		std::cin.get();
+		app.ShowConfig();
 	}
+
+	app.Run();
 
 	client.Disconnect();
 

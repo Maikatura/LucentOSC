@@ -1,14 +1,16 @@
 #include <core/entry.hpp>
 #include <core/traybase.hpp>
+#include <Bot/Application.hpp>
+
 
 Tray::TrayEntry::TrayEntry(std::wstring text) : text(std::move(text)) {}
 
-Tray::BaseTray *Tray::TrayEntry::getParent()
+Application* Tray::TrayEntry::getParent()
 {
     return parent;
 }
 
-void Tray::TrayEntry::setParent(BaseTray *newParent)
+void Tray::TrayEntry::setParent(Application *newParent)
 {
     parent = newParent;
 }
@@ -23,7 +25,7 @@ void Tray::TrayEntry::setText(std::wstring newText)
     text = std::move(newText);
     if (parent)
     {
-        parent->update();
+        parent->UpdateTray();
     }
 }
 
@@ -37,6 +39,6 @@ void Tray::TrayEntry::setDisabled(bool state)
     disabled = state;
     if (parent)
     {
-        parent->update();
+        parent->UpdateTray();
     }
 }

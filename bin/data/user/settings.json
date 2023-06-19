@@ -1,4 +1,4 @@
 {
     "Headless": false,
-    "MinimizeToSystemTray": false
+    "MinimizeToSystemTray": true
 }

@@ -145,6 +145,7 @@
     <ClInclude Include="src\bot\FileChecker.hpp" />
     <ClInclude Include="src\bot\Settings.hpp" />
     <ClInclude Include="src\bot\Utility.hpp" />
+    <ClInclude Include="src\fonts\IconsForkAwesome.h" />
     <ClInclude Include="src\json\json.hpp" />
     <ClInclude Include="src\misc\ConsoleLog.h" />
     <ClInclude Include="src\misc\EnumHelper.h" />

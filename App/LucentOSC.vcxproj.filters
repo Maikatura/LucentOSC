@@ -61,6 +61,9 @@
     <Filter Include="bot\Commands">
       <UniqueIdentifier>{0B798A5C-F7DB-1901-A061-52B78CA3E583}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fonts">
+      <UniqueIdentifier>{EF84730F-5B99-9BC0-241B-3F2090EE97F1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="json">
       <UniqueIdentifier>{9F27997C-8B5E-9A0D-344B-80102061160F}</UniqueIdentifier>
     </Filter>
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="src\bot\Utility.hpp">
       <Filter>bot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fonts\IconsForkAwesome.h">
+      <Filter>fonts</Filter>
     </ClInclude>
     <ClInclude Include="src\json\json.hpp">
       <Filter>json</Filter>

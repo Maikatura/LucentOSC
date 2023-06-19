@@ -29,6 +29,9 @@
 #include "misc/ConsoleLog.h"
 #include <tray.hpp>
 
+#include "imgui_internal.h"
+#include "fonts/IconsForkAwesome.h"
+
 #pragma comment(lib, "dwmapi.lib")
 
 Lucent::TwitchApi nullClient;
@@ -39,13 +42,13 @@ inline bool ExistsTest(const std::string& name)
 	return f.good();
 }
 
-Application::Application() : myClient(nullClient), myTray("LucentOSC", "icon.ico")
+Application::Application() : myClient(nullClient)
 {
 	
 }
 
 Application::Application(Lucent::TwitchApi& client)
-	: myClient(client), myTray("LucentOSC", "icon.ico")
+	: myClient(client)
 {
 
 	std::string settingsPath = "data/user/settings.json";
@@ -94,6 +97,14 @@ Application::Application(Lucent::TwitchApi& client)
 	ImGui_ImplWin32_Init(myWindowHandle);
 	ImGui_ImplDX11_Init(DX11::Device.Get(), DX11::Context.Get());
 
+	io.Fonts->AddFontDefault();
+
+	ImFontConfig config;
+	config.MergeMode = true;
+	config.GlyphMinAdvanceX = 13.0f; // Use if you want to make the icon monospaced
+	static const ImWchar icon_ranges[] = { ICON_MIN_FK, ICON_MAX_FK, 0 };
+	io.Fonts->AddFontFromFileTTF(FONT_ICON_FILE_NAME_FK, 13.0f, &config, icon_ranges);
+
 	myBots.emplace_back(std::make_unique<VRChat>(myClient));
 	myBots.emplace_back(std::make_unique<Chattu>(myClient));
 	//myBots.emplace_back(std::make_unique<Kick>(myClient));
@@ -101,28 +112,21 @@ Application::Application(Lucent::TwitchApi& client)
 
 	SetupImGuiStyle();
 
-	myTray.addEntry(Tray::Label(L"LucentOSC"));
-	myTray.addEntry(Tray::Separator());
+	memset(&notifyData, 0, sizeof(NOTIFYICONDATA));
+	notifyData.cbSize = sizeof(NOTIFYICONDATA);
+	notifyData.hWnd = myWindowHandle;
+	notifyData.uFlags = NIF_ICON | NIF_MESSAGE;
+	notifyData.uCallbackMessage = WM_TRAY;
+	//notifyData.hIcon = this->icon;
 
-	myTray.addEntry(Tray::Button(L"Open", [&] {
-		SetMinimized(false);
-		ShowWindow(myWindowHandle, SW_NORMAL);
-	}));
+	if(Shell_NotifyIcon(NIM_ADD, &notifyData) == FALSE)
+	{
+		throw std::runtime_error("Failed to register tray icon");
+	}
+	trayList.insert({ myWindowHandle, *this });
 
-	myTray.addEntry(Tray::Toggle(L"Pause", false,[&](bool aState) {
+	SetUpTrayMenu();
 
-		myProgramIsPaused = aState;
-
-	}));
-
-	myTray.addEntry(Tray::Separator());
-	myTray.addEntry(Tray::Button(L"Exit", [&] {
-
-		myIsRunning = false;
-		::PostQuitMessage(0);
-
-		myTray.exit();
-	}));
 }
 
 Application::Application(const Application& aApplication) : Application(aApplication.myClient)
@@ -217,17 +221,7 @@ bool Application::Run()
 				}
 
 				
-				if(ImGui::BeginMainMenuBar())
-				{
-
-					if(ImGui::BeginMenu("Help"))
-					{
-						ImGui::EndMenu();
-					}
-
-					ImGui::EndMainMenuBar();
-				}
-
+				RenderMenu();
 				Render();
 
 				ImGui::End();
@@ -276,6 +270,11 @@ void Application::Stop()
 
 	::DestroyWindow(myWindowHandle);
 	//::UnregisterClassW(wc.lpszClassName, wc.hInstance);
+}
+
+void Application::ShowConfig()
+{
+	myShowConfig = !myShowConfig;
 }
 
 void Application::SetupImGuiStyle()
@@ -386,7 +385,6 @@ void Application::ProcessInput()
 
 void Application::Update()
 {
-
 	TimerManager::Update();
 
 	for (auto& bot : myBots)
@@ -403,19 +401,66 @@ void Application::Render()
 	}
 
 
+	RenderConfig();
+
+	ConsoleLog::Get().Draw("Console");
+
+	for(const auto& bot : myBots)
+	{
+		bot->Draw();
+	}
+}
+
+void Application::RenderMenu()
+{
+	if(ImGui::BeginMainMenuBar())
+	{
+		if(ImGui::BeginMenu("Windows"))
+		{
+			if (ImGui::MenuItemEx("Config", myShowConfig ? ICON_FK_CHECK : ""))
+			{
+				ShowConfig();
+			}
+
+			ImGui::EndMenu();
+		}
+
+		if(ImGui::BeginMenu("Help"))
+		{
+			if(ImGui::MenuItem("Help"))
+			{
+				system("explorer https://github.com/Maikatura/LucentOSC/");
+			}
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMainMenuBar();
+	}
+}
+
+void Application::RenderConfig()
+{
+	if (!myShowConfig)
+	{
+		return;
+	}
+
 	ImGui::Begin("Twitch Settings");
 
+	ImGui::InputText("Twitch Token", &myClient.GetAccountAuth(), ImGuiInputTextFlags_Password);
+	ImGui::InputText("Twitch Username", &myClient.GetAccountName());
 
 	ImGui::InputText("##Join", &myJoinChannel);
 	ImGui::SameLine();
-	if (ImGui::Button("Join"))
+
+	if(ImGui::Button("Join"))
 	{
 		myClient.Join(myJoinChannel);
 		myJoinChannel = "";
 	}
 
 	auto& joinedChannels = myClient.GetJoinedChannels();
-
 	for(size_t i = 0; i < joinedChannels.size(); i++)
 	{
 		ImGui::TextWrapped(joinedChannels[i].c_str());
@@ -427,14 +472,9 @@ void Application::Render()
 		}
 	}
 
+	ImGui::Checkbox("Minimize To Tray", &GetSettings().MinimizeToSystemTray);
+
 	ImGui::End();
-
-	ConsoleLog::Get().Draw("Console");
-
-	for(const auto& bot : myBots)
-	{
-		bot->Draw();
-	}
 }
 
 void Application::HandlePRIVMSG(const Lucent::ChatMessage& priv)
@@ -540,6 +580,161 @@ void Application::SetMinimized(bool cond)
 	myIsMinimized = cond;
 }
 
+bool Application::ShowTaskBarButton(bool aVisible)
+{
+	if(aVisible)
+	{
+		
+		LONG_PTR dwNewLong = GetWindowLongPtr(myWindowHandle, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW;
+		SetWindowLongPtr(myWindowHandle, GWL_EXSTYLE, dwNewLong);
+
+		// Update the window's non-client area to reflect the style change
+		SetWindowPos(myWindowHandle, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+		
+	}
+	else
+	{
+		// Set the window's extended style to hide the taskbar icon
+		LONG_PTR dwNewLong = GetWindowLongPtr(myWindowHandle, GWL_EXSTYLE) | WS_EX_TOOLWINDOW;
+		SetWindowLongPtr(myWindowHandle, GWL_EXSTYLE, dwNewLong);
+
+		// Update the window's non-client area to reflect the style change
+		SetWindowPos(myWindowHandle, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	}
+
+	return TRUE;
+}
+
+void Application::SetUpTrayMenu()
+{
+	AddEntry(Tray::Label(L"LucentOSC"));
+	AddEntry(Tray::Separator());
+
+	AddEntry(Tray::Button(L"Open", [&] {
+		ShowTaskBarButton(true);
+		SetMinimized(false);
+		ShowWindow(myWindowHandle, SW_NORMAL);
+		}));
+
+	AddEntry(Tray::Toggle(L"Pause", false, [&](bool aState) {
+
+		myProgramIsPaused = aState;
+
+		}));
+
+	AddEntry(Tray::Separator());
+	AddEntry(Tray::Button(L"Exit", [&] {
+
+		myIsRunning = false;
+		::PostQuitMessage(0);
+		}));
+}
+
+void Application::UpdateTray()
+{
+	DestroyMenu(myMenu);
+	myMenu = Construct(entries, this, true);
+
+	if(Shell_NotifyIcon(NIM_MODIFY, &notifyData) == FALSE)
+	{
+		throw std::runtime_error("Failed to update tray icon");
+	}
+
+	SendMessage(myWindowHandle, WM_INITMENUPOPUP, reinterpret_cast<WPARAM>(myMenu), 0);
+}
+
+HMENU Application::Construct(const std::vector<std::shared_ptr<Tray::TrayEntry>>& entries, Application* parent,
+	bool cleanup)
+{
+	static auto id = 0;
+	if(cleanup)
+	{
+		parent->allocations.clear();
+	}
+
+	auto* menu = CreatePopupMenu();
+	for(const auto& entry : entries)
+	{
+		auto* item = entry.get();
+
+		auto name = std::shared_ptr<wchar_t[]>(new wchar_t[item->getText().size() + 1]);
+		wcscpy(name.get(), item->getText().c_str()); // NOLINT
+		parent->allocations.emplace_back(name);
+
+		MENUITEMINFO winItem{ 0 };
+
+		winItem.wID = ++id;
+		winItem.dwTypeData = reinterpret_cast<LPWSTR>(name.get());
+		winItem.cbSize = sizeof(MENUITEMINFO);
+		winItem.fMask = MIIM_TYPE | MIIM_STATE | MIIM_DATA | MIIM_ID;
+		winItem.dwItemData = reinterpret_cast<ULONG_PTR>(item);
+
+		if(auto* toggle = dynamic_cast<Tray::Toggle*>(item); toggle)
+		{
+			if(toggle->isToggled())
+			{
+				winItem.fState |= MFS_CHECKED;
+			}
+			else
+			{
+				winItem.fState |= MFS_UNCHECKED;
+			}
+		}
+		else if(auto* syncedToggle = dynamic_cast<Tray::SyncedToggle*>(item); syncedToggle)
+		{
+			if(syncedToggle->isToggled())
+			{
+				winItem.fState |= MFS_CHECKED;
+			}
+			else
+			{
+				winItem.fState |= MFS_UNCHECKED;
+			}
+		}
+		else if(auto* submenu = dynamic_cast<Tray::Submenu*>(item); submenu)
+		{
+			winItem.fMask |= MIIM_SUBMENU;
+			winItem.hSubMenu = Construct(submenu->getEntries(), parent);
+		}
+		else if(auto* iconButton = dynamic_cast<Tray::ImageButton*>(item); iconButton)
+		{
+			winItem.fMask = MIIM_STRING | MIIM_BITMAP | MIIM_FTYPE | MIIM_STATE;
+			winItem.hbmpItem = iconButton->getImage();
+		}
+		else if(dynamic_cast<Tray::Label*>(item))
+		{
+			winItem.fState = MFS_DISABLED;
+		}
+		else if(dynamic_cast<Tray::Separator*>(item))
+		{
+			winItem.fType = MFT_SEPARATOR;
+		}
+
+		if(!dynamic_cast<Tray::Label*>(item))
+		{
+			if(item->isDisabled())
+			{
+				winItem.fState = MFS_DISABLED;
+			}
+		}
+
+		InsertMenuItem(menu, id, TRUE, &winItem);
+	}
+
+	return menu;
+}
+
+
+Settings& Application::GetSettings()
+{
+	return mySettings;
+}
+
+HMENU& Application::GetMenu()
+{
+	return myMenu;
+}
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
@@ -553,6 +748,19 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 
 	switch(uMsg)
 	{
+		case WM_TRAY:
+		{
+			if(lParam == WM_RBUTTONUP)
+			{
+				POINT p;
+				GetCursorPos(&p);
+				SetForegroundWindow(hWnd);
+				auto cmd = TrackPopupMenu(graphicsEnginePtr->GetMenu() , TPM_RETURNCMD | TPM_NONOTIFY, p.x, p.y, 0, hWnd, nullptr);
+				SendMessage(hWnd, WM_COMMAND, cmd, 0);
+				return 0;
+			}
+			break;
+		}
 		case WM_CREATE:
 		{
 			const CREATESTRUCT* createdStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
@@ -578,7 +786,10 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 					graphicsEnginePtr->SetMinimized(true);
 					if(graphicsEnginePtr->GetSettings().MinimizeToSystemTray)
 					{
-						graphicsEnginePtr->GetTray().run();
+						graphicsEnginePtr->ShowTaskBarButton(false);
+						//graphicsEnginePtr->SetUpTrayMenu();
+						
+						
 					}
 					break;
 				}
@@ -642,17 +853,35 @@ LRESULT CALLBACK Application::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARA
 			break;
 		}
 
+		case WM_COMMAND:
+		{
+
+			MENUITEMINFO winItem{ 0 };
+			winItem.fMask = MIIM_DATA | MIIM_ID;
+			winItem.cbSize = sizeof(MENUITEMINFO);
+
+			
+			if(GetMenuItemInfo(graphicsEnginePtr->GetMenu(), static_cast<UINT>(wParam), FALSE, &winItem))
+			{
+				auto* item = reinterpret_cast<Tray::TrayEntry*>(winItem.dwItemData);
+				if(auto* button = dynamic_cast<Tray::Button*>(item); button)
+				{
+					button->clicked();
+				}
+				else if(auto* toggle = dynamic_cast<Tray::Toggle*>(item); toggle)
+				{
+					toggle->onToggled();
+					graphicsEnginePtr->UpdateTray();
+				}
+				else if(auto* syncedToggle = dynamic_cast<Tray::SyncedToggle*>(item); syncedToggle)
+				{
+					syncedToggle->onToggled();
+					graphicsEnginePtr->UpdateTray();
+				}
+			}
+			break;
+		}
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-Tray::Tray& Application::GetTray()
-{
-	return myTray;
-}
-
-Settings& Application::GetSettings()
-{
-	return mySettings;
 }

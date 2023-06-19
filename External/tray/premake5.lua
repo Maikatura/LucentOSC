@@ -46,7 +46,8 @@ defines
 
 includedirs{
     "./src",
-	"./include"
+	"./include",
+	"../../App/src/"
 }
 
 externalincludedirs {

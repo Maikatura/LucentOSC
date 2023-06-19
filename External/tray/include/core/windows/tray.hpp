@@ -9,9 +9,10 @@ namespace Tray
 {
     class Tray : public BaseTray
     {
+        bool myShouldStopLook = false;
         HWND hwnd = nullptr;
         HMENU menu = nullptr;
-        WNDCLASSEX windowClass;
+        WNDCLASSEX windowClass {};
         NOTIFYICONDATA notifyData;
 
         std::vector<std::shared_ptr<wchar_t[]>> allocations;
@@ -22,14 +23,13 @@ namespace Tray
       public:
         ~Tray();
         Tray(std::string identifier, Icon icon);
-        template <typename... T> Tray(std::string identifier, Icon icon, const T &...entries) : Tray(identifier, icon)
-        {
-            addEntries(entries...);
-        }
+       
 
         void run() override;
         void exit() override;
         void update() override;
+        void stop();
+        void destroyIfNotNull();
     };
 } // namespace Tray
 #endif

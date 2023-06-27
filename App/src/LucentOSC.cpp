@@ -28,9 +28,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	std::vector<std::string> myJoinChannel;
 	std::vector<std::string> admins;
+	nlohmann::json twitch;
 
 	std::ifstream ifsTwitch("data/user/twitch.json");
-	nlohmann::json twitch = nlohmann::json::parse(ifsTwitch);
+
+	if (!ifsTwitch.good())
+	{
+		MessageBoxA(NULL, "Unable to open JSON file `data/user/twitch.json`.", "Error", MB_OK);
+		return -1;
+	}
+
+	try
+	{
+		twitch = nlohmann::json::parse(ifsTwitch);
+	}
+	catch (const nlohmann::json::parse_error& e)
+	{
+		MessageBoxA(NULL, "Unable to parse JSON file `data/user/twitch.json`.", "Error", MB_OK);
+		return -2;
+	}
 
 	for(auto& admin : twitch["admins"])
 	{
